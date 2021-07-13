@@ -52,6 +52,10 @@ public class UserController {
 		
 		//임의로 리턴된 User 인스턴스. 현재 코드는 회원 가입 성공 여부만 판단하기 때문에 굳이 Insert 된 유저 정보를 응답하지 않음.
 		User user = userService.createUser(registerInfo);
+		if(user == null)
+			return ResponseEntity.status(404).body(BaseResponseBody.of(404, "중복된 아이디"));
+		//사용자가 있는지 없는지 판단해야함
+		//지금은 200을 넣어서 무조건 success가 출력되는거
 		
 		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
 	}

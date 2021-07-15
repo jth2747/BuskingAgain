@@ -16,4 +16,10 @@ public class UserRegisterPostReq {
 	String id;
 	@ApiModelProperty(name="유저 Password", example="your_password")
 	String password;
+	@ApiModelProperty(name="유저 Name", example="name")
+	String name;
+	@ApiModelProperty(name="유저 department", example="depart")
+	String depart;
+	@ApiModelProperty(name="유저 position", example="position")
+	String position;
 }

@@ -32,5 +32,10 @@ const IsDesktop = getIsDesktop()
 export default {
   isDesktopPlatform: IsDesktop,
   activeMenu: 'home',
-  menus: menuData
+  menus: menuData,
+  accessToken:null,
+  userId: "",
+  userName: "",
+  join: false,
+  userDialog:false,
 }

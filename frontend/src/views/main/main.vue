@@ -3,7 +3,8 @@
     <main-header
       :height="`70px`"
       @openLoginDialog="onOpenLoginDialog"
-      @openSignupDialog="onOpenSignupDialog"/>
+      @openSignupDialog="onOpenSignupDialog"
+      @openProfileDialog="onOpenProfileDialog"/>
     <el-container class="main-container">
       <el-aside class="hide-on-small" width="240px">
         <main-sidebar
@@ -21,8 +22,10 @@
   <signup-dialog
     :open="signupDialogOpen"
     @closeSignupDialog="onCloseSignupDialog"/>
+  <profile-dialog
+    :open="profileDialogOpen"
+    @closeProfileDialog="onCloseProfileDialog"/>
 </template>
-
 <style>
   @import "https://unpkg.com/element-plus/lib/theme-chalk/index.css";
   @import './main.css';
@@ -30,13 +33,13 @@
   @import '../../common/css/element-plus.css';
 
 </style>
-
 <script>
 import LoginDialog from './components/login-dialog'
 import SignupDialog from './components/signup-dialog'
 import MainHeader from './components/main-header'
 import MainSidebar from './components/main-sidebar'
 import MainFooter from './components/main-footer'
+import ProfileDialog from './components/profile-dialog.vue'
 
 export default {
   name: 'Main',
@@ -46,11 +49,13 @@ export default {
     MainFooter,
     LoginDialog,
     SignupDialog,
+    ProfileDialog,
   },
   data () {
     return {
       loginDialogOpen: false,
-      signupDialogOpen: false
+      signupDialogOpen: false,
+      profileDialogOpen: false
     }
   },
   methods: {
@@ -65,6 +70,12 @@ export default {
     },
     onCloseSignupDialog() {
       this.signupDialogOpen = false
+    },
+    onOpenProfileDialog(){
+      this.profileDialogOpen=true
+    },
+    onCloseProfileDialog(){
+      this.profileDialogOpen=false
     }
   }
 }

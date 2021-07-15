@@ -3,9 +3,11 @@ package com.ssafy.api.service;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.ssafy.api.request.UserModifyPutReq;
 import com.ssafy.api.request.UserRegisterPostReq;
 import com.ssafy.db.entity.User;
 import com.ssafy.db.repository.UserRepository;
@@ -53,6 +55,22 @@ public class UserServiceImpl implements UserService {
 	public void deleteById(Long id) {
 		// TODO Auto-generated method stub
 		userRepository.deleteById(id);
+	}
+	
+	@Override
+	public User modifyUser(UserModifyPutReq userModifyInfo, String userId, Long id) {
+		User user = new User();
+		user.setId(id);
+		user.setUserId(userId);
+		user.setPassword(passwordEncoder.encode(userModifyInfo.getPassword()));
+		user.setName(userModifyInfo.getName());
+		user.setPosition(userModifyInfo.getPosition());
+		user.setDepartment(userModifyInfo.getDepartment());
+		
+
+//		return userRepositorySupport.update(id, user.getDepartment(), user.getName(), user.getPassword(), user.getPosition());
+		return userRepository.save(user);
+		
 	}
 
 

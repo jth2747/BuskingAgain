@@ -11,3 +11,16 @@ export function getActiveMenuIndex (state) {
 	const keys = Object.keys(state.menus)
 	return keys.findIndex(item => item === state.activeMenu)
 }
+
+export function getAccessToken (state) {
+	return state.accessToken;
+}
+
+export function getUserId (state) {
+	return state.userId;
+}
+
+export function getUserName (state) {
+	return state.userName;
+}
+

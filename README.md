@@ -28,13 +28,13 @@
 #### Front-end / Android
 - __Framework__ : Vue.js / React / Android / Unity
 - __지원 환경__ : Web / Mobile / Web App / Native App
-- __담당자__ : 팀원 A, 팀원 B,
+- __담당자__ : 변우석, 장용원
 <br>
 
 #### Back-end
 - __Framework__ : Spring boot / Node.js / Django / Flask
 - __Database__ : MySQL / MariaDB
-- __담당자__ : 팀원 A, 팀원 B,
+- __담당자__ : 권현지, 김은비, 정태현
 <br>
 
 #### Design

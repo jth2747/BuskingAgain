@@ -19,7 +19,7 @@ public class UserRegisterPostReq {
 	@ApiModelProperty(name="유저 Name", example="name")
 	String name;
 	@ApiModelProperty(name="유저 department", example="depart")
-	String depart;
+	String department;
 	@ApiModelProperty(name="유저 position", example="position")
 	String position;
 }

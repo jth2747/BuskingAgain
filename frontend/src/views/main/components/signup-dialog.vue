@@ -1,0 +1,187 @@
+<template>
+  <el-dialog custom-class="signup-dialog" title="회원가입" v-model="state.dialogVisible" @close="handleClose">
+    <el-form :model="state.form" :rules="state.rules" ref="signupForm" :label-position="state.form.align">
+      <el-form-item prop="department" label="소속" :label-width="state.formLabelWidth" >
+        <el-input v-model="state.form.department" autocomplete="off"></el-input>
+      </el-form-item>
+      <el-form-item prop="position" label="직책" :label-width="state.formLabelWidth" >
+        <el-input v-model="state.form.position" autocomplete="off"></el-input>
+      </el-form-item>
+      <el-form-item prop="name" label="이름" :label-width="state.formLabelWidth" >
+        <el-input v-model="state.form.name" autocomplete="off"></el-input>
+      </el-form-item>
+      <el-form-item prop="uid" label="아이디" :label-width="state.formLabelWidth" >
+        <el-input v-model="state.form.uid" autocomplete="off"></el-input>
+      </el-form-item>
+      <el-form-item prop="upwd" label="비밀번호" :label-width="state.formLabelWidth">
+        <el-input v-model="state.form.upwd" autocomplete="off" show-password></el-input>
+      </el-form-item>
+      <el-form-item prop="upwd_check" label="비밀번호 확인" :label-width="state.formLabelWidth">
+        <el-input v-model="state.form.upwd_check" autocomplete="off" show-password></el-input>
+      </el-form-item>
+    </el-form>
+    <template #footer>
+      <span class="dialog-footer">
+        <el-button type="success" @click="clickSignup">회원가입</el-button>
+      </span>
+    </template>
+  </el-dialog>
+</template>
+<style>
+.signup-dialog {
+  width: 400px !important;
+  height: 550px;
+}
+.signup-dialog .el-dialog__headerbtn {
+  float: right;
+}
+.signup-dialog .el-form-item__content {
+  margin-left: 0 !important;
+  float: right;
+  width: 200px;
+  display: inline-block;
+}
+.signup-dialog .el-form-item {
+  margin-bottom: 20px;
+}
+.signup-dialog .el-form-item__error {
+  font-size: 12px;
+  color: red;
+}
+.signup-dialog .el-input__suffix {
+  display: none;
+}
+.signup-dialog .el-dialog__footer {
+  margin: 0 calc(50% - 80px);
+  padding-top: 0;
+  display: inline-block;
+}
+.signup-dialog .dialog-footer .el-button {
+  width: 120px;
+}
+</style>
+<script>
+//import axios from "axios"
+import { reactive, computed, ref, onMounted } from 'vue'
+import { useStore } from 'vuex'
+
+//const SERVER_URL = "http://localhost:8080";
+
+export default {
+  name: 'signup-dialog',
+
+  props: {
+    open: {
+      type: Boolean,
+      default: false
+    }
+  },
+
+  // methods: {
+  //   createUser() {
+  //     axios
+  //       .post(`${SERVER_URL}/users`, {
+  //         department: this.user.department,
+  //         position: this.user.position,
+  //         name: this.user.name,
+  //         id: this.user.id,
+  //         pwd: this.user.pwd,
+  //       })
+  //       .then(({ data }) => {
+  //         let msg = "등록 처리시 문제가 발생했습니다.";
+  //         if (data === "success") {
+  //           msg = "등록이 완료되었습니다.";
+  //         }
+  //         alert(msg);
+  //         this.closeJoinDialog();
+  //       });
+  //   },
+  // },
+
+  setup(props, { emit }) {
+    const store = useStore()
+    // 마운드 이후 바인딩 될 예정 - 컨텍스트에 노출시켜야함. <return>
+    const signupForm = ref(null)
+
+    /*
+      // Element UI Validator
+      // rules의 객체 키 값과 form의 객체 키 값이 같아야 매칭되어 적용됨
+      //
+    */
+    const state = reactive({
+      form: {
+        department:'',
+        position:'',
+        name:'',
+        uid: '',
+        upwd: '',
+        upwd_check:'',
+        align: 'left'
+      },
+      rules: {
+        department: [
+          { required: true, message: 'Please input Department', trigger: 'blur' }
+        ],
+        position: [
+          { required: true, message: 'Please input Position', trigger: 'blur' }
+        ],
+        name: [
+          { required: true, message: 'Please input Name', trigger: 'blur' }
+        ],
+        uid: [
+          { required: true, message: 'Please input ID', trigger: 'blur' }
+        ],
+        upwd: [
+          { required: true, message: 'Please input password', trigger: 'blur' }
+        ],
+        upwd_check: [
+          { required: true, message: 'Please input password', trigger: 'blur' }
+        ]
+      },
+      dialogVisible: computed(() => props.open),
+      formLabelWidth: '120px'
+    })
+
+    onMounted(() => {
+      // console.log(signupForm.value)
+    })
+
+    const clickSignup = function () {
+      // print(department+position+name+id+pwd);
+      console.log('signup testtest')
+      signupForm.value.validate((valid) => {
+        if (valid) {
+          console.log('submit')
+          store.dispatch('root/requestSignup',
+          {
+            department: state.form.department,
+            position: state.form.position,
+            name: state.form.name,
+            id: state.form.uid,
+            password: state.form.upwd })
+          .then(function (result) {
+            alert('회원가입 성공')
+          })
+          .catch(function (err) {
+            alert(err)
+          })
+        } else {
+          alert('Validate error!')
+        }
+      });
+    }
+
+    const handleClose = function () {
+      state.form.department = ''
+      state.form.position = ''
+      state.form.name = ''
+      state.form.uid = ''
+      state.form.upwd = ''
+      state.form.upwd_check = ''
+      emit('closeSignupDialog')
+    }
+
+    return { signupForm, state, clickSignup, handleClose }
+  }
+}
+</script>

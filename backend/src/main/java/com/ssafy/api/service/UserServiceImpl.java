@@ -36,7 +36,7 @@ public class UserServiceImpl implements UserService {
 		}else {			
 			user.setPassword(passwordEncoder.encode(userRegisterInfo.getPassword()));
 			user.setName(userRegisterInfo.getName());
-			user.setDepartment(userRegisterInfo.getDepart());
+			user.setDepartment(userRegisterInfo.getDepartment());
 			user.setPosition(userRegisterInfo.getPosition());
 			return userRepository.save(user);
 		}

@@ -3,14 +3,22 @@
     <el-form :model="state.form" :rules="state.rules" ref="loginForm" :label-position="state.form.align">
       <el-form-item prop="id" label="아이디" :label-width="state.formLabelWidth" >
         <el-input v-model="state.form.id" autocomplete="off"></el-input>
+        <span v-if="state.form.id.length > 16">최대 16자까지 입력 가능합니다.</span>
       </el-form-item>
       <el-form-item prop="password" label="비밀번호" :label-width="state.formLabelWidth">
         <el-input v-model="state.form.password" autocomplete="off" show-password></el-input>
+        <span v-if="state.form.password.length === 0"></span>
+        <span v-else-if="state.form.password.length < 9">최소 9글자를 입력해야 합니다.</span>
+        <span v-else-if="state.form.password.length > 16">최대 16자까지 입력 가능합니다.</span>
+        <span v-else></span>
+
+
       </el-form-item>
     </el-form>
     <template #footer>
       <span class="dialog-footer">
-        <el-button type="primary" @click="clickLogin">로그인</el-button>
+        <el-button v-if="loginValue == true" type="primary" @click="clickLogin">로그인</el-button>
+        <el-button v-else>로그인</el-button>
       </span>
     </template>
   </el-dialog>
@@ -54,7 +62,16 @@ import { useStore } from 'vuex'
 
 export default {
   name: 'login-dialog',
-
+  data: function() {
+    return{
+      loginValue: true
+    }
+  },
+  methods: {
+    logincheck: function() {
+      this.loginValue = true
+    }
+  },
   props: {
     open: {
       type: Boolean,
@@ -96,12 +113,14 @@ export default {
 
     const clickLogin = function () {
       // 로그인 클릭 시 validate 체크 후 그 결과 값에 따라, 로그인 API 호출 또는 경고창 표시
+      console.log('logintesttest')
       loginForm.value.validate((valid) => {
         if (valid) {
           console.log('submit')
           store.dispatch('root/requestLogin', { id: state.form.id, password: state.form.password })
           .then(function (result) {
             alert('accessToken: ' + result.data.accessToken)
+            localStorage.setItem('jwt', result.data.accessToken)
           })
           .catch(function (err) {
             alert(err)

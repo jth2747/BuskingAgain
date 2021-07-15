@@ -1,5 +1,6 @@
 <template>
   <el-row
+    v-if="isLogin"
     class="main-header"
     :gutter="10"
     :style="{ 'height': height }">
@@ -14,12 +15,59 @@
           </el-input>
         </div>
         <div class="button-wrapper">
-          <el-button>회원가입</el-button>
-          <el-button type="primary" @click="clickLogin">로그인</el-button>
+          <el-button type="primary" @click="clickLogout">로그아웃</el-button>
         </div>
       </div>
-
     </div>
+
+    <div class="hide-on-big">
+      <div class="menu-icon-wrapper" @click="changeCollapse"><i class="el-icon-menu"></i></div>
+      <div class="logo-wrapper" @click="clickLogo"><div class="ic ic-logo"/></div>
+      <div class="menu-icon-wrapper"><i class="el-icon-search"></i></div>
+      <div class="mobile-sidebar-wrapper" v-if="!state.isCollapse">
+        <div class="mobile-sidebar">
+          <div class="mobile-sidebar-tool-wrapper">
+            <div class="logo-wrapper"><div class="ic ic-logo"/></div>
+            <el-button type="primary" class="mobile-sidebar-btn login-btn" @click="clickLogout">로그아웃</el-button>
+          </div>
+          <el-menu
+            :default-active="String(state.activeIndex)"
+            active-text-color="#ffd04b"
+            class="el-menu-vertical-demo"
+            @select="menuSelect">
+            <el-menu-item v-for="(item, index) in state.menuItems" :key="index" :index="index.toString()">
+              <i v-if="item.icon" :class="['ic', item.icon]"/>
+              <span>{{ item.title }}</span>
+            </el-menu-item>
+          </el-menu>
+        </div>
+        <div class="mobile-sidebar-backdrop" @click="changeCollapse"></div>
+      </div>
+    </div>
+  </el-row>
+
+  <el-row
+    v-else
+    class="main-header"
+    :gutter="10"
+    :style="{ 'height': height }">
+    <div class="hide-on-small">
+      <div class="logo-wrapper" @click="clickLogo"><div class="ic ic-logo"/></div>
+      <div class="tool-wrapper">
+        <div class="search-field">
+          <el-input
+            placeholder="검색"
+            prefix-icon="el-icon-search"
+            v-model="state.searchValue">
+          </el-input>
+        </div>
+        <div class="button-wrapper">
+          <el-button @click="clickSignup" class="el-icon-circle-plus-outline"> 회원가입</el-button>
+          <el-button type="primary" @click="clickLogin" class="el-icon-key">로그인</el-button>
+        </div>
+      </div>
+    </div>
+
     <div class="hide-on-big">
       <div class="menu-icon-wrapper" @click="changeCollapse"><i class="el-icon-menu"></i></div>
       <div class="logo-wrapper" @click="clickLogo"><div class="ic ic-logo"/></div>
@@ -29,7 +77,7 @@
           <div class="mobile-sidebar-tool-wrapper">
             <div class="logo-wrapper"><div class="ic ic-logo"/></div>
             <el-button type="primary" class="mobile-sidebar-btn login-btn" @click="clickLogin">로그인</el-button>
-            <el-button class="mobile-sidebar-btn register-btn">회원가입</el-button>
+            <el-button class="mobile-sidebar-btn register-btn" @click="clickSignup">회원가입</el-button>
           </div>
           <el-menu
             :default-active="String(state.activeIndex)"
@@ -54,7 +102,23 @@ import { useRouter } from 'vue-router'
 
 export default {
   name: 'main-header',
-
+  data: function () {
+    return {
+      isLogin: false,
+    }
+  },
+  methods: {
+    clickLogout: function() {
+      const token = localStorage.getItem('jwt')
+      token = ''
+    }
+  },
+  created: function () {
+    const token = localStorage.getItem('jwt')
+    if (token) {
+      this.isLogin = true
+    }
+  },
   props: {
     height: {
       type: String,
@@ -110,11 +174,15 @@ export default {
       emit('openLoginDialog')
     }
 
+    const clickSignup = () => {
+      emit('openSignupDialog')
+    }
+
     const changeCollapse = () => {
       state.isCollapse = !state.isCollapse
     }
 
-    return { state, menuSelect, clickLogo, clickLogin, changeCollapse }
+    return { state, menuSelect, clickLogo, clickLogin, clickSignup, changeCollapse }
   }
 }
 </script>
@@ -129,7 +197,7 @@ export default {
     position: relative;
     top: 14px;
   }
-  
+
   .main-header .hide-on-big .logo-wrapper {
     display: inline-block;
     margin: 0 calc(50% - 51px)

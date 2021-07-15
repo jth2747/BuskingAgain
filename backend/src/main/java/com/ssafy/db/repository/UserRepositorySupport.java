@@ -7,6 +7,7 @@ import com.ssafy.db.entity.User;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -24,4 +25,6 @@ public class UserRepositorySupport {
         if(user == null) return Optional.empty();
         return Optional.ofNullable(user);
     }
+    
+   
 }

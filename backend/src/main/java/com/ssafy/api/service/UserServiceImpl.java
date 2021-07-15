@@ -48,4 +48,12 @@ public class UserServiceImpl implements UserService {
 		User user = userRepositorySupport.findUserByUserId(userId).get();
 		return user;
 	}
+
+	@Override
+	public void deleteById(Long id) {
+		// TODO Auto-generated method stub
+		userRepository.deleteById(id);
+	}
+
+
 }

@@ -77,27 +77,6 @@ export default {
     }
   },
 
-  // methods: {
-  //   createUser() {
-  //     axios
-  //       .post(`${SERVER_URL}/users`, {
-  //         department: this.user.department,
-  //         position: this.user.position,
-  //         name: this.user.name,
-  //         id: this.user.id,
-  //         pwd: this.user.pwd,
-  //       })
-  //       .then(({ data }) => {
-  //         let msg = "등록 처리시 문제가 발생했습니다.";
-  //         if (data === "success") {
-  //           msg = "등록이 완료되었습니다.";
-  //         }
-  //         alert(msg);
-  //         this.closeJoinDialog();
-  //       });
-  //   },
-  // },
-
   setup(props, { emit }) {
     const store = useStore()
     // 마운드 이후 바인딩 될 예정 - 컨텍스트에 노출시켜야함. <return>
@@ -147,8 +126,6 @@ export default {
     })
 
     const clickSignup = function () {
-      // print(department+position+name+id+pwd);
-      console.log('signup testtest')
       signupForm.value.validate((valid) => {
         if (valid) {
           console.log('submit')

@@ -15,6 +15,7 @@
           </el-input>
         </div>
         <div class="button-wrapper">
+          <el-button @click="clickProfile">회원정보</el-button>
           <el-button type="primary" @click="clickLogout">로그아웃</el-button>
         </div>
       </div>
@@ -28,6 +29,7 @@
         <div class="mobile-sidebar">
           <div class="mobile-sidebar-tool-wrapper">
             <div class="logo-wrapper"><div class="ic ic-logo"/></div>
+            <el-button  class="mobile-sidebar-btn login-btn" @click="clickProfile">회원정보</el-button>
             <el-button type="primary" class="mobile-sidebar-btn login-btn" @click="clickLogout">로그아웃</el-button>
           </div>
           <el-menu
@@ -99,6 +101,7 @@
 import { reactive, computed } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
+import axios from 'axios'
 
 export default {
   name: 'main-header',
@@ -178,11 +181,19 @@ export default {
       emit('openSignupDialog')
     }
 
+    const clickProfile = () => {
+      console.log("회원정보 누름")
+      console.log(localStorage.getItem('jwt'))
+      const token = localStorage.getItem('jwt')
+      axios.get('/users/me' , {authentication : token})
+      emit('openProfileDialog')
+    }
+
     const changeCollapse = () => {
       state.isCollapse = !state.isCollapse
     }
 
-    return { state, menuSelect, clickLogo, clickLogin, clickSignup, changeCollapse }
+    return { state, menuSelect, clickLogo, clickLogin, clickSignup, changeCollapse, clickProfile }
   }
 }
 </script>

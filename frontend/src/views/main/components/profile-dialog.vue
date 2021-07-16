@@ -84,46 +84,46 @@ export default {
     ...mapGetters(["profileDialog", "getAccessToken", "user"]),
   },
 
-  //  methods: {
-  //   updateSetting() {
-  //     this.update = true;
-  //   },
-  //   updateUser() {
-  //     console.log(this.user + " " + this.getAccessToken);
-  //     axios.defaults.headers.common["auth-token"] = this.getAccessToken;
-  //     axios
-  //       .put(`${SERVER_URL}/users/update`, {
-  //         department: this.user.department,
-  //         position: this.user.position,
-  //         name: this.user.name,
-  //         id: this.user.id,
-  //         pwd: this.user.pwd,
-  //       })
-  //       .then(({ data }) => {
-  //         let msg = "수정 처리시 문제가 발생했습니다.";
-  //         if (data === "success") {
-  //           msg = "수정이 완료되었습니다.";
-  //         }
-  //         alert(msg);
-  //         this.update = false;
-  //       });
-  //   },
-  //   deleteUser() {
-  //     axios.defaults.headers.common["auth-token"] = this.getAccessToken;
-  //     axios
-  //       .delete(`${SERVER_URL}/users/delete/${this.user.id}`)
-  //       .then(({ data }) => {
-  //         let msg = "탈퇴 처리시 문제가 발생했습니다.";
-  //         if (data === "success") {
-  //           msg = "탈퇴가 완료되었습니다.";
-  //         }
-  //         alert(msg);
-  //         this.$store.dispatch("logout");
-  //         this.closeUserDialog();
-  //       });
-  //   },
+   methods: {
+    updateSetting() {
+      this.update = true;
+    },
+    updateUser() {
+      console.log(this.user + " " + this.getAccessToken);
+      axios.defaults.headers.common["auth-token"] = this.getAccessToken;
+      axios
+        .put(`${SERVER_URL}/users/update`, {
+          department: this.user.department,
+          position: this.user.position,
+          name: this.user.name,
+          id: this.user.id,
+          password: this.user.password,
+        })
+        .then(({ data }) => {
+          let msg = "수정 처리시 문제가 발생했습니다.";
+          if (data === "success") {
+            msg = "수정이 완료되었습니다.";
+          }
+          alert(msg);
+          this.update = false;
+        });
+    },
+    deleteUser() {
+      axios.defaults.headers.common["auth-token"] = this.getAccessToken;
+      axios
+        .delete(`${SERVER_URL}/users/delete/${this.user.id}`)
+        .then(({ data }) => {
+          let msg = "탈퇴 처리시 문제가 발생했습니다.";
+          if (data === "success") {
+            msg = "탈퇴가 완료되었습니다.";
+          }
+          alert(msg);
+          this.$store.dispatch("logout");
+          this.closeUserDialog();
+        });
+    },
 
-  // },
+  },
 
   setup(props, { emit }) {
     const store = useStore()
@@ -146,7 +146,11 @@ export default {
       // console.log(signupForm.value)
     })
 
-    return { profileForm, state }
+    const handleClose = function () {
+      emit('closeProfileDialog')
+    }
+
+    return { profileForm, state, handleClose }
   }
 }
 </script>

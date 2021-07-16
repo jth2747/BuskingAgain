@@ -7,19 +7,32 @@
       </el-form-item>
       <el-form-item prop="password" label="비밀번호" :label-width="state.formLabelWidth">
         <el-input v-model="state.form.password" autocomplete="off" show-password></el-input>
-        <span v-if="state.form.password.length === 0"></span>
-        <span v-else-if="state.form.password.length < 9">최소 9글자를 입력해야 합니다.</span>
-        <span v-else-if="state.form.password.length > 16">최대 16자까지 입력 가능합니다.</span>
-        <span v-else></span>
+        <span v-if="state.form.password.length === 0"><el-button>로그인</el-button></span>
+        <span v-else-if="state.form.password.length < 9">최소 9글자를 입력해야 합니다.<el-button >로그인</el-button></span>
+        <span v-else-if="state.form.password.length > 16">최대 16자까지 입력 가능합니다.<el-button >로그인</el-button></span>
+        <span v-else>
+          <div v-if="state.form.id.length < 17">
+            <div v-if="state.form.id.length > 0">
+              <el-button type="primary" @click="[clickLogin(), lodingStart()]">로그인</el-button>
+            </div>
+            <div v-else>
+              <el-button>로그인</el-button>
+            </div>
+          </div>
+          <div v-else>
+            <el-button>로그인</el-button>
+          </div>
+        </span>
 
 
       </el-form-item>
     </el-form>
     <template #footer>
-      <span class="dialog-footer">
-        <el-button v-if="loginValue == true" type="primary" @click="clickLogin">로그인</el-button>
+      <!-- <span class="dialog-footer">
+        <el-button v-if="loginValue == true" type="primary" @click="[clickLogin(), lodingStart()]">로그인</el-button>
         <el-button v-else>로그인</el-button>
-      </span>
+      </span> -->
+      <ring-loader v-if="isLoding" :loading="loading" :color="color1" :size="size"></ring-loader>
     </template>
   </el-dialog>
 </template>
@@ -59,19 +72,39 @@
 <script>
 import { reactive, computed, ref, onMounted } from 'vue'
 import { useStore } from 'vuex'
+import RingLoader from 'vue-spinner/src/RingLoader.vue'
 
 export default {
   name: 'login-dialog',
   data: function() {
     return{
-      loginValue: true
+      loginValue: false,
+      isLoding: false,
+      color: '#cc181e',
+      color1: '#5bc0de',
+      size: '45px',
+      margin: '2px',
+      radius: '2px',
     }
+  },
+  components: {
+    RingLoader,
   },
   methods: {
     logincheck: function() {
       this.loginValue = true
+    },
+    lodingStart: function() {
+      this.isLoding = true
+      setTimeout(() => {
+        this.isLoding = false
+      }, 500)
     }
   },
+
+  // created: function () {
+  //   this.isLoding = true
+  // },
   props: {
     open: {
       type: Boolean,
@@ -118,14 +151,15 @@ export default {
           console.log('submit')
           store.dispatch('root/requestLogin', { id: state.form.id, password: state.form.password })
           .then(function (result) {
-            alert('accessToken: ' + result.data.accessToken)
+            // alert('로그인 성공')
             localStorage.setItem('jwt', result.data.accessToken)
+            location.reload()
           })
           .catch(function (err) {
             alert(err)
           })
         } else {
-          alert('Validate error!')
+          // alert('Validate error!')
         }
       });
     }

@@ -16,10 +16,9 @@ export function requestSignup ({ state }, payload) {
   return $axios.post(url, body)
 }
 
-export function getUser ({state}, payload) {
-  console.log('getUser', state, payload)
-  const url = '/users/me'
-  let body = payload
-  return $axios.post(url, body)
-}
+// export function getUser ({state}) {
+//   console.log('getUser', state)
+//   const url = 'users/me'
+//   return $axios.get(url)
+// }
 

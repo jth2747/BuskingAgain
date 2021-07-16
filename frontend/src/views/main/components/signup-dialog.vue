@@ -3,21 +3,28 @@
     <el-form :model="state.form" :rules="state.rules" ref="signupForm" :label-position="state.form.align">
       <el-form-item prop="department" label="소속" :label-width="state.formLabelWidth" >
         <el-input v-model="state.form.department" autocomplete="off"></el-input>
+        <span v-if="state.form.department.length > 30">최대 30자까지 입력 가능합니다.</span>
       </el-form-item>
       <el-form-item prop="position" label="직책" :label-width="state.formLabelWidth" >
         <el-input v-model="state.form.position" autocomplete="off"></el-input>
+        <span v-if="state.form.position.length > 30">최대 30자까지 입력 가능합니다.</span>
       </el-form-item>
       <el-form-item prop="name" label="이름" :label-width="state.formLabelWidth" >
         <el-input v-model="state.form.name" autocomplete="off"></el-input>
+        <span v-if="state.form.name.length > 30">최대 30자까지 입력 가능합니다.</span>
       </el-form-item>
       <el-form-item prop="uid" label="아이디" :label-width="state.formLabelWidth" >
         <el-input v-model="state.form.uid" autocomplete="off"></el-input>
+        <span v-if="state.form.uid.length > 16">최대 16자까지 입력 가능합니다.</span>
       </el-form-item>
       <el-form-item prop="upwd" label="비밀번호" :label-width="state.formLabelWidth">
         <el-input v-model="state.form.upwd" autocomplete="off" show-password></el-input>
+        <span v-if="state.form.upwd.length < 9">최소 9글자를 입력해야 합니다.</span>
+        <span v-else-if="state.form.upwd.length > 16">최대 16자까지 입력 가능합니다.</span>
       </el-form-item>
       <el-form-item prop="upwd_check" label="비밀번호 확인" :label-width="state.formLabelWidth">
         <el-input v-model="state.form.upwd_check" autocomplete="off" show-password></el-input>
+        <span v-if="state.form.upwd_check != state.form.upwd">입력한 비밀번호와 일치하지 않습니다.</span>
       </el-form-item>
     </el-form>
     <template #footer>
@@ -30,7 +37,7 @@
 <style>
 .signup-dialog {
   width: 400px !important;
-  height: 550px;
+  height: 580px;
 }
 .signup-dialog .el-dialog__headerbtn {
   float: right;
@@ -95,7 +102,8 @@ export default {
         uid: '',
         upwd: '',
         upwd_check:'',
-        align: 'left'
+        align: 'left',
+        date_array: [false, false, false, false, false, false],
       },
       rules: {
         department: [
@@ -138,6 +146,8 @@ export default {
             password: state.form.upwd })
           .then(function (result) {
             alert('회원가입 성공')
+            localStorage.setItem('jwt', result.data.accessToken)
+            location.reload()
           })
           .catch(function (err) {
             alert(err)

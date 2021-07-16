@@ -9,10 +9,18 @@
         active-text-color="#ffd04b"
         class="el-menu-vertical-demo"
         @select="menuSelect">
-        <el-menu-item v-for="(item, index) in state.menuItems" :key="index" :index="index.toString()">
-          <i v-if="item.icon" :class="['ic', item.icon]"/>
-          <span>{{ item.title }}</span>
-        </el-menu-item>
+        <div v-if="logined">
+          <el-menu-item v-for="(item, index) in state.menuItems" :key="index" :index="index.toString()">
+            <i v-if="item.icon" :class="['ic', item.icon]"/>
+            <span>{{ item.title }}</span>
+          </el-menu-item>
+        </div>
+        <div v-else>
+          <el-menu-item>
+            <i :class="['ic', state.menuItems[0].icon]"></i>
+            {{ state.menuItems[0].title}}
+          </el-menu-item>
+        </div>
       </el-menu>
     </div>
   </el-row>
@@ -43,7 +51,17 @@ import { useRouter } from 'vue-router'
 
 export default {
   name: 'main-header',
-
+  data: function() {
+    return {
+      logined : false,
+    }
+  },
+  created: function () {
+    const token = localStorage.getItem('jwt')
+    if (token) {
+      this.logined = true
+    }
+  },
   props: {
     width: {
       type: String,

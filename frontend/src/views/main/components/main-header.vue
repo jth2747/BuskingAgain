@@ -101,8 +101,9 @@
 import { reactive, computed } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
-import axios from 'axios'
+import $axios from "axios"
 
+const SERVER_URL = "http://localhost:8080";
 export default {
   name: 'main-header',
   data: function () {
@@ -112,8 +113,8 @@ export default {
   },
   methods: {
     clickLogout: function() {
-      const token = localStorage.getItem('jwt')
-      token = ''
+      localStorage.removeItem('jwt')
+      location.reload()
     }
   },
   created: function () {
@@ -181,12 +182,14 @@ export default {
       emit('openSignupDialog')
     }
 
-    const clickProfile = () => {
-      console.log("회원정보 누름")
-      console.log(localStorage.getItem('jwt'))
+    const clickProfile = function() {
       const token = localStorage.getItem('jwt')
-      axios.get('/users/me' , {authentication : token})
+      console.log(token);
+      //store.dispatch('root/getUser',{token})
+      $axios.get(`${SERVER_URL}/users/me`, {token} )
+      console.log(token);
       emit('openProfileDialog')
+      console.log("finish");
     }
 
     const changeCollapse = () => {

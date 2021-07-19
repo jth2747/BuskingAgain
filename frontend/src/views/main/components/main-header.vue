@@ -1,6 +1,6 @@
 <template>
   <el-row
-    v-if="isLogin"
+    v-if="token"
     class="main-header"
     :gutter="10"
     :style="{ 'height': height }">
@@ -111,23 +111,15 @@ export default {
       isLogin: false,
     }
   },
-  methods: {
-    clickLogout: function() {
-      localStorage.removeItem('jwt')
-      location.reload()
-    }
-  },
-  created: function () {
-    const token = localStorage.getItem('jwt')
-    if (token) {
-      this.isLogin = true
-    }
-  },
   props: {
     height: {
       type: String,
       default: '70px'
-    }
+    },
+    token: {
+      type: String,
+      dataule: ''
+    },
   },
 
   setup(props, { emit }) {
@@ -196,7 +188,11 @@ export default {
       state.isCollapse = !state.isCollapse
     }
 
-    return { state, menuSelect, clickLogo, clickLogin, clickSignup, changeCollapse, clickProfile }
+    const clickLogout = function () {
+      emit('click-logout')
+    }
+
+    return { state, menuSelect,clickLogo, clickLogin, clickSignup, changeCollapse, clickProfile, clickLogout }
   }
 }
 </script>

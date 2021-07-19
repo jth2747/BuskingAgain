@@ -1,6 +1,6 @@
 <template>
   <el-container>
-    지난 회의 이력 페이지
+    선호하는 장르 목록 페이지
   </el-container>
 </template>
 

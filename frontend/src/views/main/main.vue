@@ -51,6 +51,7 @@ export default {
     SignupDialog,
     ProfileDialog,
   },
+  // 장용원
   data () {
     return {
       loginDialogOpen: false,

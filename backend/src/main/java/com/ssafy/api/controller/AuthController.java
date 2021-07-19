@@ -29,6 +29,7 @@ import io.swagger.annotations.ApiResponse;
 @RestController
 @RequestMapping("/api/v1/auth")
 public class AuthController {
+	//김은비 210719 commit 테스트
 	@Autowired
 	UserService userService;
 	

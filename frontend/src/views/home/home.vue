@@ -9,7 +9,8 @@
   </ul>
 
   <busking-dialog
-    :open="buskingDialogOpen"/>
+    :open="buskingDialogOpen"
+    @closeBuskingDialog="onCloseBuskingDialog"/>
 </template>
 <style>
 .button-wrapper {
@@ -45,12 +46,14 @@
 import Conference from './components/conference'
 import { reactive } from 'vue'
 import { useRouter } from 'vue-router'
+import BuskingDialog from '../main/components/busking-dialog.vue'
 
 
 export default {
   name: 'Home',
 
   components: {
+    BuskingDialog,
     Conference,
   },
 
@@ -64,6 +67,9 @@ export default {
     clickBusking(){
       console.log("inin");
       this.buskingDialogOpen=true
+    },
+    onCloseBuskingDialog(){
+      this.buskingDialogOpen=false
     },
   },
 
@@ -87,7 +93,7 @@ export default {
       })
     }
 
-    return { state, load, clickConference }
+    return { state, load, clickConference  }
   }
 }
 </script>

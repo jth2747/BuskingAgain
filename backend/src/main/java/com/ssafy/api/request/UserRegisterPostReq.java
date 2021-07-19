@@ -18,8 +18,8 @@ public class UserRegisterPostReq {
 	String password;
 	@ApiModelProperty(name="유저 Name", example="name")
 	String name;
-	@ApiModelProperty(name="유저 department", example="depart")
-	String department;
-	@ApiModelProperty(name="유저 position", example="position")
-	String position;
+	@ApiModelProperty(name="유저 Genre", example="genre")
+	String genre;
+	@ApiModelProperty(name="유저 Email", example="email")
+	String email;
 }

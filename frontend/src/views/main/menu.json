@@ -1,16 +1,16 @@
 {
   "home" : {
-    "name" : "홈",       
+    "name" : "실시간 버스킹 목록",
     "hidden" : false,
     "path" : "/",
-    "icon" : "el-icon-s-home",
+    "icon" : "el-icon-video-camera",
     "children" : []
   },
   "history" : {
-    "name" : "지난 회의 이력",
+    "name" : "선호하는 장르 목록",
     "hidden" : false,
     "path" : "/history",
-    "icon" : "el-icon-s-order",
+    "icon" : "el-icon-star-on",
     "children" : []
   }
 }

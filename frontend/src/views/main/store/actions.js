@@ -16,6 +16,13 @@ export function requestSignup ({ state }, payload) {
   return $axios.post(url, body)
 }
 
+export function requestBusking ({ state }, payload) {
+  console.log('requestBusking', state, payload)
+  const url = 'buksing/create'
+  let body = payload
+  return $axios.post(url, body)
+}
+
 // export function getUser ({state}) {
 //   console.log('getUser', state)
 //   const url = 'users/me'

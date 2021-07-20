@@ -9,15 +9,15 @@
         active-text-color="#ffd04b"
         class="el-menu-vertical-demo"
         @select="menuSelect">
-        <div v-if="logined">
+        <div v-if="token">
           <el-menu-item v-for="(item, index) in state.menuItems" :key="index" :index="index.toString()">
             <i v-if="item.icon" :class="['ic', item.icon]"/>
             <span>{{ item.title }}</span>
           </el-menu-item>
         </div>
         <div v-else>
-          <el-menu-item>
-            <i :class="['ic', state.menuItems[0].icon]"></i>
+          <el-menu-item @click="clickHome">
+            <i :class="['ic', state.menuItems[0].icon]"/>
             {{ state.menuItems[0].title}}
           </el-menu-item>
         </div>
@@ -51,21 +51,14 @@ import { useRouter } from 'vue-router'
 
 export default {
   name: 'main-header',
-  data: function() {
-    return {
-      logined : false,
-    }
-  },
-  created: function () {
-    const token = localStorage.getItem('jwt')
-    if (token) {
-      this.logined = true
-    }
-  },
   props: {
     width: {
       type: String,
       default: '240px'
+    },
+    token: {
+      type: String,
+      default: ''
     }
   },
   setup() {
@@ -103,7 +96,16 @@ export default {
       })
     }
 
-    return { state, menuSelect }
+    const clickHome = () => {
+      store.commit('root/setMenuActive', 0)
+      const MenuItems = store.getters['root/getMenus']
+      let keys = Object.keys(MenuItems)
+      router.push({
+        name: keys[0]
+      })
+    }
+
+    return { state, menuSelect, clickHome }
   }
 }
 </script>

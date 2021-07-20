@@ -1,10 +1,23 @@
 <template>
   <div class="button-wrapper">
-    <el-button @click="clickBusking">버스킹 생성</el-button>
+  <label for="sort">정렬: </label>
+
+  <select name="sort" id="sort">
+    <option value="">option</option>
+    <option value="likes">좋아요 순</option>
+    <option value="people">접속자 순</option>
+    <option value="title">제목 순</option>
+  </select>
+
+  <el-button @click="clickBusking">버스킹 생성</el-button>
   </div>
   <ul class="infinite-list" v-infinite-scroll="load" style="overflow:auto">
     <li v-for="i in state.count" @click="clickConference(i)" class="infinite-list-item" :key="i" >
-      <conference />
+      <conference
+        :image="image"
+        :title="title"
+        :desc="desc"
+      />
     </li>
   </ul>
 
@@ -60,6 +73,9 @@ export default {
   data() {
     return {
       buskingDialogOpen:false,
+      title: '방 제목',
+      desc: '상세 설명',
+      image: 'https://www.ssafy.com/swp/images/sns_img.png'
     }
   },
 

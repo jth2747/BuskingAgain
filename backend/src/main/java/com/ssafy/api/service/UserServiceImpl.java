@@ -38,8 +38,8 @@ public class UserServiceImpl implements UserService {
 		}else {			
 			user.setPassword(passwordEncoder.encode(userRegisterInfo.getPassword()));
 			user.setName(userRegisterInfo.getName());
-			user.setDepartment(userRegisterInfo.getDepartment());
-			user.setPosition(userRegisterInfo.getPosition());
+			user.setGenre(userRegisterInfo.getGenre());
+			user.setEmail(userRegisterInfo.getEmail());
 			return userRepository.save(user);
 		}
 	}
@@ -64,8 +64,8 @@ public class UserServiceImpl implements UserService {
 		user.setUserId(userId);
 		user.setPassword(passwordEncoder.encode(userModifyInfo.getPassword()));
 		user.setName(userModifyInfo.getName());
-		user.setPosition(userModifyInfo.getPosition());
-		user.setDepartment(userModifyInfo.getDepartment());
+		user.setGenre(userModifyInfo.getGenre());
+		user.setEmail(userModifyInfo.getEmail());
 		
 
 //		return userRepositorySupport.update(id, user.getDepartment(), user.getName(), user.getPassword(), user.getPosition());

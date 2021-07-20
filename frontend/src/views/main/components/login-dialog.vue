@@ -28,10 +28,6 @@
       </el-form-item>
     </el-form>
     <template #footer>
-      <!-- <span class="dialog-footer">
-        <el-button v-if="loginValue == true" type="primary" @click="[clickLogin(), lodingStart()]">로그인</el-button>
-        <el-button v-else>로그인</el-button>
-      </span> -->
       <ring-loader v-if="isLoding" :loading="loading" :color="color1" :size="size"></ring-loader>
     </template>
   </el-dialog>
@@ -76,42 +72,19 @@ import RingLoader from 'vue-spinner/src/RingLoader.vue'
 
 export default {
   name: 'login-dialog',
-  data: function() {
-    return{
-      loginValue: false,
-      isLoding: false,
-      color: '#cc181e',
-      color1: '#5bc0de',
-      size: '45px',
-      margin: '2px',
-      radius: '2px',
-    }
-  },
   components: {
     RingLoader,
   },
-  methods: {
-    logincheck: function() {
-      this.loginValue = true
-    },
-    lodingStart: function() {
-      this.isLoding = true
-      setTimeout(() => {
-        this.isLoding = false
-      }, 500)
-    }
-  },
-
-  // created: function () {
-  //   this.isLoding = true
-  // },
   props: {
     open: {
       type: Boolean,
       default: false
+    },
+    isLoding: {
+      type: Boolean,
+      default: false
     }
   },
-
   setup(props, { emit }) {
     const store = useStore()
     // 마운드 이후 바인딩 될 예정 - 컨텍스트에 노출시켜야함. <return>
@@ -170,7 +143,11 @@ export default {
       emit('closeLoginDialog')
     }
 
-    return { loginForm, state, clickLogin, handleClose }
+    const lodingStart = function () {
+      emit('start-loding')
+    }
+
+    return { loginForm, state, clickLogin, handleClose, lodingStart}
   }
 }
 </script>

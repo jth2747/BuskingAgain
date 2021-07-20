@@ -107,10 +107,10 @@ export default {
       },
       rules: {
         email: [
-          { required: true, message: 'Please input Department', trigger: 'blur' }
+          { required: true, message: 'Please input email', trigger: 'blur' }
         ],
         genre: [
-          { required: true, message: 'Please input Position', trigger: 'blur' }
+          { required: true, message: 'Please input genre', trigger: 'blur' }
         ],
         name: [
           { required: true, message: 'Please input Name', trigger: 'blur' }
@@ -144,7 +144,7 @@ export default {
             name: state.form.name,
             id: state.form.uid,
             password: state.form.upwd })
-          .then(function (result) {
+          .then(function () {
             alert('회원가입 성공')
             location.reload()
           })

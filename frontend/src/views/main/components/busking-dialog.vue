@@ -5,8 +5,8 @@
         <el-input v-model="state.form.title" autocomplete="off"></el-input>
         <span v-if="state.form.title.length < 2">최소 2글자 이상 입력하시오.</span>
       </el-form-item>
-      <el-form-item prop="genre" label="장르" :label-width="state.formLabelWidth" >
-        <el-input v-model="state.form.genre" autocomplete="off"></el-input>
+      <el-form-item prop="conference_genre" label="장르" :label-width="state.formLabelWidth" >
+        <el-input v-model="state.form.conference_genre" autocomplete="off"></el-input>
       </el-form-item>
       <el-form-item prop="description" label="상세 설명" :label-width="state.formLabelWidth" >
         <el-input v-model="state.form.description" autocomplete="off"></el-input>
@@ -57,11 +57,21 @@
 //import axios from "axios"
 import { reactive, computed, ref, onMounted } from 'vue'
 import { useStore } from 'vuex'
-
+//import Multiselect from 'vue-multiselect'
 //const SERVER_URL = "http://localhost:8080";
+//Vue.component('multiselect', Multiselect)
 
 export default {
   name: 'busking-dialog',
+
+  //components: { Multiselect },
+
+  // data(){
+  //   return{
+  //     value: null,
+  //     options: ['힙합', '발라드','어쿠스틱']
+  //   }
+  // },
 
   props: {
     open: {
@@ -78,7 +88,7 @@ export default {
     const state = reactive({
       form: {
         title:'',
-        genre:'',
+        conference_genre:[],
         description:'',
       },
       dialogVisible: computed(() => props.open),
@@ -96,7 +106,7 @@ export default {
           store.dispatch('root/requestBusking',
           {
             title: state.form.title,
-            genre: state.form.genre,
+            conference_genre: state.form.conference_genre,
             description: state.form.description,
             })
           .then(function (result) {
@@ -114,7 +124,7 @@ export default {
 
     const handleClose = function () {
       state.form.title = ''
-      state.form.genre = ''
+      state.form.conference_genre = ''
       state.form.description = ''
       emit('closeBuskingDialog')
     }

@@ -3,7 +3,8 @@
     <el-form :model="state.form" :rules="state.rules" ref="buskingForm" :label-position="state.form.align">
       <el-form-item prop="title" label="방 제목" :label-width="state.formLabelWidth" >
         <el-input v-model="state.form.title" autocomplete="off"></el-input>
-        <span v-if="state.form.title.length < 2">최소 2글자 이상 입력하시오.</span>
+        <span v-if="state.form.title.length == 0"></span>
+        <span v-else-if="state.form.title.length < 2">최소 2글자 이상 입력하시오.</span>
       </el-form-item>
       <el-form-item prop="genre" label="장르" :label-width="state.formLabelWidth" >
         <el-input v-model="state.form.genre" autocomplete="off"></el-input>

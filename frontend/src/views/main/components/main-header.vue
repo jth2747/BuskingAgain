@@ -9,7 +9,7 @@
       <div class="tool-wrapper">
         <div class="search-field">
           <el-input
-            placeholder="검색"
+            placeholder="버스킹 제목, 장르 검색"
             prefix-icon="el-icon-search"
             v-model="state.searchValue">
           </el-input>
@@ -20,6 +20,7 @@
         </div>
       </div>
     </div>
+
 
     <div class="hide-on-big">
       <div class="menu-icon-wrapper" @click="changeCollapse"><i class="el-icon-menu"></i></div>
@@ -58,7 +59,7 @@
       <div class="tool-wrapper">
         <div class="search-field">
           <el-input
-            placeholder="검색"
+            placeholder="버스킹 제목, 장르 검색"
             prefix-icon="el-icon-search"
             v-model="state.searchValue">
           </el-input>
@@ -106,11 +107,6 @@ import $axios from "axios"
 const SERVER_URL = "http://localhost:8080";
 export default {
   name: 'main-header',
-  data: function () {
-    return {
-      isLogin: false,
-    }
-  },
   props: {
     height: {
       type: String,

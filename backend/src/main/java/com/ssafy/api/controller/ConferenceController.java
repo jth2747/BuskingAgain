@@ -23,9 +23,9 @@ import io.swagger.annotations.ApiResponses;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import springfox.documentation.annotations.ApiIgnore;
 
-@Api(value = "방 API", tags = {"Conferences"})
+@Api(value = "방 API", tags = {"Conference"})
 @RestController
-@RequestMapping("api/v1/conferences")
+@RequestMapping("/api/v1/conferences")
 public class ConferenceController {
 
 	@Autowired
@@ -43,16 +43,14 @@ public class ConferenceController {
         @ApiResponse(code = 500, message = "서버 오류")
     })
 	public ResponseEntity<? extends BaseResponseBody> create(@ApiIgnore Authentication authentication,
-			@RequestBody @ApiParam(value="방생성 정보", required = true) ConferenceCreatePostReq conferenceCreateInfo
-			){
+			@RequestBody @ApiParam(value="방생성 정보", required = true) ConferenceCreatePostReq conferenceCreateInfo){
 		System.out.println("방생성하자");
-		//현재는 owner_id가 없음
-		//토큰에 owner_id를 받아오면
-//		회원정보를 조회해서 owner_id를 받아옴
 		System.out.println("Ownerid를 위해서 회원정보 조회");
 		SsafyUserDetails userDetails = (SsafyUserDetails)authentication.getDetails();
 		String userId = userDetails.getUsername();
 		User user = userService.getUserByUserId(userId);
+		System.out.println(user.getId());
+		System.out.println(conferenceCreateInfo.getTitle());
 		Conference conference = conferenceService.createConference(conferenceCreateInfo, user.getId());
 
 		

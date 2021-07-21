@@ -9,15 +9,15 @@ import lombok.Setter;
 @Setter
 @ApiModel("ConferenceCreatePostRequest")
 public class ConferenceCreatePostReq {
-	@ApiModelProperty(name="버스킹 title", example="title")
+	@ApiModelProperty(name="title", example="title")
 	String title;
-	@ApiModelProperty(name="버스킹 decription", example="decription")
+	@ApiModelProperty(name="genre", example="genre")
+	String genre;
+	@ApiModelProperty(name="decription", example="decription")
 	String decription;
-	@ApiModelProperty(name="버스킹 thumbnail_url", example="thumbnail_url")
+	@ApiModelProperty(name="thumbnail_url", example="thumbnail_url")
 	String thumbnail_url;
-	@ApiModelProperty(name="owner id", example="owener id")
-	Long owner_id;
-	@ApiModelProperty(name="버스킹 genre", example="genre")
-	String conference_genre;
+//	@ApiModelProperty(name="owner_id", example="owener id")
+//	Long owner_id;
 }
 

@@ -1,5 +1,7 @@
 package com.ssafy.api.response;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ssafy.common.model.response.BaseResponseBody;
 import com.ssafy.db.entity.User;
 
@@ -17,10 +19,22 @@ import lombok.Setter;
 public class UserRes{
 	@ApiModelProperty(name="User ID")
 	String userId;
+	@ApiModelProperty(name="email")
+	String email;
+	@ApiModelProperty(name="genre")
+	String genre;
+	@ApiModelProperty(name="name")
+	String name;
+	@ApiModelProperty(name="password")
+	String password;
 	
 	public static UserRes of(User user) {
 		UserRes res = new UserRes();
 		res.setUserId(user.getUserId());
+		res.setEmail(user.getEmail());
+		res.setGenre(user.getGenre());
+		res.setName(user.getName());
+		res.setPassword(user.getPassword());
 		return res;
 	}
 }

@@ -2,25 +2,25 @@
   <el-dialog custom-class="profile-dialog" title="회원정보" v-model="state.dialogVisible" @close="handleClose">
     <el-form :model="state.form" :rules="state.rules" ref="signupForm" :label-position="state.form.align">
       <el-form-item prop="genre" label="장르" :label-width="state.formLabelWidth" >
-        <el-form-item v-model="genre" autocomplete="off"></el-form-item>
+        <el-form-item v-model="state.form.genre" autocomplete="off">: {{ userInfo.data.genre }}</el-form-item>
       </el-form-item>
       <el-form-item prop="email" label="이메일" :label-width="state.formLabelWidth" >
-        <el-form-item v-model="email" autocomplete="off"></el-form-item>
+        <el-form-item v-model="state.form.email" autocomplete="off">: {{ userInfo.data.email }}</el-form-item>
       </el-form-item>
       <el-form-item prop="name" label="이름" :label-width="state.formLabelWidth" >
-        <el-form-item v-model="name" autocomplete="off"></el-form-item>
+        <el-form-item v-model="state.form.name" autocomplete="off">: {{ userInfo.data.name }}</el-form-item>
       </el-form-item>
       <el-form-item prop="userId" label="아이디" :label-width="state.formLabelWidth" >
-        <el-form-item v-model="userId" autocomplete="off"></el-form-item>
+        <el-form-item v-model="state.form.userId" autocomplete="off">: {{ userInfo.data.userId }}</el-form-item>
       </el-form-item>
       <el-form-item prop="password" label="비밀번호" :label-width="state.formLabelWidth">
-        <el-form-item v-model="password" autocomplete="off" show-password></el-form-item>
+        <el-form-item v-model="state.form.password" autocomplete="off" show-password>: {{ userInfo.data.password }}</el-form-item>
       </el-form-item>
     </el-form>
     <template #footer>
       <span class="dialog-footer">
-        <el-button type="warning"  @click="updateUser()">정보수정</el-button>
-        <el-button type="danger" @click="deleteUser()">회원탈퇴</el-button>
+        <el-button type="warning"  @click="updateUser">정보수정</el-button>
+        <el-button type="danger" @click="deleteUser">회원탈퇴</el-button>
       </span>
     </template>
   </el-dialog>
@@ -72,10 +72,13 @@ export default {
     open: {
       type: Boolean,
       default: false
+    },
+    userInfo: {
+      type: Object,
     }
   },
 
-  data(){
+  data () {
     return {
       update: false,
     };
@@ -83,17 +86,16 @@ export default {
   computed: {
     ...mapGetters(["profileDialog", "getAccessToken", "user"]),
   },
-
-   methods: {
+  methods: {
     updateSetting() {
       this.update = true;
     },
     updateUser() {
-      //console.log(this.user + " " + this.getAccessToken);
-      //axios.defaults.headers.common["auth-token"] = this.getAccessToken;
+      console.log(this.user + " " + this.getAccessToken)
+      axios.defaults.headers.common["auth-token"] = this.getAccessToken;
       axios
-        .patch(`${SERVER_URL}/users/${this.user.userId}`, {
-          genre: this.state.form.genre,
+        .patch(`${SERVER_URL}/users/${this.state.form.userId}`, {
+          genre: this.userInfo.data.genre,
           email: this.state.form.email,
           name: this.state.form.name,
           userId: this.state.form.userId,
@@ -109,17 +111,17 @@ export default {
         });
     },
     deleteUser() {
-      //axios.defaults.headers.common["auth-token"] = this.getAccessToken;
+      axios.defaults.headers.common["auth-token"] = localStorage.getItem('jwt');
       axios
-        .delete(`${SERVER_URL}/users/${this.user.userId}`)
+        .delete(`${SERVER_URL}/users/${this.state.form.userId}`)
         .then(({ data }) => {
           let msg = "탈퇴 처리시 문제가 발생했습니다.";
           if (data === "success") {
             msg = "탈퇴가 완료되었습니다.";
           }
           alert(msg);
-          emit('click-logout')
-          this.handleClose();
+          // this.$store.dispatch("logout");
+          this.closeUserDialog();
         });
     },
 
@@ -143,7 +145,6 @@ export default {
     })
 
     onMounted(() => {
-
     })
 
     const handleClose = function () {

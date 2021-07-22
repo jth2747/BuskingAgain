@@ -23,6 +23,7 @@
 
 
     <div class="hide-on-big">
+
       <div class="menu-icon-wrapper" @click="changeCollapse"><i class="el-icon-menu"></i></div>
       <div class="logo-wrapper" @click="clickLogo"><div class="ic ic-logo"/></div>
       <div class="menu-icon-wrapper"><i class="el-icon-search"></i></div>
@@ -172,12 +173,19 @@ export default {
 
     const clickProfile = function() {
       const token = localStorage.getItem('jwt')
-      console.log(token);
-      //store.dispatch('root/getUser',{token})
-      $axios.get(`${SERVER_URL}/users/me`, {token} )
-      console.log(token);
-      emit('openProfileDialog')
-      console.log("finish");
+      console.log(token)
+
+      // store.dispatch('root/getUser', { Authorization: token })
+      store.dispatch('root/getUser', { token })
+      .then(function (result) {
+        console.log(result.data)
+        emit('openProfileDialog', result)
+      })
+      .catch(function (err){
+        alert(err)
+      })
+      // $axios.get(`${SERVER_URL}/users/me`, {token} )
+      // console.log("finish");
     }
 
     const changeCollapse = () => {

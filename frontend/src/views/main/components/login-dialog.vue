@@ -125,8 +125,9 @@ export default {
           store.dispatch('root/requestLogin', { id: state.form.id, password: state.form.password })
           .then(function (result) {
             // alert('로그인 성공')
+            console.log(result.data)
             localStorage.setItem('jwt', result.data.accessToken)
-            location.reload()
+            // location.reload()
           })
           .catch(function (err) {
             alert(err)

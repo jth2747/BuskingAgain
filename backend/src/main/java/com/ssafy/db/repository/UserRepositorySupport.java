@@ -25,5 +25,13 @@ public class UserRepositorySupport {
         if(user == null) return Optional.empty();
         return Optional.ofNullable(user);
     }
+
+	public String findUserIdById(Long id) {
+		// TODO Auto-generated method stub
+		User user = jpaQueryFactory.select(qUser).from(qUser)
+                .where(qUser.id.eq(id)).fetchOne();
+		
+		return user.getUserId();
+	}
    
 }

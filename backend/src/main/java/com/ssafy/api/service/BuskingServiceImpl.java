@@ -1,6 +1,9 @@
 package com.ssafy.api.service;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,6 +77,47 @@ public class BuskingServiceImpl implements BuskingService {
 			}
 		}
 		return ret;
+	}
+
+	@Override
+	public Busking ModifyBusking(BuskingCreatePostReq buskingModifyInfo, Long ownerId, Long buskingId) {
+		// TODO Auto-generated method stub
+		Busking busking = new Busking();
+		busking.setId(buskingId);
+		busking.setOwner_id(ownerId);
+		busking.setTitle(buskingModifyInfo.getTitle());
+//		busking.setBusking_genre(buskingModifyInfo.getGenre());
+		busking.setDescription(buskingModifyInfo.getDescription());
+		Long genreId = buskingGenreRepositorySupport.findGenreByGenreName(buskingModifyInfo.getGenre()).getId();
+		System.out.println(genreId);
+		busking.setBusking_genre(genreId);
+		
+		return buskingRespository.save(busking);
+	}
+
+	@Override
+	public List<Busking> listGenre(String genre) {
+		// TODO Auto-generated method stub
+		List<Busking> list = buskingRespository.findAll();
+		List<Busking> ret = new ArrayList<>();
+		
+		Long buskingGenre = buskingGenreRepositorySupport.findGenreByGenreName(genre).getId();
+		
+		for(Busking b : list) {
+			if(b.getIs_active() == 1 && b.getBusking_genre() == buskingGenre) {
+				ret.add(b);
+			}
+		}
+		return ret;
+	}
+
+	@Override
+	public Busking deleteBusking(Long buskingId, Busking busking) {
+		// TODO Auto-generated method stub
+		busking.setIs_active(0);
+		busking.setEnd_time(Timestamp.valueOf(LocalDateTime.now()));
+		
+		return buskingRespository.save(busking);
 	}
 
 }

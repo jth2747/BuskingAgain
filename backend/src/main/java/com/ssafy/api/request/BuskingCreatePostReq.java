@@ -13,4 +13,9 @@ public class BuskingCreatePostReq {
 	String genre;
 	String description;
 	String thumbnailurl;
+	@Override
+	public String toString() {
+		return "BuskingCreatePostReq [title=" + title + ", genre=" + genre + ", description=" + description
+				+ ", thumbnailurl=" + thumbnailurl + "]";
+	}
 }

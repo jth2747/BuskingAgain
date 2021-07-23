@@ -144,7 +144,60 @@ export default {
 
     onMounted(() => {
 
-    })
+    const updateUser = function() {
+      // if (state.form.password == state.form.passwordcheck && state.form.password.length >= 9 && state.form.password.length <= 16) {
+      if (state.form.password) {
+        store.dispatch('root/updateUser', {
+          token: props.token,
+        genre: state.form.genre,
+        email: state.form.email,
+        name: state.form.name,
+        userId: state.form.userId,
+        password: state.form.password,
+      })
+      .then(function () {
+        location.reload()
+        alert('회원정보가 수정되었습니다.')
+      })
+      .catch(function (err) {
+        alert(err)
+      })
+      // asdasd
+    }
+      else {
+        store.dispatch('root/updateUser', {
+          token: props.token,
+          genre: state.form.genre,
+          email: state.form.email,
+          name: state.form.name,
+          userId: state.form.userId,
+          password: props.userInfo.data.password,
+        })
+        .then(function () {
+          location.reload()
+          alert('회원정보가 수정되었습니다.')
+        })
+        .catch(function (err) {
+          alert(err)
+        })
+      }
+    }
+      // else {
+      //   alert('비밀번호를 확인해 주세요')
+      // }
+
+    const deleteUser = function() {
+      store.dispatch('root/deleteUser', { token: props.token, userId: props.userInfo.data.userId })
+      .then(function (result) {
+        console.log(result.date)
+        emit('click-logout')
+        location.reload()
+        alert('탈퇴가 완료되었습니다.')
+      })
+      .catch(function (err){
+        alert(err)
+      })
+    }
 
     const handleClose = function () {
       emit('closeProfileDialog')

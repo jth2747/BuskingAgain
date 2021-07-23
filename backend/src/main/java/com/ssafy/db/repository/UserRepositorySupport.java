@@ -26,6 +26,15 @@ public class UserRepositorySupport {
         return Optional.ofNullable(user);
     }
 
+    
+    public Optional<User> findUserByUserNamePassword(String name,String email) {
+        User user = jpaQueryFactory.select(qUser).from(qUser)
+                .where(qUser.name.eq(name).and(qUser.email.eq(email))).fetchOne();
+        if(user == null) return Optional.empty();
+        return Optional.ofNullable(user);
+    }
+
+
 	public String findUserIdById(Long id) {
 		// TODO Auto-generated method stub
 		User user = jpaQueryFactory.select(qUser).from(qUser)
@@ -33,5 +42,6 @@ public class UserRepositorySupport {
 		
 		return user.getUserId();
 	}
+
    
 }

@@ -143,6 +143,7 @@ export default {
       .catch(function (err) {
         alert(err)
       })
+      // asdasd
     }
       else {
         store.dispatch('root/updateUser', {

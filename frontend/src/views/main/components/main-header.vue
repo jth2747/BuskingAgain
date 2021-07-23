@@ -9,7 +9,7 @@
       <div class="tool-wrapper">
         <div class="search-field">
           <el-input
-            placeholder="검색"
+            placeholder="버스킹 제목, 장르 검색"
             prefix-icon="el-icon-search"
             v-model="state.searchValue">
           </el-input>
@@ -21,7 +21,9 @@
       </div>
     </div>
 
+
     <div class="hide-on-big">
+
       <div class="menu-icon-wrapper" @click="changeCollapse"><i class="el-icon-menu"></i></div>
       <div class="logo-wrapper" @click="clickLogo"><div class="ic ic-logo"/></div>
       <div class="menu-icon-wrapper"><i class="el-icon-search"></i></div>
@@ -58,7 +60,7 @@
       <div class="tool-wrapper">
         <div class="search-field">
           <el-input
-            placeholder="검색"
+            placeholder="버스킹 제목, 장르 검색"
             prefix-icon="el-icon-search"
             v-model="state.searchValue">
           </el-input>
@@ -106,11 +108,6 @@ import $axios from "axios"
 const SERVER_URL = "http://localhost:8080";
 export default {
   name: 'main-header',
-  data: function () {
-    return {
-      isLogin: false,
-    }
-  },
   props: {
     height: {
       type: String,
@@ -175,13 +172,15 @@ export default {
     }
 
     const clickProfile = function() {
-      const token = localStorage.getItem('jwt')
-      console.log(token);
-      //store.dispatch('root/getUser',{token})
-      $axios.get(`${SERVER_URL}/users/me`, {token} )
-      console.log(token);
-      emit('openProfileDialog')
-      console.log("finish");
+      // const token = localStorage.getItem('jwt')
+      store.dispatch('root/getUser', { token: props.token })
+      .then(function (result) {
+        console.log(result.data)
+        emit('openProfileDialog', result)
+      })
+      .catch(function (err){
+        alert(err)
+      })
     }
 
     const changeCollapse = () => {

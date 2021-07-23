@@ -1,13 +1,13 @@
 <template>
   <el-dialog custom-class="signup-dialog" title="회원가입" v-model="state.dialogVisible" @close="handleClose">
     <el-form :model="state.form" :rules="state.rules" ref="signupForm" :label-position="state.form.align">
-      <el-form-item prop="department" label="소속" :label-width="state.formLabelWidth" >
-        <el-input v-model="state.form.department" autocomplete="off"></el-input>
-        <span v-if="state.form.department.length > 30">최대 30자까지 입력 가능합니다.</span>
+      <el-form-item prop="email" label="이메일" :label-width="state.formLabelWidth" >
+        <el-input v-model="state.form.email" autocomplete="off"></el-input>
+        <span v-if="state.form.email.length > 30">최대 30자까지 입력 가능합니다.</span>
       </el-form-item>
-      <el-form-item prop="position" label="직책" :label-width="state.formLabelWidth" >
-        <el-input v-model="state.form.position" autocomplete="off"></el-input>
-        <span v-if="state.form.position.length > 30">최대 30자까지 입력 가능합니다.</span>
+      <el-form-item prop="genre" label="선호하는 장르" :label-width="state.formLabelWidth" >
+        <el-input v-model="state.form.genre" autocomplete="off"></el-input>
+        <span v-if="state.form.genre.length > 30">최대 30자까지 입력 가능합니다.</span>
       </el-form-item>
       <el-form-item prop="name" label="이름" :label-width="state.formLabelWidth" >
         <el-input v-model="state.form.name" autocomplete="off"></el-input>
@@ -96,8 +96,8 @@ export default {
     */
     const state = reactive({
       form: {
-        department:'',
-        position:'',
+        email:'',
+        genre:'',
         name:'',
         uid: '',
         upwd: '',
@@ -106,11 +106,11 @@ export default {
         date_array: [false, false, false, false, false, false],
       },
       rules: {
-        department: [
-          { required: true, message: 'Please input Department', trigger: 'blur' }
+        email: [
+          { required: true, message: 'Please input email', trigger: 'blur' }
         ],
-        position: [
-          { required: true, message: 'Please input Position', trigger: 'blur' }
+        genre: [
+          { required: true, message: 'Please input genre', trigger: 'blur' }
         ],
         name: [
           { required: true, message: 'Please input Name', trigger: 'blur' }
@@ -139,14 +139,14 @@ export default {
           console.log('submit')
           store.dispatch('root/requestSignup',
           {
-            department: state.form.department,
-            position: state.form.position,
+            email: state.form.email,
+            genre: state.form.genre,
             name: state.form.name,
             id: state.form.uid,
             password: state.form.upwd })
-          .then(function (result) {
+          .then(function (
+          ) {
             alert('회원가입 성공')
-            localStorage.setItem('jwt', result.data.accessToken)
             location.reload()
           })
           .catch(function (err) {
@@ -159,8 +159,8 @@ export default {
     }
 
     const handleClose = function () {
-      state.form.department = ''
-      state.form.position = ''
+      state.form.email = ''
+      state.form.genre = ''
       state.form.name = ''
       state.form.uid = ''
       state.form.upwd = ''

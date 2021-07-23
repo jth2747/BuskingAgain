@@ -34,7 +34,10 @@
     @closeSignupDialog="onCloseSignupDialog"/>
   <profile-dialog
     :open="profileDialogOpen"
-    @closeProfileDialog="onCloseProfileDialog"/>
+    :userInfo="userInfo"
+    :token="token"
+    @closeProfileDialog="onCloseProfileDialog"
+    @click-logout="clickLogout"/>
 </template>
 <style>
   @import "https://unpkg.com/element-plus/lib/theme-chalk/index.css";
@@ -70,6 +73,7 @@ export default {
       profileDialogOpen: false,
       isLoding: false, //스피너
       token: localStorage.getItem('jwt'), // jwt 토큰
+      userInfo: '',
     }
   },
   methods: {
@@ -85,8 +89,9 @@ export default {
     onCloseSignupDialog() {
       this.signupDialogOpen = false
     },
-    onOpenProfileDialog(){
-      this.profileDialogOpen=true
+    onOpenProfileDialog(result){
+      this.profileDialogOpen = true
+      this.userInfo = result
     },
     onCloseProfileDialog(){
       this.profileDialogOpen=false

@@ -34,6 +34,7 @@ export function getUser ( { state }, payload) {
   })
 }
 
+
 export function deleteUser ( { state }, payload) {
   console.log('deleteUser', state, payload)
   const url = `/users/${payload.userId}`
@@ -48,9 +49,11 @@ export function deleteUser ( { state }, payload) {
 export function updateUser ( { state }, payload) {
   console.log('updateUser', state, payload)
   const url = `/users/${payload.userId}`
-  return $axios.patch(url, {
-    headers: {
-      Authorization: 'Bearer ' + payload.token,
+  let body = payload
+  return $axios.patch(url, body,
+    {
+      headers: {
+        Authorization: 'Bearer ' + payload.token,
     }
   })
 }

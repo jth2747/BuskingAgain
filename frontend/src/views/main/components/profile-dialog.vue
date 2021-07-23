@@ -164,20 +164,6 @@ export default {
           alert(err)
         })
       }
-      // else {
-      //   store.dispatch('root/updateUser', {
-      //     token: props.token,
-      //     genre: this.state.form.genre,
-      //     email: this.state.form.email,
-      //     name: this.state.form.name,
-      //     userId: this.state.form.userId,
-      //     password: props.userInfo.data.password,
-      //   })
-      //   .then(function () {
-      //     location.reload()
-      //     alert('회원정보가 수정되었습니다.')
-      //   })
-      // }
     }
 
     const deleteUser = function() {

@@ -15,4 +15,11 @@ public interface BuskingService {
 
 	List<Busking> list();
 
+	Busking ModifyBusking(BuskingCreatePostReq buskingModifyInfo, Long ownerId, Long buskingId);
+
+	List<Busking> listGenre(String genre);
+
+	Busking deleteBusking(Long buskingId, Busking busking);
+
+
 }

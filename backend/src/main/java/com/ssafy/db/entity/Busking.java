@@ -1,5 +1,7 @@
 package com.ssafy.db.entity;
 
+import java.sql.Timestamp;
+
 import javax.persistence.Entity;
 
 import lombok.Getter;
@@ -11,8 +13,8 @@ import lombok.Setter;
 public class Busking extends BaseEntity{
 	long owner_id;
 	long busking_genre;
-	String start_time;
-	String end_time;
+	Timestamp start_time;
+	Timestamp end_time;
 	String title;
 	String description;
 	String thumbnail_url;

@@ -184,6 +184,9 @@ dependencies {
     annotationProcessor("org.projectlombok:lombok:1.18.20")
 
     testCompile('org.springframework.boot:spring-boot-starter-test')
+    
+    //메일인증을 위한 의존성 설정
+    implementation("org.springframework.boot:spring-boot-starter-mail")
 }
 
 test {

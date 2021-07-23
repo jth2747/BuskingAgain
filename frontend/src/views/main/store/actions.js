@@ -34,3 +34,23 @@ export function getUser ( { state }, payload) {
   })
 }
 
+export function deleteUser ( { state }, payload) {
+  console.log('deleteUser', state, payload)
+  const url = `/users/${payload.userId}`
+  // let body = payload
+  return $axios.delete(url, {
+    headers: {
+      Authorization: 'Bearer ' + payload.token,
+    }
+  })
+}
+
+export function updateUser ( { state }, payload) {
+  console.log('updateUser', state, payload)
+  const url = `/users/${payload.userId}`
+  return $axios.patch(url, {
+    headers: {
+      Authorization: 'Bearer ' + payload.token,
+    }
+  })
+}

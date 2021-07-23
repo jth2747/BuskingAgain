@@ -35,7 +35,9 @@
   <profile-dialog
     :open="profileDialogOpen"
     :userInfo="userInfo"
-    @closeProfileDialog="onCloseProfileDialog"/>
+    :token="token"
+    @closeProfileDialog="onCloseProfileDialog"
+    @click-logout="clickLogout"/>
 </template>
 <style>
   @import "https://unpkg.com/element-plus/lib/theme-chalk/index.css";

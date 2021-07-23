@@ -172,11 +172,8 @@ export default {
     }
 
     const clickProfile = function() {
-      const token = localStorage.getItem('jwt')
-      console.log(token)
-
-      // store.dispatch('root/getUser', { Authorization: token })
-      store.dispatch('root/getUser', { token })
+      // const token = localStorage.getItem('jwt')
+      store.dispatch('root/getUser', { token: props.token })
       .then(function (result) {
         console.log(result.data)
         emit('openProfileDialog', result)
@@ -184,8 +181,6 @@ export default {
       .catch(function (err){
         alert(err)
       })
-      // $axios.get(`${SERVER_URL}/users/me`, {token} )
-      // console.log("finish");
     }
 
     const changeCollapse = () => {

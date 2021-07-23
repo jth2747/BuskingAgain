@@ -37,7 +37,7 @@ import springfox.documentation.annotations.ApiIgnore;
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/users")
 public class UserController {
-	// 정태현 210719 테스트
+	// 김은비 210723 테스트
 	@Autowired
 	UserService userService;
 	

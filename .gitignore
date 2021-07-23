@@ -57,3 +57,6 @@ build
 
 # Tracked gradle-wrapper
 !/backend/gradle/wrapper/gradle-wrapper.jar
+backend/ssafy-web.log.2021-07-19.0.gz
+backend/ssafy-web.log.2021-07-21.0.gz
+backend/ssafy-web.log.2021-07-22.0.gz

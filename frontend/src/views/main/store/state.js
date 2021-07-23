@@ -36,6 +36,7 @@ export default {
   accessToken:null,
   userId: "",
   userName: "",
+  user: "",
   join: false,
   userDialog:false,
 }

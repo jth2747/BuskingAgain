@@ -1,26 +1,34 @@
 <template>
   <el-dialog custom-class="profile-dialog" title="회원정보" v-model="state.dialogVisible" @close="handleClose">
     <el-form :model="state.form" :rules="state.rules" ref="signupForm" :label-position="state.form.align">
-      <el-form-item prop="department" label="소속" :label-width="state.formLabelWidth" >
-        <el-form-item v-model="department" autocomplete="off"></el-form-item>
+      <el-form-item prop="genre" label="장르" :label-width="state.formLabelWidth" >
+        <el-input v-model="state.form.genre"></el-input>
       </el-form-item>
-      <el-form-item prop="position" label="직책" :label-width="state.formLabelWidth" >
-        <el-form-item v-model="position" autocomplete="off"></el-form-item>
+      <el-form-item prop="email" label="이메일" :label-width="state.formLabelWidth" >
+        <el-input v-model="state.form.email" :disabled="true"></el-input>
       </el-form-item>
       <el-form-item prop="name" label="이름" :label-width="state.formLabelWidth" >
-        <el-form-item v-model="name" autocomplete="off"></el-form-item>
+        <el-input v-model="state.form.name"></el-input>
       </el-form-item>
-      <el-form-item prop="uid" label="아이디" :label-width="state.formLabelWidth" >
-        <el-form-item v-model="uid" autocomplete="off"></el-form-item>
+      <el-form-item prop="userId" label="아이디" :label-width="state.formLabelWidth" >
+        <el-input v-model="state.form.userId" :disabled="true"></el-input>
       </el-form-item>
-      <el-form-item prop="upwd" label="비밀번호" :label-width="state.formLabelWidth">
-        <el-form-item v-model="upwd" autocomplete="off" show-password></el-form-item>
+      <!-- <el-form-item prop="password" label="비밀번호 수정" :label-width="state.formLabelWidth">
+        <el-input placeholder="Please input password" v-model="state.form.password" show-password></el-input>
+        <span v-if="state.form.password.length === 0"></span>
+        <span v-else-if="state.form.password.length < 9">최소 9글자를 입력해야 합니다.</span>
+        <span v-if="state.form.password.length > 16">최대 16자까지 입력 가능합니다.</span>
       </el-form-item>
+      <el-form-item prop="password" label="비밀번호 확인" :label-width="state.formLabelWidth">
+        <el-input placeholder="Please input password" v-model="state.form.passwordcheck" show-password></el-input>
+        <span v-if="state.form.password != state.form.passwordcheck">입력한 비밀번호와 일치하지 않습니다.</span>
+      </el-form-item> -->
     </el-form>
     <template #footer>
       <span class="dialog-footer">
-        <el-button type="warning"  @click="clickRemove">정보수정</el-button>
-        <el-button type="danger" @click="clickDelete">회원탈퇴</el-button>
+        <el-button type="success"  @click="updateUser">비밀번호 변경</el-button>
+        <el-button type="warning"  @click="updateUser">정보수정</el-button>
+        <el-button type="danger" @click="deleteUser">회원탈퇴</el-button>
       </span>
     </template>
   </el-dialog>
@@ -72,10 +80,16 @@ export default {
     open: {
       type: Boolean,
       default: false
-    }
+    },
+    userInfo: {
+      type: Object,
+    },
+    token: {
+      type: String
+    },
   },
 
-  data(){
+  data () {
     return {
       update: false,
     };
@@ -83,44 +97,9 @@ export default {
   computed: {
     ...mapGetters(["profileDialog", "getAccessToken", "user"]),
   },
-
-   methods: {
+  methods: {
     updateSetting() {
       this.update = true;
-    },
-    updateUser() {
-      console.log(this.user + " " + this.getAccessToken);
-      axios.defaults.headers.common["auth-token"] = this.getAccessToken;
-      axios
-        .put(`${SERVER_URL}/users/update`, {
-          department: this.user.department,
-          position: this.user.position,
-          name: this.user.name,
-          id: this.user.id,
-          password: this.user.password,
-        })
-        .then(({ data }) => {
-          let msg = "수정 처리시 문제가 발생했습니다.";
-          if (data === "success") {
-            msg = "수정이 완료되었습니다.";
-          }
-          alert(msg);
-          this.update = false;
-        });
-    },
-    deleteUser() {
-      axios.defaults.headers.common["auth-token"] = this.getAccessToken;
-      axios
-        .delete(`${SERVER_URL}/users/delete/${this.user.id}`)
-        .then(({ data }) => {
-          let msg = "탈퇴 처리시 문제가 발생했습니다.";
-          if (data === "success") {
-            msg = "탈퇴가 완료되었습니다.";
-          }
-          alert(msg);
-          this.$store.dispatch("logout");
-          this.closeUserDialog();
-        });
     },
 
   },
@@ -131,11 +110,12 @@ export default {
 
     const state = reactive({
       form: {
-        department:"",
-        position:"",
-        name:"",
-        id:"",
-        password:"",
+        genre: props.userInfo.data.genre,
+        email: props.userInfo.data.email,
+        name: props.userInfo.data.name,
+        userId: props.userInfo.data.userId,
+        password: '',
+        passwordcheck: '',
         align: 'left'
       },
       dialogVisible: computed(() => props.open),
@@ -143,14 +123,73 @@ export default {
     })
 
     onMounted(() => {
-      // console.log(signupForm.value)
     })
 
+    const updateUser = function() {
+      // if (state.form.password == state.form.passwordcheck && state.form.password.length >= 9 && state.form.password.length <= 16) {
+      if (state.form.password) {
+        store.dispatch('root/updateUser', {
+          token: props.token,
+        genre: state.form.genre,
+        email: state.form.email,
+        name: state.form.name,
+        userId: state.form.userId,
+        password: state.form.password,
+      })
+      .then(function () {
+        location.reload()
+        alert('회원정보가 수정되었습니다.')
+      })
+      .catch(function (err) {
+        alert(err)
+      })
+    }
+      else {
+        store.dispatch('root/updateUser', {
+          token: props.token,
+          genre: state.form.genre,
+          email: state.form.email,
+          name: state.form.name,
+          userId: state.form.userId,
+          password: props.userInfo.data.password,
+        })
+        .then(function () {
+          location.reload()
+          alert('회원정보가 수정되었습니다.')
+        })
+        .catch(function (err) {
+          alert(err)
+        })
+      }
+    }
+      // else {
+      //   alert('비밀번호를 확인해 주세요')
+      // }
+
+    const deleteUser = function() {
+      store.dispatch('root/deleteUser', { token: props.token, userId: props.userInfo.data.userId })
+      .then(function (result) {
+        console.log(result.date)
+        emit('click-logout')
+        location.reload()
+        alert('탈퇴가 완료되었습니다.')
+      })
+      .catch(function (err){
+        alert(err)
+      })
+    }
+
     const handleClose = function () {
+      state.form.password = ''
+      state.form.passwordcheck = ''
+      state.form.genre = props.userInfo.data.genre
+      state.form.email = props.userInfo.data.email
+      state.form.name = props.userInfo.data.name
+      state.form.userId = props.userInfo.data.userId
       emit('closeProfileDialog')
     }
 
-    return { profileForm, state, handleClose }
+    return { profileForm, state, updateUser, deleteUser, handleClose }
   }
 }
 </script>

@@ -144,7 +144,8 @@ export default {
             name: state.form.name,
             id: state.form.uid,
             password: state.form.upwd })
-          .then(function () {
+          .then(function (
+          ) {
             alert('회원가입 성공')
             location.reload()
           })

@@ -20,6 +20,10 @@ export function getUserId (state) {
 	return state.userId;
 }
 
+export function user (state) {
+	return state.user;
+}
+
 export function getUserName (state) {
 	return state.userName;
 }

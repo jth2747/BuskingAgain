@@ -18,7 +18,7 @@ export function requestSignup ({ state }, payload) {
 
 export function requestBusking ({ state }, payload) {
   console.log('requestBusking', state, payload)
-  const url = '/buksing/create'
+  const url = '/busking/create'
   let body = payload
   return $axios.post(url, body)
 }
@@ -48,6 +48,18 @@ export function deleteUser ( { state }, payload) {
 export function updateUser ( { state }, payload) {
   console.log('updateUser', state, payload)
   const url = `/users/${payload.userId}`
+  let body = payload
+  return $axios.patch(url, body,
+    {
+      headers: {
+        Authorization: 'Bearer ' + payload.token,
+    }
+  })
+}
+
+export function passwordChange ( { state }, payload) {
+  console.log('changePassword', state, payload)
+  const url = `/users/patchpw/${payload.userId}`
   let body = payload
   return $axios.patch(url, body,
     {

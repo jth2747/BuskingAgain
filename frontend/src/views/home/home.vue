@@ -1,13 +1,13 @@
 <template>
   <div class="button-wrapper">
-  <label for="sort">정렬: </label>
-
-  <select name="sort" id="sort">
-    <option value="">option</option>
-    <option value="likes">좋아요 순</option>
-    <option value="people">접속자 순</option>
-    <option value="title">제목 순</option>
-  </select>
+  <el-select v-model="value" placeholder="Select">
+    <el-option
+      v-for="item in options"
+      :key="item.value"
+      :label="item.label"
+      :value="item.value">
+    </el-option>
+  </el-select>
 
   <el-button @click="clickBusking">버스킹 생성</el-button>
   </div>
@@ -75,7 +75,18 @@ export default {
       buskingDialogOpen:false,
       title: '방 제목',
       desc: '상세 설명',
-      image: 'https://www.ssafy.com/swp/images/sns_img.png'
+      image: 'https://www.ssafy.com/swp/images/sns_img.png',
+      options: [{
+          value: 'Option1',
+          label: '좋아요 순'
+        }, {
+          value: 'Option2',
+          label: '접속자 순'
+        }, {
+          value: 'Option3',
+          label: '제목 순'
+        }],
+        value: '',
     }
   },
 

@@ -13,6 +13,9 @@
         <el-input v-model="state.form.description" autocomplete="off"></el-input>
         <span v-if="state.form.description.length > 100">최대 100자까지 입력 가능합니다.</span>
       </el-form-item>
+      <el-form-item prop="thumbnailurl" label="썸네일 사진" :label-width="state.formLabelWidth" >
+        <el-input v-model="state.form.thumbnailurl" autocomplete="off"></el-input>
+      </el-form-item>
     </el-form>
     <template #footer>
       <span class="dialog-footer">
@@ -81,6 +84,7 @@ export default {
         title:'',
         genre:'',
         description:'',
+        thumbnailurl:'',
       },
       dialogVisible: computed(() => props.open),
       formLabelWidth: '120px'
@@ -99,8 +103,9 @@ export default {
             title: state.form.title,
             genre: state.form.genre,
             description: state.form.description,
-            })
-          .then(function (result) {
+            thumbnailurl: state.form.thumbnailurl,
+          })
+          .then(function () {
             alert('버스킹 생성 성공')
             location.reload()
           })

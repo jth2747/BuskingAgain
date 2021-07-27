@@ -150,9 +150,9 @@ export default {
           state.form.evalid = true;
           console.log(validpwd());
         }
-        state.form.evalid = (validpwd() && validid()) && validinput();
-        console.log(state.form.evalid);
-        if (valid && state.form.evalid==true) {
+        // state.form.evalid = (validpwd() && validid()) && validinput();
+        // console.log(state.form.evalid);
+        if (state.form.evalid==true) {
           console.log(validpwd())
           console.log(state.form.evalid)
           console.log('submit')

@@ -36,8 +36,15 @@
     :open="profileDialogOpen"
     :userInfo="userInfo"
     :token="token"
+    @openPasswordDialog="onOpenPasswordDialog"
     @closeProfileDialog="onCloseProfileDialog"
     @click-logout="clickLogout"/>
+  <password-dialog
+    :open="passwordDialogOpen"
+    :token="token"
+    :userInfo="userInfo"
+    @closePasswordDialog="onClosePasswordDialog"
+  />
 </template>
 <style>
   @import "https://unpkg.com/element-plus/lib/theme-chalk/index.css";
@@ -53,6 +60,7 @@ import MainHeader from './components/main-header'
 import MainSidebar from './components/main-sidebar'
 import MainFooter from './components/main-footer'
 import ProfileDialog from './components/profile-dialog.vue'
+import PasswordDialog from './components/password-dialog.vue'
 import RingLoader from 'vue-spinner/src/RingLoader.vue'
 
 export default {
@@ -64,6 +72,7 @@ export default {
     LoginDialog,
     SignupDialog,
     ProfileDialog,
+    PasswordDialog,
     RingLoader,
   },
   data () {
@@ -74,6 +83,7 @@ export default {
       isLoding: false, //스피너
       token: localStorage.getItem('jwt'), // jwt 토큰
       userInfo: '',
+      passwordDialogOpen: false,
     }
   },
   methods: {
@@ -95,6 +105,12 @@ export default {
     },
     onCloseProfileDialog(){
       this.profileDialogOpen=false
+    },
+    onClosePasswordDialog(){
+      this.passwordDialogOpen=false
+    },
+    onOpenPasswordDialog(){
+      this.passwordDialogOpen=true
     },
     // 로딩 스피너 작동하게 하는 함수
     startLoding(){

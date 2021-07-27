@@ -1,28 +1,37 @@
 <template>
   <div class="button-wrapper">
-  <label for="sort">정렬: </label>
-
-  <select name="sort" id="sort">
-    <option value="">option</option>
-    <option value="likes">좋아요 순</option>
-    <option value="people">접속자 순</option>
-    <option value="title">제목 순</option>
-  </select>
+  <el-select v-model="value" placeholder="Select">
+    <el-option
+      v-for="item in options"
+      :key="item.value"
+      :label="item.label"
+      :value="item.value">
+    </el-option>
+  </el-select>
 
   <el-button @click="clickBusking">버스킹 생성</el-button>
   </div>
   <ul class="infinite-list" v-infinite-scroll="load" style="overflow:auto">
-    <li v-for="i in state.count" @click="clickConference(i)" class="infinite-list-item" :key="i" >
+    <li v-for="(room, i) in state.form.roomData[0]" @click="clickConference(i+1)" class="infinite-list-item" :key="i" >
+      <conference
+        :image="room['thumbnail_url']"
+        :title="room['title']"
+        :desc="room['description']"
+        :genre="room['busking_genre']"
+      />
+    </li>
+    <!-- <li v-for="i in state.count" @click="clickConference(i)" class="infinite-list-item" :key="i" >
       <conference
         :image="image"
         :title="title"
         :desc="desc"
       />
-    </li>
+    </li> -->
   </ul>
 
   <busking-dialog
     :open="buskingDialogOpen"
+    :token="token"
     @closeBuskingDialog="onCloseBuskingDialog"/>
 </template>
 <style>
@@ -57,9 +66,11 @@
 </style>
 <script>
 import Conference from './components/conference'
-import { reactive } from 'vue'
+import { onMounted, reactive } from 'vue'
 import { useRouter } from 'vue-router'
 import BuskingDialog from '../main/components/busking-dialog.vue'
+import { useStore } from 'vuex'
+
 
 
 export default {
@@ -73,9 +84,19 @@ export default {
   data() {
     return {
       buskingDialogOpen:false,
-      title: '방 제목',
-      desc: '상세 설명',
-      image: 'https://www.ssafy.com/swp/images/sns_img.png'
+      token: localStorage.getItem('jwt'), // jwt 토큰
+      image: 'https://www.ssafy.com/swp/images/sns_img.png',
+      options: [{
+          value: 'Option1',
+          label: '좋아요 순'
+        }, {
+          value: 'Option2',
+          label: '접속자 순'
+        }, {
+          value: 'Option3',
+          label: '제목 순'
+        }],
+      value: '',
     }
   },
 
@@ -90,15 +111,29 @@ export default {
   },
 
   setup () {
+    const store = useStore()
     const router = useRouter()
 
     const state = reactive({
+      form: {
+        roomData: [],
+      },
       count: 12
     })
 
     const load = function () {
       state.count += 4
     }
+
+    onMounted(() => {
+      store.dispatch('root/roomList')
+      .then(function (result) {
+        console.log(result.data)
+        // state.form.roomData = result.data
+        state.form.roomData.push(result.data)
+        console.log(state.form.roomData[0][0].title)
+      })
+    })
 
     const clickConference = function (id) {
       router.push({
@@ -109,7 +144,7 @@ export default {
       })
     }
 
-    return { state, load, clickConference  }
+    return { state, load, clickConference}
   }
 }
 </script>

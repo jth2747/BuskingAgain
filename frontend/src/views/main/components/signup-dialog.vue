@@ -69,7 +69,7 @@
 </style>
 <script>
 //import axios from "axios"
-import { reactive, computed, ref, onMounted } from 'vue'
+import { reactive, computed, ref, onMounted, watch } from 'vue'
 import { useStore } from 'vuex'
 
 //const SERVER_URL = "http://localhost:8080";
@@ -83,6 +83,13 @@ export default {
       default: false
     }
   },
+  // watch:{
+  //   upwd: function(newValue, oldValue){
+  //     if(newValue==1){
+  //       console.log(upwd);
+  //     }
+  //   }
+  // },
 
   setup(props, { emit }) {
     const store = useStore()
@@ -104,6 +111,7 @@ export default {
         upwd_check:'',
         align: 'left',
         date_array: [false, false, false, false, false, false],
+        evalid: false,
       },
       rules: {
         email: [
@@ -135,7 +143,18 @@ export default {
 
     const clickSignup = function () {
       signupForm.value.validate((valid) => {
-        if (valid) {
+        if(validpwd() == false){
+          console.log("비밀번호 유효성 안맞음")
+          state.form.evalid = false;
+        }else{
+          state.form.evalid = true;
+          console.log(validpwd());
+        }
+        // state.form.evalid = (validpwd() && validid()) && validinput();
+        // console.log(state.form.evalid);
+        if (state.form.evalid==true) {
+          console.log(validpwd())
+          console.log(state.form.evalid)
           console.log('submit')
           store.dispatch('root/requestSignup',
           {
@@ -155,8 +174,43 @@ export default {
         } else {
           alert('Validate error!')
         }
-      });
+       });
     }
+
+    const validpwd = function (){
+      var pw = state.form.upwd;
+      var num = pw.search(/[0-9]/g);
+      var eng = pw.search(/[a-z]/ig);
+      var spe = pw.search(/[`~!@@#$%^&*|₩₩₩'₩";:₩/?]/gi);
+
+      if(pw.length < 9 || pw.length > 16){
+        alert("9자리 ~ 16자리 이내로 입력해주세요.");
+        return false;
+        }
+      if(pw.search(/₩s/) != -1){
+        alert("비밀번호는 공백없이 입력해주세요.");
+        return false;
+        }
+      if(num < 0 || eng < 0 || spe < 0 ){
+        alert("영문,숫자, 특수문자를 혼합하여 입력해주세요.");
+        return false;
+        }
+      return true;
+    }
+
+    const validid = function(){
+      if(state.form.id.length>16)
+        return false;
+      return true;
+    }
+    const validinput = function(){
+      if(state.form.name == null || state.form.genre == null){
+        console.log(state.form.name)
+        return false;
+      }
+      return true;
+    }
+
 
     const handleClose = function () {
       state.form.email = ''
@@ -168,7 +222,7 @@ export default {
       emit('closeSignupDialog')
     }
 
-    return { signupForm, state, clickSignup, handleClose }
+    return { signupForm, state, clickSignup, handleClose, validpwd, validid, validinput }
   }
 }
 </script>

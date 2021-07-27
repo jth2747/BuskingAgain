@@ -13,22 +13,12 @@
       <el-form-item prop="userId" label="아이디" :label-width="state.formLabelWidth" >
         <el-input v-model="state.form.userId" :disabled="true"></el-input>
       </el-form-item>
-      <!-- <el-form-item prop="password" label="비밀번호 수정" :label-width="state.formLabelWidth">
-        <el-input placeholder="Please input password" v-model="state.form.password" show-password></el-input>
-        <span v-if="state.form.password.length === 0"></span>
-        <span v-else-if="state.form.password.length < 9">최소 9글자를 입력해야 합니다.</span>
-        <span v-if="state.form.password.length > 16">최대 16자까지 입력 가능합니다.</span>
-      </el-form-item>
-      <el-form-item prop="password" label="비밀번호 확인" :label-width="state.formLabelWidth">
-        <el-input placeholder="Please input password" v-model="state.form.passwordcheck" show-password></el-input>
-        <span v-if="state.form.password != state.form.passwordcheck">입력한 비밀번호와 일치하지 않습니다.</span>
-      </el-form-item> -->
     </el-form>
     <template #footer>
       <span class="dialog-footer">
-        <el-button type="success"  @click="updateUser">비밀번호 변경</el-button>
-        <el-button type="warning"  @click="updateUser">정보수정</el-button>
-        <el-button type="danger" @click="deleteUser">회원탈퇴</el-button>
+        <el-button type="success"  @click="passwordChange">비밀번호 변경</el-button>
+        <el-button type="warning" icon="el-icon-edit" @click="updateUser">정보수정</el-button>
+        <el-button type="danger" icon="el-icon-delete" @click="deleteUser">회원탈퇴</el-button>
       </span>
     </template>
   </el-dialog>
@@ -67,8 +57,8 @@
 }
 </style>
 <script>
-import axios from "axios";
-const SERVER_URL = "http://localhost:8080";
+// import axios from "axios";
+// const SERVER_URL = "http://localhost:8080";
 import { mapGetters } from "vuex";
 import { reactive, computed, ref, onMounted } from 'vue'
 import { useStore } from 'vuex'
@@ -114,8 +104,6 @@ export default {
         email: props.userInfo.data.email,
         name: props.userInfo.data.name,
         userId: props.userInfo.data.userId,
-        password: '',
-        passwordcheck: '',
         align: 'left'
       },
       dialogVisible: computed(() => props.open),
@@ -126,10 +114,8 @@ export default {
     })
 
     const updateUser = function() {
-      // if (state.form.password == state.form.passwordcheck && state.form.password.length >= 9 && state.form.password.length <= 16) {
-      if (state.form.password) {
-        store.dispatch('root/updateUser', {
-          token: props.token,
+      store.dispatch('root/updateUser', {
+        token: props.token,
         genre: state.form.genre,
         email: state.form.email,
         name: state.form.name,
@@ -143,29 +129,11 @@ export default {
       .catch(function (err) {
         alert(err)
       })
-      // asdasd
     }
-      else {
-        store.dispatch('root/updateUser', {
-          token: props.token,
-          genre: state.form.genre,
-          email: state.form.email,
-          name: state.form.name,
-          userId: state.form.userId,
-          password: props.userInfo.data.password,
-        })
-        .then(function () {
-          location.reload()
-          alert('회원정보가 수정되었습니다.')
-        })
-        .catch(function (err) {
-          alert(err)
-        })
-      }
+
+    const passwordChange = function() {
+      emit('openPasswordDialog')
     }
-      // else {
-      //   alert('비밀번호를 확인해 주세요')
-      // }
 
     const deleteUser = function() {
       store.dispatch('root/deleteUser', { token: props.token, userId: props.userInfo.data.userId })
@@ -190,7 +158,7 @@ export default {
       emit('closeProfileDialog')
     }
 
-    return { profileForm, state, updateUser, deleteUser, handleClose }
+    return { profileForm, state, updateUser, passwordChange, deleteUser, handleClose }
   }
 }
 </script>

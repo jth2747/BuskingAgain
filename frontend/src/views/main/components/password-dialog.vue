@@ -92,7 +92,7 @@ export default {
     })
 
     const passwordChange = function() {
-      if (state.form.password == state.form.passwordcheck && state.form.password.length >= 9 && state.form.password.length <= 16) {
+      if (state.form.password == state.form.passwordConfirm && state.form.password.length >= 9 && state.form.password.length <= 16) {
         store.dispatch('root/passwordChange', {
           token: props.token,
         password : state.form.password,

@@ -9,10 +9,10 @@
       </el-skeleton>
     </div>
     <div style="text-align: left; padding: 14px;">
-      <span class="title">{{ title }}</span>
+      <span class="title">방 제목 : {{ title }}</span>
       <div class="bottom">
-        <p>{{ title }}</p>
-        <span>{{ desc }}</span>
+        <p>장르 : {{ genre }}</p>
+        <p>설명 : {{ desc }}</p>
       </div>
     </div>
   </el-card>

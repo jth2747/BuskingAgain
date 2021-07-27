@@ -20,8 +20,14 @@ export default {
 
     // 페이지 진입시 불리는 훅
     onMounted(() => {
+      console.log(route.params.conferenceId)
       state.conferenceId = route.params.conferenceId
       store.commit('root/setMenuActiveMenuName', 'home')
+      store.dispatch('root/roomDetail', { id: route.params.conferenceId }
+      )
+      .then(function (result) {
+        console.log(result)
+      })
     })
 
     // 페이지 이탈시 불리는 훅

@@ -74,8 +74,14 @@ export function passwordChange ( { state }, payload) {
   })
 }
 
-export function roomList ( { state } ,payload) {
+export function roomList ( { state }, payload) {
   console.log('roomList', state, payload)
   const url = '/busking/list'
+  return $axios.get(url)
+}
+
+export function roomDetail ( { state }, payload) {
+  console.log('roomDetail', state, payload)
+  const url = `/busking/${payload.id}`
   return $axios.get(url)
 }

@@ -105,27 +105,27 @@ public class BuskingController {
 		
 	}
 	
-//	@GetMapping("/{buskingId}")
-//	@ApiOperation(value = "방 정보 조회", notes = "선택한 방의 정보를 응답한다.") 
-//	@ApiResponses({
-//		@ApiResponse(code = 200, message = "성공"),
-//		@ApiResponse(code = 401, message = "인증 실패"),
-//		@ApiResponse(code = 404, message = "사용자 없음"),
-//		@ApiResponse(code = 500, message = "서버 오류")
-//	})
-//	public ResponseEntity<BuskingRes> getBuskingInfo(@PathVariable Long buskingId) {
-//		/**
-//		 * 요청 헤더 액세스 토큰이 포함된 경우에만 실행되는 인증 처리이후, 리턴되는 인증 정보 객체(authentication) 통해서 요청한 유저 식별.
-//		 * 액세스 토큰이 없이 요청하는 경우, 403 에러({"error": "Forbidden", "message": "Access Denied"}) 발생.
-//		 */
-//		System.out.println("방정보 조회");
-//		Busking busking = buskingService.getBuskingByBuskingId(buskingId);
-//		System.out.println(busking.getId());
-//		String userid = userService.getUserIdById(busking.getOwner_id());
-//		System.out.println(userid);
-//		String genre = buskingService.getGenreById(busking.getBusking_genre());
-//		return ResponseEntity.status(200).body(BuskingRes.of(busking, userid, genre));
-//	}
+	@GetMapping("/{buskingId}")
+	@ApiOperation(value = "방 정보 조회", notes = "선택한 방의 정보를 응답한다.") 
+	@ApiResponses({
+		@ApiResponse(code = 200, message = "성공"),
+		@ApiResponse(code = 401, message = "인증 실패"),
+		@ApiResponse(code = 404, message = "사용자 없음"),
+		@ApiResponse(code = 500, message = "서버 오류")
+	})
+	public ResponseEntity<BuskingRes> getBuskingInfo(@PathVariable Long buskingId) {
+		/**
+		 * 요청 헤더 액세스 토큰이 포함된 경우에만 실행되는 인증 처리이후, 리턴되는 인증 정보 객체(authentication) 통해서 요청한 유저 식별.
+		 * 액세스 토큰이 없이 요청하는 경우, 403 에러({"error": "Forbidden", "message": "Access Denied"}) 발생.
+		 */
+		System.out.println("방정보 조회");
+		Busking busking = buskingService.getBuskingByBuskingId(buskingId);
+		System.out.println(busking.getId());
+		String userid = userService.getUserIdById(busking.getOwner_id());
+		System.out.println(userid);
+		String genre = buskingService.getGenreById(busking.getBusking_genre());
+		return ResponseEntity.status(200).body(BuskingRes.of(busking, userid, genre));
+	}
 	
 	@GetMapping("/list")
 	@ApiOperation(value = "list 조회", notes = "생성되어 있는 방(is_active)의 list를 응답한다.")

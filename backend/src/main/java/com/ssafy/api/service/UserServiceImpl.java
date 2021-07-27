@@ -86,13 +86,22 @@ public class UserServiceImpl implements UserService {
 		return userRepository.save(user);
 		
 	}
+	
+	@Override
+	public Long modifyPW(String userId, String modifyPW) {	
+		//password encode 해서 넣어줌
+		
+		Long result = userRepositorySupport.modifyUserPW(userId,passwordEncoder.encode(modifyPW));
+		
+		return result;
+	}
 
-//	@Override
-//	public String getUserIdById(Long id) {
-//		// TODO Auto-generated method stub
-//		
-//		return userRepositorySupport.findUserIdById(id);
-//	}
+	@Override
+	public String getUserIdById(Long id) {
+		// TODO Auto-generated method stub
+		
+		return userRepositorySupport.findUserIdById(id);
+	}
 
 
 }

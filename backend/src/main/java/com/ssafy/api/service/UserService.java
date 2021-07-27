@@ -14,6 +14,6 @@ public interface UserService {
 	void deleteById(Long id);
 	User modifyUser(UserModifyPutReq userModifyInfo, String userId, Long id);
 	User findUserId(String name,String email);
-//	String getUserIdById(Long id);
-
+	String getUserIdById(Long id);
+	Long modifyPW(String userId, String PW);
 }

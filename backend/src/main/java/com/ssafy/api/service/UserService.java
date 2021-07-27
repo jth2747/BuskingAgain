@@ -15,5 +15,5 @@ public interface UserService {
 	User modifyUser(UserModifyPutReq userModifyInfo, String userId, Long id);
 	User findUserId(String name,String email);
 	String getUserIdById(Long id);
-	Long modifyPW(String userId, String PW);
+	User modifyPW(String PW, String userId, Long id);
 }

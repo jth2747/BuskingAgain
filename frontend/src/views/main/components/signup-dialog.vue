@@ -111,7 +111,7 @@ export default {
         upwd_check:'',
         align: 'left',
         date_array: [false, false, false, false, false, false],
-        evalid: false,
+        evalid: true,
       },
       rules: {
         email: [
@@ -142,16 +142,38 @@ export default {
     })
 
     const clickSignup = function () {
-      signupForm.value.validate((valid) => {
+      // signupForm.value.validate((valid) => {
         if(validpwd() == false){
           console.log("비밀번호 유효성 안맞음")
           state.form.evalid = false;
         }else{
-          state.form.evalid = true;
-          console.log(validpwd());
+          console.log("비밀번호 유효성 "+ validpwd());
         }
-        // state.form.evalid = (validpwd() && validid()) && validinput();
-        // console.log(state.form.evalid);
+
+        if(validemail() == false){
+          console.log("이메일 유효성 안맞음")
+          state.form.evalid = false;
+        }else{
+          console.log("이메일 유효성 "+validemail());
+        };
+
+        if(validid() == false){
+          console.log("아이디 유효성 안맞음")
+          state.form.evalid = false;
+        }else{
+          console.log("아이디 유효성 "+validid());
+        }
+
+        if(validinput() == false){
+          console.log("장르랑 이름 null")
+          state.form.evalid = false;
+        }else{
+          console.log("장르랑 이름 유효성" + validinput());
+        }
+
+        if(validinput() && validpwd() && validemail() && validid())
+          state.form.evalid = true;
+
         if (state.form.evalid==true) {
           console.log(validpwd())
           console.log(state.form.evalid)
@@ -174,11 +196,12 @@ export default {
         } else {
           alert('Validate error!')
         }
-       });
+      //  });
     }
 
     const validpwd = function (){
       var pw = state.form.upwd;
+      var pwck = state.form.upwd_check;
       var num = pw.search(/[0-9]/g);
       var eng = pw.search(/[a-z]/ig);
       var spe = pw.search(/[`~!@@#$%^&*|₩₩₩'₩";:₩/?]/gi);
@@ -195,17 +218,31 @@ export default {
         alert("영문,숫자, 특수문자를 혼합하여 입력해주세요.");
         return false;
         }
+      if(pw != pwck){
+        alert("비밀번호가 일치하지 않습니다.");
+        return false;
+      }
       return true;
     }
 
+    const validemail = function(){
+      var email = state.form.email;
+      var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      return re.test(email);
+    }
+
     const validid = function(){
-      if(state.form.id.length>16)
+      var id = state.form.uid;
+      console.log(id);
+      if(id.length > 16 || id == "")
         return false;
       return true;
     }
     const validinput = function(){
-      if(state.form.name == null || state.form.genre == null){
-        console.log(state.form.name)
+      var name = state.form.name;
+      var genre = state.form.genre;
+      if(name == "" || genre == ""){
+        console.log(name+" "+genre);
         return false;
       }
       return true;
@@ -222,7 +259,7 @@ export default {
       emit('closeSignupDialog')
     }
 
-    return { signupForm, state, clickSignup, handleClose, validpwd, validid, validinput }
+    return { signupForm, state, clickSignup, handleClose, validpwd, validemail, validid, validinput }
   }
 }
 </script>

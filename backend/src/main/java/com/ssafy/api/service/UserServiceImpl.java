@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.ssafy.api.request.UserModifyPutReq;
 import com.ssafy.api.request.UserRegisterPostReq;
@@ -74,26 +75,32 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public User modifyUser(UserModifyPutReq userModifyInfo, String userId, Long id) {
 		User user = new User();
+		User getUser = getUserByUserId(userId);
+		System.out.println("회원정보 수정");
 		user.setId(id);
 		user.setUserId(userId);
-		user.setPassword(passwordEncoder.encode(userModifyInfo.getPassword()));
+		user.setPassword(passwordEncoder.encode(getUser.getPassword()));
 		user.setName(userModifyInfo.getName());
 		user.setGenre(userModifyInfo.getGenre());
-		user.setEmail(userModifyInfo.getEmail());
-		
+		user.setEmail(getUser.getEmail());
 
 //		return userRepositorySupport.update(id, user.getDepartment(), user.getName(), user.getPassword(), user.getPosition());
 		return userRepository.save(user);
-		
 	}
 	
 	@Override
-	public Long modifyPW(String userId, String modifyPW) {	
-		//password encode 해서 넣어줌
+	public User modifyPW(String PW, String userId, Long id) {
+		User user = new User();
+		User getUser = getUserByUserId(userId);
+		System.out.println("비밀번호 수정");
+		user.setId(id);
+		user.setUserId(userId);
+		user.setPassword(passwordEncoder.encode(PW));
+		user.setName(getUser.getName());
+		user.setGenre(getUser.getGenre());
+		user.setEmail(getUser.getEmail());
 		
-		Long result = userRepositorySupport.modifyUserPW(userId,passwordEncoder.encode(modifyPW));
-		
-		return result;
+		return userRepository.save(user);
 	}
 
 	@Override

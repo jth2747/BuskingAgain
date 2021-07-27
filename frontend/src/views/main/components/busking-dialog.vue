@@ -71,7 +71,10 @@ export default {
     open: {
       type: Boolean,
       default: false
-    }
+    },
+    token: {
+      type: String,
+    },
   },
 
   setup(props, { emit }) {
@@ -91,37 +94,52 @@ export default {
     })
 
     onMounted(() => {
-      // console.log(buskingForm.value)
+      console.log('buskingForm.value')
     })
 
     const clickCreate = function () {
-      buskingForm.value.validate((valid) => {
-        if (valid) {
-          console.log('submit')
-          store.dispatch('root/requestBusking',
-          {
-            title: state.form.title,
-            genre: state.form.genre,
-            description: state.form.description,
-            thumbnailurl: state.form.thumbnailurl,
-          })
-          .then(function () {
-            alert('버스킹 생성 성공')
-            location.reload()
-          })
-          .catch(function (err) {
-            alert(err)
-          })
-        } else {
-          alert('Validate error!')
-        }
-      });
-    }
+      store.dispatch('root/requestBusking', {
+        token: props.token,
+        title: state.form.title,
+        genre: state.form.genre,
+        description: state.form.description,
+        thumbnailurl: state.form.thumbnailurl,
+      })
+      .then(function () {
+        alert('버스킹 생성 성공')
+        location.reload()
+      })
+      .catch(function (err) {
+        alert(err)
+      })
+      // buskingForm.value.validate((valid) => {
+      //   if (valid) {
+      // console.log('submit')
+      // store.dispatch('root/requestBusking',{
+      //   token: props.token,
+      //   title: state.form.title,
+      //   genre: state.form.genre,
+      //   decription: state.form.description,
+      //   thumbnailurl: state.form.thumbnailurl,
+      // })
+      // .then(function () {
+      //   emit('showBuskingRoom')
+      //   alert('버스킹 생성 성공')
+      //   location.reload()
+      // })
+      // .catch(function (err) {
+      //   alert(err)
+      // })
+        // } else {
+        //   alert('Validate error!')
+        // }
+      }
 
     const handleClose = function () {
       state.form.title = ''
       state.form.genre = ''
       state.form.description = ''
+      state.form.thumbnailurl = ''
       emit('closeBuskingDialog')
     }
 

@@ -20,7 +20,12 @@ export function requestBusking ({ state }, payload) {
   console.log('requestBusking', state, payload)
   const url = '/busking/create'
   let body = payload
-  return $axios.post(url, body)
+  return $axios.post(url, body,
+    {
+      headers: {
+        Authorization: 'Bearer ' + payload.token,
+    }
+  })
 }
 
 export function getUser ( { state }, payload) {
@@ -67,4 +72,10 @@ export function passwordChange ( { state }, payload) {
         Authorization: 'Bearer ' + payload.token,
     }
   })
+}
+
+export function roomList ( { state } ,payload) {
+  console.log('roomList', state, payload)
+  const url = '/busking/list'
+  return $axios.get(url)
 }

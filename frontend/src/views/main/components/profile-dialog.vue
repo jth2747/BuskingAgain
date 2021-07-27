@@ -104,8 +104,6 @@ export default {
         email: props.userInfo.data.email,
         name: props.userInfo.data.name,
         userId: props.userInfo.data.userId,
-        password: '',
-        passwordcheck: '',
         align: 'left'
       },
       dialogVisible: computed(() => props.open),
@@ -116,9 +114,8 @@ export default {
     })
 
     const updateUser = function() {
-      if (state.form.password) {
-        store.dispatch('root/updateUser', {
-          token: props.token,
+      store.dispatch('root/updateUser', {
+        token: props.token,
         genre: state.form.genre,
         email: state.form.email,
         name: state.form.name,
@@ -132,24 +129,6 @@ export default {
       .catch(function (err) {
         alert(err)
       })
-    }
-      else {
-        store.dispatch('root/updateUser', {
-          token: props.token,
-          genre: state.form.genre,
-          email: state.form.email,
-          name: state.form.name,
-          userId: state.form.userId,
-          password: props.userInfo.data.password,
-        })
-        .then(function () {
-          location.reload()
-          alert('회원정보가 수정되었습니다.')
-        })
-        .catch(function (err) {
-          alert(err)
-        })
-      }
     }
 
     const passwordChange = function() {

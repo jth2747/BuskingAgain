@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.api.request.UserFindPostReq;
+import com.ssafy.api.request.UserModifyPWPatchReq;
 import com.ssafy.api.request.UserModifyPutReq;
 import com.ssafy.api.request.UserRegisterPostReq;
 import com.ssafy.api.response.UserRes;
@@ -175,13 +176,6 @@ public class UserController {
 	}
 	
 	@PatchMapping("/{userId}")
-	@ApiOperation(value = "회원 정보 수정", notes = "로그인한 회원 본인의 정보를 수정한다.") 
-	@ApiResponses({
-		@ApiResponse(code = 200, message = "성공"),
-		@ApiResponse(code = 401, message = "인증 실패"),
-		@ApiResponse(code = 404, message = "사용자 없음"),
-		@ApiResponse(code = 500, message = "서버 오류")
-	})
 	public ResponseEntity<? extends BaseResponseBody> modifyUserInfo(@ApiIgnore Authentication authentication,@PathVariable("userId") String userId,
 			@RequestBody @ApiParam(value="회원 정보 수정", required = true) UserModifyPutReq modifyInfo) {
 		/**
@@ -211,7 +205,7 @@ public class UserController {
 	
 	@PatchMapping("/patchpw/{userId}")
 	public ResponseEntity<? extends BaseResponseBody> modifyPW(@ApiIgnore Authentication authentication,@PathVariable("userId") String userId,
-			@RequestBody String modifyPW) {
+			@RequestBody UserModifyPWPatchReq modifyPW) {
 		
 		System.out.println("비밀번호 수정");
 		
@@ -219,11 +213,13 @@ public class UserController {
 		String getUserId = userDetails.getUsername();
 		
 		System.out.println(getUserId);
-		System.out.println("=========");
-		System.out.println(modifyPW);
+		System.out.println(modifyPW.getPassword());
 		
 		if(getUserId.equals(userId)) {			
-			Long affectedRow = userService.modifyPW(userId, modifyPW);
+			User getUser = userService.getUserByUserId(userId);
+			Long id = getUser.getId();
+			
+			userService.modifyPW(modifyPW.getPassword(), userId, id);
 
 			System.out.println("비밀번호 수정 완료");
 			return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));

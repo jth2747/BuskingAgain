@@ -2,6 +2,7 @@ package com.ssafy.api.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -41,6 +42,10 @@ public class UserController {
 	@Autowired
 	UserService userService;
 	
+	@Autowired
+	JavaMailSender javaMailSender;
+	
+
 //	private final JavaMailSender javaMailSender;
 	
 //	MailBodyUtil mailBodyUtil = new MailBodyUtil();
@@ -69,6 +74,27 @@ public class UserController {
 		
 		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
 	}
+	
+	@PostMapping("/findpassword")
+	@ApiOperation(value = "비밀번호 찾기", notes = "회원의 비밀번호를 이메일로 보내준다") 
+    @ApiResponses({
+        @ApiResponse(code = 200, message = "성공"),
+        @ApiResponse(code = 401, message = "인증 실패"),
+        @ApiResponse(code = 404, message = "사용자 없음"),
+        @ApiResponse(code = 500, message = "서버 오류")
+    })
+	public ResponseEntity<String> findPassword(@RequestBody @ApiParam(value="비밀번호 찾기", required = true) UserFindPostReq findPassword) {
+		/**
+		 * 요청 헤더 액세스 토큰이 포함된 경우에만 실행되는 인증 처리이후, 리턴되는 인증 정보 객체(authentication) 통해서 요청한 유저 식별.
+		 * 액세스 토큰이 없이 요청하는 경우, 403 에러({"error": "Forbidden", "message": "Access Denied"}) 발생.
+		 */
+
+		System.out.println("비밀번호 찾기");
+
+		return null;
+	}
+	
+	
 	@PostMapping("/findid")
 	@ApiOperation(value = "아이디 찾기", notes = "회원의 아이디를 찾는다") 
     @ApiResponses({
@@ -183,6 +209,29 @@ public class UserController {
 		
 	}
 	
+	@PatchMapping("/patchpw/{userId}")
+	public ResponseEntity<? extends BaseResponseBody> modifyPW(@ApiIgnore Authentication authentication,@PathVariable("userId") String userId,
+			@RequestBody String modifyPW) {
+		
+		System.out.println("비밀번호 수정");
+		
+		SsafyUserDetails userDetails = (SsafyUserDetails)authentication.getDetails();
+		String getUserId = userDetails.getUsername();
+		
+		System.out.println(getUserId);
+		System.out.println("=========");
+		System.out.println(modifyPW);
+		
+		if(getUserId.equals(userId)) {			
+			Long affectedRow = userService.modifyPW(userId, modifyPW);
+
+			System.out.println("비밀번호 수정 완료");
+			return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
+		}
+		
+		return ResponseEntity.status(500).body(BaseResponseBody.of(500, "수정 불가"));
+		
+	}
 	
 	
 }

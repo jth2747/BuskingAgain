@@ -4,13 +4,14 @@
       <el-skeleton style="width: 100%">
         <template #template>
           <!-- <el-skeleton-item variant="image" style="width: 100%; height: 190px" /> -->
-          <img :src="image" alt="https://www.ssafy.com/swp/images/sns_img.png" style="width: 100%; height: 190px">
+          <img :src="image" alt="props.image" style="width: 100%; height: 190px">
         </template>
       </el-skeleton>
     </div>
     <div style="text-align: left; padding: 14px;">
       <span class="title">{{ title }}</span>
       <div class="bottom">
+        <p>{{ title }}</p>
         <span>{{ desc }}</span>
       </div>
     </div>
@@ -68,6 +69,10 @@ export default {
     image: {
       type: String,
       default: "https://www.ssafy.com/swp/images/sns_img.png"
+    },
+    genre: {
+      type: String,
+      default: "music"
     }
   },
 

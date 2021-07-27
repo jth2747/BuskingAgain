@@ -92,7 +92,7 @@ export default {
     })
 
     const passwordChange = function() {
-      if (state.form.password == state.form.passwordcheck && state.form.password.length >= 9 && state.form.password.length <= 16) {
+      if (validpwd()) {
         store.dispatch('root/passwordChange', {
           token: props.token,
         password : state.form.password,
@@ -111,11 +111,37 @@ export default {
       }
     }
 
+    const validpwd = function (){
+      var pw = state.form.password;
+      var pwck = state.form.passwordConfirm;
+      var num = pw.search(/[0-9]/g);
+      var eng = pw.search(/[a-z]/ig);
+      var spe = pw.search(/[`~!@@#$%^&*|₩₩₩'₩";:₩/?]/gi);
+
+      if(pw.length < 9 || pw.length > 16){
+        alert("9자리 ~ 16자리 이내로 입력해주세요.");
+        return false;
+        }
+      if(pw.search(/₩s/) != -1){
+        alert("비밀번호는 공백없이 입력해주세요.");
+        return false;
+        }
+      if(num < 0 || eng < 0 || spe < 0 ){
+        alert("영문,숫자, 특수문자를 혼합하여 입력해주세요.");
+        return false;
+        }
+      if(pw != pwck){
+        alert("비밀번호가 일치하지 않습니다.");
+        return false;
+      }
+      return true;
+    }
+
     const handleClose = function () {
       emit('closePasswordDialog')
     }
 
-    return { passwordForm, state, passwordChange, handleClose }
+    return { passwordForm, state, passwordChange, validpwd, handleClose }
   }
 }
 </script>

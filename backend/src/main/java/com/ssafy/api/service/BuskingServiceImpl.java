@@ -87,7 +87,7 @@ public class BuskingServiceImpl implements BuskingService {
 				input.setStart_time(b.getStart_time());
 				input.setThumbnail_url(b.getThumbnail_url());
 				
-				String genrename = buskingGenreRespository.getOne(b.getId()).getName();
+				String genrename = buskingGenreRespository.getOne(b.getBusking_genre()).getName();
 				String useridString = userRepository.getOne(b.getOwner_id()).getUserId();
 				
 				ret.add(input);
@@ -133,7 +133,7 @@ public class BuskingServiceImpl implements BuskingService {
 				input.setStart_time(b.getStart_time());
 				input.setThumbnail_url(b.getThumbnail_url());
 				
-				String genrename = buskingGenreRespository.getOne(b.getId()).getName();
+				String genrename = buskingGenreRespository.getOne(b.getBusking_genre()).getName();
 				String useridString = userRepository.getOne(b.getOwner_id()).getUserId();
 				
 				ret.add(input);

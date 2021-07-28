@@ -11,6 +11,7 @@
     :thumbnailurl="state.thumbnailurltitle"
     :genre="state.form.genre"
     :token="state.form.token"
+    :id="route.params.conferenceId"
     @closeRoomEdit="closeRoomEdit"
   />
 </template>

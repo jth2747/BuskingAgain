@@ -87,6 +87,9 @@ export default {
     token: {
       type: String
     },
+    id: {
+      type: String
+    },
   },
 
   setup(props, { emit }) {
@@ -117,6 +120,12 @@ export default {
         genre: state.form.genre,
         description: state.form.description,
         thumbnailurl: state.form.thumbnailurl,
+        id: props.id,
+      })
+      .then(function (result) {
+        alert('수정 완료')
+        console.log(result)
+        location.reload()
       })
     }
 

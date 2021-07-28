@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 
 import com.ssafy.api.request.BuskingCreatePostReq;
+import com.ssafy.api.response.BuskingListRes;
 import com.ssafy.api.response.BuskingRes;
 import com.ssafy.api.service.BuskingService;
 import com.ssafy.api.service.UserService;
@@ -96,7 +97,8 @@ public class BuskingController {
 		System.out.println("Ownerid :" + user.getId());
 		
 		System.out.println(buskingModifyInfo.toString());
-		Busking busking = buskingService.ModifyBusking(buskingModifyInfo, user.getId(), buskingId);
+		Busking originbusking = buskingService.getBuskingByBuskingId(buskingId);
+		Busking busking = buskingService.ModifyBusking(buskingModifyInfo, user.getId(), buskingId, originbusking);
 		
 		if(busking == null)
 			return ResponseEntity.status(500).body(BaseResponseBody.of(500, "버스킹 정보가 null"));
@@ -135,17 +137,17 @@ public class BuskingController {
         @ApiResponse(code = 404, message = "사용자 없음"),
         @ApiResponse(code = 500, message = "서버 오류")
     })
-	public ResponseEntity<List<Busking>> getBuskingList() {
+	public ResponseEntity<List<BuskingListRes>> getBuskingList() {
 		/**
 		 * 요청 헤더 액세스 토큰이 포함된 경우에만 실행되는 인증 처리이후, 리턴되는 인증 정보 객체(authentication) 통해서 요청한 유저 식별.
 		 * 액세스 토큰이 없이 요청하는 경우, 403 에러({"error": "Forbidden", "message": "Access Denied"}) 발생.
 		 */
 		System.out.println("진행중인 버스킹 목록 조회");
 		
-		List<Busking> list = buskingService.list();
+		List<BuskingListRes> list = buskingService.list();
 	
 		
-		return new ResponseEntity<List<Busking>>(list, HttpStatus.OK);
+		return new ResponseEntity<List<BuskingListRes>>(list, HttpStatus.OK);
 	}	
 	
 	@GetMapping("/list/{genre}")
@@ -156,16 +158,16 @@ public class BuskingController {
         @ApiResponse(code = 404, message = "사용자 없음"),
         @ApiResponse(code = 500, message = "서버 오류")
     })
-	public ResponseEntity<List<Busking>> getBuskingGenreList(@PathVariable String genre) {
+	public ResponseEntity<List<BuskingListRes>> getBuskingGenreList(@PathVariable String genre) {
 		/**
 		 * 요청 헤더 액세스 토큰이 포함된 경우에만 실행되는 인증 처리이후, 리턴되는 인증 정보 객체(authentication) 통해서 요청한 유저 식별.
 		 * 액세스 토큰이 없이 요청하는 경우, 403 에러({"error": "Forbidden", "message": "Access Denied"}) 발생.
 		 */
 		System.out.println("진행중인 버스킹 장르별 목록 조회");
 		
-		List<Busking> list = buskingService.listGenre(genre);
+		List<BuskingListRes> list = buskingService.listGenre(genre);
 		
-		return new ResponseEntity<List<Busking>>(list, HttpStatus.OK);
+		return new ResponseEntity<List<BuskingListRes>>(list, HttpStatus.OK);
 	}
 	
 	

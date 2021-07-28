@@ -3,6 +3,7 @@ package com.ssafy.api.service;
 import java.util.List;
 
 import com.ssafy.api.request.BuskingCreatePostReq;
+import com.ssafy.api.response.BuskingListRes;
 import com.ssafy.db.entity.Busking;
 
 public interface BuskingService {
@@ -13,11 +14,11 @@ public interface BuskingService {
 
 	String getGenreById(long busking_genre);
 
-	List<Busking> list();
+	List<BuskingListRes> list();
 
-	Busking ModifyBusking(BuskingCreatePostReq buskingModifyInfo, Long ownerId, Long buskingId);
+	Busking ModifyBusking(BuskingCreatePostReq buskingModifyInfo, Long ownerId, Long buskingId, Busking originbusking);
 
-	List<Busking> listGenre(String genre);
+	List<BuskingListRes> listGenre(String genre);
 
 	Busking deleteBusking(Long buskingId, Busking busking);
 

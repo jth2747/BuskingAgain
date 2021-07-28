@@ -11,6 +11,7 @@
     :thumbnailurl="state.thumbnailurltitle"
     :genre="state.form.genre"
     :token="state.form.token"
+    :id="$route.params.conferenceId"
     @closeRoomEdit="closeRoomEdit"
   />
 </template>
@@ -51,7 +52,7 @@ export default {
       store.dispatch('root/roomDetail', { id: route.params.conferenceId }
       )
       .then(function (result) {
-        console.log(result)
+        console.log('result',result)
       })
     })
 

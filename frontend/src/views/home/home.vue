@@ -13,7 +13,7 @@
   </div>
   <ul class="infinite-list" v-infinite-scroll="load" style="overflow:auto">
     <!-- <li v-for="(room, i) in state.form.roomData[0]" @click="clickConference(i+1)" class="infinite-list-item" :key="i" > -->
-    <li v-for="(room, i) in state.form.roomData[0]" @click="clickConference(state.form.roomData[0][i+1]['id'])" class="infinite-list-item" :key="i" >
+    <li v-for="(room, i) in state.form.roomData[0]" @click="clickConference(state.form.roomData[0][i]['id'])" class="infinite-list-item" :key="i" >
       <conference
         :image="room['thumbnail_url']"
         :title="room['title']"

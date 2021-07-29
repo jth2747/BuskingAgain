@@ -10,11 +10,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ssafy.api.request.BuskingCreatePostReq;
+import com.ssafy.api.response.BuskingListRes;
 import com.ssafy.db.entity.Busking;
 import com.ssafy.db.entity.Busking_genre;
 import com.ssafy.db.repository.BuskingGenreRepository;
 import com.ssafy.db.repository.BuskingGenreRepositorySupport;
 import com.ssafy.db.repository.BuskingRepository;
+import com.ssafy.db.repository.UserRepository;
 
 @Service("buskingService")
 public class BuskingServiceImpl implements BuskingService {
@@ -28,6 +30,9 @@ public class BuskingServiceImpl implements BuskingService {
 	@Autowired
 	BuskingGenreRepositorySupport buskingGenreRepositorySupport;
 	
+	@Autowired
+	UserRepository userRepository;
+	
 	@Override
 	public Busking createBusking(BuskingCreatePostReq buskingCreatInfo, Long owner_id) {
 		// TODO Auto-generated method stub
@@ -35,12 +40,13 @@ public class BuskingServiceImpl implements BuskingService {
 		Busking busking = new Busking();
 		busking.setTitle(buskingCreatInfo.getTitle());
 		busking.setDescription(buskingCreatInfo.getDescription());
-		busking.setThumbnail_url(buskingCreatInfo.getThumbnailurl());
+		busking.setThumbnail_url(buskingCreatInfo.getThumbnail_url());
 		busking.setOwner_id(owner_id);
 		busking.setIs_active(1);
 		busking.setLikes(0);
 		busking.setViewers(0);
-		
+		busking.setStart_time(Timestamp.valueOf(LocalDateTime.now()));
+
 		if(buskingCreatInfo.getGenre() != null) {
 			Long genreId = buskingGenreRepositorySupport.findGenreByGenreName(buskingCreatInfo.getGenre()).getId();
 			System.out.println(genreId);
@@ -65,29 +71,47 @@ public class BuskingServiceImpl implements BuskingService {
 	}
 
 	@Override
-	public List<Busking> list() {
+	public List<BuskingListRes> list() {
 		// TODO Auto-generated method stub
 		
 		List<Busking> list = buskingRespository.findAll();
-		List<Busking> ret = new ArrayList<>();
+		List<BuskingListRes> ret = new ArrayList<>();
 		
 		for(Busking b : list) {
 			if(b.getIs_active() == 1) {
-				ret.add(b);
+				BuskingListRes input = new BuskingListRes();
+				input.setDescription(b.getDescription());
+				input.setLikes(b.getLikes());
+				input.setTitle(b.getTitle());
+				input.setViewers(b.getViewers());
+				input.setStart_time(b.getStart_time());
+				input.setThumbnail_url(b.getThumbnail_url());
+				input.setId(b.getId());
+
+				String genrename = buskingGenreRespository.getOne(b.getBusking_genre()).getName();
+				input.setBusking_genre(genrename);
+				String ownerID = userRepository.getOne(b.getOwner_id()).getUserId();
+				input.setOwnerId(ownerID);
+				
+				ret.add(input);
 			}
 		}
 		return ret;
 	}
 
 	@Override
-	public Busking ModifyBusking(BuskingCreatePostReq buskingModifyInfo, Long ownerId, Long buskingId) {
+	public Busking ModifyBusking(BuskingCreatePostReq buskingModifyInfo, Long ownerId, Long buskingId, Busking originbusking) {
 		// TODO Auto-generated method stub
 		Busking busking = new Busking();
 		busking.setId(buskingId);
 		busking.setOwner_id(ownerId);
 		busking.setTitle(buskingModifyInfo.getTitle());
+		busking.setThumbnail_url(buskingModifyInfo.getThumbnail_url());
 //		busking.setBusking_genre(buskingModifyInfo.getGenre());
 		busking.setDescription(buskingModifyInfo.getDescription());
+		busking.setIs_active(originbusking.getIs_active());
+		busking.setLikes(originbusking.getLikes());
+		busking.setStart_time(originbusking.getStart_time());
 		Long genreId = buskingGenreRepositorySupport.findGenreByGenreName(buskingModifyInfo.getGenre()).getId();
 		System.out.println(genreId);
 		busking.setBusking_genre(genreId);
@@ -96,16 +120,30 @@ public class BuskingServiceImpl implements BuskingService {
 	}
 
 	@Override
-	public List<Busking> listGenre(String genre) {
+	public List<BuskingListRes> listGenre(String genre) {
 		// TODO Auto-generated method stub
 		List<Busking> list = buskingRespository.findAll();
-		List<Busking> ret = new ArrayList<>();
+		List<BuskingListRes> ret = new ArrayList<>();
 		
 		Long buskingGenre = buskingGenreRepositorySupport.findGenreByGenreName(genre).getId();
 		
 		for(Busking b : list) {
 			if(b.getIs_active() == 1 && b.getBusking_genre() == buskingGenre) {
-				ret.add(b);
+				BuskingListRes input = new BuskingListRes();
+				input.setDescription(b.getDescription());
+				input.setLikes(b.getLikes());
+				input.setTitle(b.getTitle());
+				input.setViewers(b.getViewers());
+				input.setStart_time(b.getStart_time());
+				input.setThumbnail_url(b.getThumbnail_url());
+				input.setId(b.getId());
+
+				String genrename = buskingGenreRespository.getOne(b.getBusking_genre()).getName();
+				input.setBusking_genre(genrename);
+				String ownerID = userRepository.getOne(b.getOwner_id()).getUserId();
+				input.setOwnerId(ownerID);
+				
+				ret.add(input);
 			}
 		}
 		return ret;

@@ -12,7 +12,6 @@
   <el-button @click="clickBusking">버스킹 생성</el-button>
   </div>
   <ul class="infinite-list" v-infinite-scroll="load" style="overflow:auto">
-    <!-- <li v-for="(room, i) in state.form.roomData[0]" @click="clickConference(i+1)" class="infinite-list-item" :key="i" > -->
     <li v-for="(room, i) in state.form.roomData[0]" @click="clickConference(state.form.roomData[0][i]['id'])" class="infinite-list-item" :key="i" >
       <conference
         :image="room['thumbnail_url']"
@@ -21,13 +20,6 @@
         :genre="room['busking_genre']"
       />
     </li>
-    <!-- <li v-for="i in state.count" @click="clickConference(i)" class="infinite-list-item" :key="i" >
-      <conference
-        :image="image"
-        :title="title"
-        :desc="desc"
-      />
-    </li> -->
   </ul>
 
   <busking-dialog

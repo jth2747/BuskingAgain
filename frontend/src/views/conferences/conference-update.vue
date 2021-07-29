@@ -13,8 +13,8 @@
         <el-input v-model="state.form.description" autocomplete="off"></el-input>
         <span v-if="state.form.description.length > 100">최대 100자까지 입력 가능합니다.</span>
       </el-form-item>
-      <el-form-item prop="thumbnailurl" label="썸네일 사진" :label-width="state.formLabelWidth" >
-        <el-input v-model="state.form.thumbnailurl" autocomplete="off"></el-input>
+      <el-form-item prop="thumbnail_url" label="썸네일 사진" :label-width="state.formLabelWidth" >
+        <el-input v-model="state.form.thumbnail_url" autocomplete="off"></el-input>
       </el-form-item>
     </el-form>
     <template #footer>
@@ -78,7 +78,7 @@ export default {
     description: {
       type: String
     },
-    thumbnailurl: {
+    thumbnail_url: {
       type: String
     },
     genre: {
@@ -102,7 +102,7 @@ export default {
         title: props.title,
         genre: props.genre,
         description: props.description,
-        thumbnailurl: props.thumbnailurl,
+        thumbnail_url: props.thumbnail_url,
       },
       dialogVisible: computed(() => props.open),
       formLabelWidth: '120px'
@@ -110,7 +110,12 @@ export default {
 
     onMounted(() => {
       console.log('buskingForm.value', open)
+      state.form.title = props.title
+      state.form.genre = props.genre
+      state.form.description = props.description
+      state.form.thumbnail_url = props.thumbnail_url
     })
+
 
     // 버스킹 정보 수정
     const roomUpdate = function () {
@@ -119,7 +124,7 @@ export default {
         title: state.form.title,
         genre: state.form.genre,
         description: state.form.description,
-        thumbnailurl: state.form.thumbnailurl,
+        thumbnail_url: state.form.thumbnail_url,
         id: props.id,
       })
       .then(function (result) {
@@ -133,7 +138,7 @@ export default {
       state.form.title = props.title
       state.form.genre = props.genre
       state.form.description = props.description
-      state.form.thumbnailurl = props.thumbnailurl
+      state.form.thumbnail_url = props.thumbnail_url
       emit('closeRoomEdit')
     }
 

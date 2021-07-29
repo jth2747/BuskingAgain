@@ -92,7 +92,12 @@ export function roomList ( { state }, payload) {
 export function roomDetail ( { state }, payload) {
   console.log('roomDetail', state, payload)
   const url = `/busking/${payload.id}`
-  return $axios.get(url)
+  return $axios.get(url,
+    {
+      headers: {
+        Authorization: 'Bearer ' + payload.token,
+    }
+  })
 }
 
 

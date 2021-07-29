@@ -18,6 +18,7 @@ import com.ssafy.db.entity.User_busking;
 import com.ssafy.db.repository.BuskingGenreRepository;
 import com.ssafy.db.repository.BuskingGenreRepositorySupport;
 import com.ssafy.db.repository.BuskingRepository;
+import com.ssafy.db.repository.BuskingRepositorySupport;
 import com.ssafy.db.repository.UserBuskingRepository;
 import com.ssafy.db.repository.UserBuskingRepositorySupport;
 import com.ssafy.db.repository.UserRepository;
@@ -27,10 +28,11 @@ public class BuskingServiceImpl implements BuskingService {
 
 	@Autowired
 	BuskingRepository buskingRespository;
+	@Autowired
+	BuskingRepositorySupport buskingRespositorySupport;
 	
 	@Autowired
 	BuskingGenreRepository buskingGenreRespository;
-	
 	@Autowired
 	BuskingGenreRepositorySupport buskingGenreRepositorySupport;
 	
@@ -39,7 +41,6 @@ public class BuskingServiceImpl implements BuskingService {
 	
 	@Autowired
 	UserBuskingRepository userBuskingRepository;
-	
 	@Autowired
 	UserBuskingRepositorySupport userBuskingRepositorySupport;
 	
@@ -47,16 +48,28 @@ public class BuskingServiceImpl implements BuskingService {
 	public Busking createBusking(BuskingCreatePostReq buskingCreatInfo, Long owner_id) {
 		// TODO Auto-generated method stub
 		System.out.println("버스킹생성 서비스 입장");
+		
+		if(buskingRespositorySupport.findBuskingByOwnerId(owner_id) != null) {
+			List<Busking> busking = buskingRespositorySupport.findBuskingByOwnerId(owner_id);
+			for(Busking b : busking) {
+				if(b.getIs_active() == 1)
+					return null;
+			}
+				
+		}
+		
 		Busking busking = new Busking();
 		busking.setTitle(buskingCreatInfo.getTitle());
 		busking.setDescription(buskingCreatInfo.getDescription());
 		busking.setThumbnail_url(buskingCreatInfo.getThumbnail_url());
+		System.out.println(busking.getThumbnail_url());
 		busking.setOwner_id(owner_id);
 		busking.setIs_active(1);
 		busking.setLikes(0);
 		busking.setViewers(0);
 		busking.setStart_time(Timestamp.valueOf(LocalDateTime.now()));
 
+		
 		if(buskingCreatInfo.getGenre() != null) {
 			Long genreId = buskingGenreRepositorySupport.findGenreByGenreName(buskingCreatInfo.getGenre()).getId();
 			System.out.println(genreId);

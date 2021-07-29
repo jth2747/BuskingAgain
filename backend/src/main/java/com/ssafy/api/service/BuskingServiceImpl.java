@@ -186,7 +186,7 @@ public class BuskingServiceImpl implements BuskingService {
 		
 		Busking busking = buskingRespository.getOne(buskingId);
 		busking.setViewers(busking.getViewers()-1);
-		
+	
 		return buskingRespository.save(busking);
 	}
 
@@ -198,8 +198,12 @@ public class BuskingServiceImpl implements BuskingService {
 		
 		Busking busking = new Busking();
 		busking = buskingRespository.getOne(buskingId);
-		busking.setViewers(busking.getViewers()+1);
 		
+		if(userBuskingRepositorySupport.findUser_buskingByUid(userid, buskingId) != null) {
+			user_busking = userBuskingRepositorySupport.findUser_buskingByUid(userid, buskingId);
+			return user_busking;
+		}
+		busking.setViewers(busking.getViewers()+1);
 		Busking save = buskingRespository.save(busking);
 		
 		return userBuskingRepository.save(user_busking);

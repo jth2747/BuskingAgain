@@ -4,7 +4,9 @@ import java.util.List;
 
 import com.ssafy.api.request.BuskingCreatePostReq;
 import com.ssafy.api.response.BuskingListRes;
+import com.ssafy.api.response.UserBuskingRes;
 import com.ssafy.db.entity.Busking;
+import com.ssafy.db.entity.User_busking;
 
 public interface BuskingService {
 
@@ -21,6 +23,10 @@ public interface BuskingService {
 	List<BuskingListRes> listGenre(String genre);
 
 	Busking deleteBusking(Long buskingId, Busking busking);
+
+	User_busking enterBusking(Long userid, Long buskingId);
+
+	Busking outBusking(Long userId, Long buskingId);
 
 
 }

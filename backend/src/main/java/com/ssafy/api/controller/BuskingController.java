@@ -22,12 +22,14 @@ import com.ssafy.api.request.BuskingCreatePostReq;
 import com.ssafy.api.response.BuskingCreateRes;
 import com.ssafy.api.response.BuskingListRes;
 import com.ssafy.api.response.BuskingRes;
+import com.ssafy.api.response.UserBuskingRes;
 import com.ssafy.api.service.BuskingService;
 import com.ssafy.api.service.UserService;
 import com.ssafy.common.auth.SsafyUserDetails;
 import com.ssafy.common.model.response.BaseResponseBody;
 import com.ssafy.db.entity.Busking;
 import com.ssafy.db.entity.User;
+import com.ssafy.db.entity.User_busking;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -112,7 +114,7 @@ public class BuskingController {
 		
 	}
 	
-	@GetMapping("/{buskingId}")
+	@GetMapping("/details/{buskingId}")
 	@ApiOperation(value = "방 정보 조회", notes = "선택한 방의 정보를 응답한다.") 
 	@ApiResponses({
 		@ApiResponse(code = 200, message = "성공"),
@@ -189,7 +191,7 @@ public class BuskingController {
 		 * 요청 헤더 액세스 토큰이 포함된 경우에만 실행되는 인증 처리이후, 리턴되는 인증 정보 객체(authentication) 통해서 요청한 유저 식별.
 		 * 액세스 토큰이 없이 요청하는 경우, 403 에러({"error": "Forbidden", "message": "Access Denied"}) 발생.
 		 */
-		System.out.println("버스킹 종료");
+		System.out.println("버스킹 종료 or 퇴장");
 		
 		SsafyUserDetails userDetails = (SsafyUserDetails)authentication.getDetails();
 		String user_id = userDetails.getUsername();
@@ -200,10 +202,58 @@ public class BuskingController {
 		Long ownerId = busking.getOwner_id();
 		
 		if(userId == ownerId) {
+			System.out.println("버스킹 종료");
 			busking = buskingService.deleteBusking(buskingId, busking);
 			return ResponseEntity.status(200).body(BaseResponseBody.of(200, "버스킹 종료 Success"));
 		}else {
-			return ResponseEntity.status(500).body(BaseResponseBody.of(401, "버스킹 ownerid와 userid불일치"));
+			System.out.println("버스킹 퇴장");
+			busking = buskingService.outBusking(userId, buskingId);
+			return ResponseEntity.status(200).body(BaseResponseBody.of(200, "버스킹 퇴장 Success"));
+
 		}
+//		return null;
 	}
+	
+	@GetMapping("/{buskingId}")
+	@ApiOperation(value = "방 입장", notes = "선택한 방으로 입장한다.") 
+	@ApiResponses({
+		@ApiResponse(code = 200, message = "성공"),
+		@ApiResponse(code = 401, message = "인증 실패"),
+		@ApiResponse(code = 404, message = "사용자 없음"),
+		@ApiResponse(code = 500, message = "서버 오류")
+	})
+	public ResponseEntity<UserBuskingRes> enterBusking(@ApiIgnore Authentication authentication, @PathVariable Long buskingId) {
+		/**
+		 * 요청 헤더 액세스 토큰이 포함된 경우에만 실행되는 인증 처리이후, 리턴되는 인증 정보 객체(authentication) 통해서 요청한 유저 식별.
+		 * 액세스 토큰이 없이 요청하는 경우, 403 에러({"error": "Forbidden", "message": "Access Denied"}) 발생.
+		 */
+		System.out.println("방 입장");
+		Busking busking = buskingService.getBuskingByBuskingId(buskingId);
+		System.out.println(busking.getId());
+		
+		
+		SsafyUserDetails userDetails = (SsafyUserDetails)authentication.getDetails();
+		String user_id = userDetails.getUsername();
+		User user = userService.getUserByUserId(user_id);
+		Long userId = user.getId();
+		
+		UserBuskingRes userBuskingRes = new UserBuskingRes();
+		
+		if(userId != busking.getOwner_id() && busking.getIs_active() == 1) {
+			User_busking user_busking  = buskingService.enterBusking(user.getId(), buskingId);
+			userBuskingRes.setOwner(false);
+			busking = buskingService.getBuskingByBuskingId(buskingId);
+			userBuskingRes.setViewers(busking.getViewers());
+			return new ResponseEntity<UserBuskingRes>(userBuskingRes, HttpStatus.OK);
+		}
+		else if(userId == busking.getOwner_id()) {
+			User_busking user_busking  = buskingService.enterBusking(user.getId(), buskingId);
+			userBuskingRes.setOwner(true);
+			userBuskingRes.setViewers(busking.getViewers());
+			return new ResponseEntity<UserBuskingRes>(userBuskingRes, HttpStatus.OK);
+		}
+		
+		return new ResponseEntity<UserBuskingRes>(HttpStatus.BAD_REQUEST);
+	}
+	
 }

@@ -114,23 +114,38 @@ export default {
     })
 
     const updateUser = function() {
-      store.dispatch('root/updateUser', {
-        token: props.token,
-        genre: state.form.genre,
-        email: state.form.email,
-        name: state.form.name,
-        userId: state.form.userId,
-        password: state.form.password,
-      })
-      .then(function () {
-        location.reload()
-        alert('회원정보가 수정되었습니다.')
-      })
-      .catch(function (err) {
-        alert(err)
-      })
+      if(vaildinput()){
+        store.dispatch('root/updateUser', {
+          token: props.token,
+          genre: state.form.genre,
+          email: state.form.email,
+          name: state.form.name,
+          userId: state.form.userId,
+          password: state.form.password,
+        })
+        .then(function () {
+          location.reload()
+          alert('회원정보가 수정되었습니다.')
+        })
+        .catch(function (err) {
+          alert(err)
+        })
+      }
+      else{
+        alert('입력을 확인 해주세요')
+      }
     }
 
+    const vaildinput = function(){
+      var name = state.form.name;
+      var genre = state.form.genre;
+
+      if(name == "" || genre == ""){
+        console.log(name+" "+genre);
+        return false;
+      }
+      return true;
+    }
     const passwordChange = function() {
       emit('openPasswordDialog')
     }
@@ -158,7 +173,7 @@ export default {
       emit('closeProfileDialog')
     }
 
-    return { profileForm, state, updateUser, passwordChange, deleteUser, handleClose }
+    return { profileForm, state, updateUser, vaildinput, passwordChange, deleteUser, handleClose }
   }
 }
 </script>

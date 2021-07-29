@@ -109,12 +109,12 @@ export default {
       .then(function (result) {
         alert('버스킹 생성 성공')
         console.log(result)
-      //   router.push({
-      //   name: 'conference-detail',
-      //   params: {
-      //     conferenceId: result.data.id,
-      //   },
-      // })
+        router.push({
+        name: 'conference-detail',
+        params: {
+          conferenceId: result.data.id,
+        },
+      })
       })
       .catch(function (err) {
         alert(err)

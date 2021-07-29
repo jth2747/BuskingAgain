@@ -11,11 +11,15 @@ import org.springframework.stereotype.Service;
 
 import com.ssafy.api.request.BuskingCreatePostReq;
 import com.ssafy.api.response.BuskingListRes;
+import com.ssafy.api.response.UserBuskingRes;
 import com.ssafy.db.entity.Busking;
 import com.ssafy.db.entity.Busking_genre;
+import com.ssafy.db.entity.User_busking;
 import com.ssafy.db.repository.BuskingGenreRepository;
 import com.ssafy.db.repository.BuskingGenreRepositorySupport;
 import com.ssafy.db.repository.BuskingRepository;
+import com.ssafy.db.repository.UserBuskingRepository;
+import com.ssafy.db.repository.UserBuskingRepositorySupport;
 import com.ssafy.db.repository.UserRepository;
 
 @Service("buskingService")
@@ -32,6 +36,12 @@ public class BuskingServiceImpl implements BuskingService {
 	
 	@Autowired
 	UserRepository userRepository;
+	
+	@Autowired
+	UserBuskingRepository userBuskingRepository;
+	
+	@Autowired
+	UserBuskingRepositorySupport userBuskingRepositorySupport;
 	
 	@Override
 	public Busking createBusking(BuskingCreatePostReq buskingCreatInfo, Long owner_id) {
@@ -155,7 +165,45 @@ public class BuskingServiceImpl implements BuskingService {
 		busking.setIs_active(0);
 		busking.setEnd_time(Timestamp.valueOf(LocalDateTime.now()));
 		
+		List<User_busking> list = userBuskingRepository.findAll();
+		
+		for(User_busking ub : list) {
+			if(ub.getB_id() == buskingId) {
+				userBuskingRepository.deleteById(ub.getId());
+			}
+		}
+		
 		return buskingRespository.save(busking);
 	}
+	@Override
+	public Busking outBusking(Long userId, Long buskingId) {
+		// TODO Auto-generated method stub
+		
+		System.out.println("유저 찾기");
+		User_busking user_busking = userBuskingRepositorySupport.findUser_buskingByUid(userId, buskingId);
+		System.out.println(user_busking.getB_id());
+		userBuskingRepository.deleteById(user_busking.getId());
+		
+		Busking busking = buskingRespository.getOne(buskingId);
+		busking.setViewers(busking.getViewers()-1);
+		
+		return buskingRespository.save(busking);
+	}
+
+	public User_busking enterBusking(Long userid, Long buskingId) {
+		// TODO Auto-generated method stub
+		User_busking user_busking = new User_busking();
+		user_busking.setU_id(userid);
+		user_busking.setB_id(buskingId);
+		
+		Busking busking = new Busking();
+		busking = buskingRespository.getOne(buskingId);
+		busking.setViewers(busking.getViewers()+1);
+		
+		Busking save = buskingRespository.save(busking);
+		
+		return userBuskingRepository.save(user_busking);
+	}
+
 
 }

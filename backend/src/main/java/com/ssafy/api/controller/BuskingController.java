@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 
 import com.ssafy.api.request.BuskingCreatePostReq;
+import com.ssafy.api.response.BuskingCreateRes;
 import com.ssafy.api.response.BuskingListRes;
 import com.ssafy.api.response.BuskingRes;
 import com.ssafy.api.service.BuskingService;
@@ -54,7 +55,7 @@ public class BuskingController {
         @ApiResponse(code = 404, message = "사용자 없음"),
         @ApiResponse(code = 500, message = "서버 오류")
     })
-	public ResponseEntity<? extends BaseResponseBody> create(@ApiIgnore Authentication authentication,
+	public ResponseEntity<BuskingCreateRes> create(@ApiIgnore Authentication authentication,
 			@RequestBody BuskingCreatePostReq buskingCreatInfo){
 		System.out.println("버스킹 생성 컨트롤러 들어옴");
 		
@@ -70,9 +71,13 @@ public class BuskingController {
 		Busking busking = buskingService.createBusking(buskingCreatInfo, user.getId());
 		
 		if(busking == null)
-			return ResponseEntity.status(500).body(BaseResponseBody.of(500, "버스킹 정보가 null"));
-		
-		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "버스킹 생성 Success"));
+			return new ResponseEntity<BuskingCreateRes>(HttpStatus.BAD_REQUEST);
+
+		BuskingCreateRes ret = new BuskingCreateRes();
+		ret.setId(busking.getId());
+		return new ResponseEntity<BuskingCreateRes>(ret, HttpStatus.OK);
+
+//		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "버스킹 생성 Success"));
 	}
 	
 	@PatchMapping("/{buskingId}")

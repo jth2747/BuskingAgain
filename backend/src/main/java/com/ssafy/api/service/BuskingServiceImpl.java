@@ -40,7 +40,7 @@ public class BuskingServiceImpl implements BuskingService {
 		Busking busking = new Busking();
 		busking.setTitle(buskingCreatInfo.getTitle());
 		busking.setDescription(buskingCreatInfo.getDescription());
-		busking.setThumbnail_url(buskingCreatInfo.getThumbnailurl());
+		busking.setThumbnail_url(buskingCreatInfo.getThumbnail_url());
 		busking.setOwner_id(owner_id);
 		busking.setIs_active(1);
 		busking.setLikes(0);
@@ -86,9 +86,12 @@ public class BuskingServiceImpl implements BuskingService {
 				input.setViewers(b.getViewers());
 				input.setStart_time(b.getStart_time());
 				input.setThumbnail_url(b.getThumbnail_url());
-				
+				input.setId(b.getId());
+
 				String genrename = buskingGenreRespository.getOne(b.getBusking_genre()).getName();
-				String useridString = userRepository.getOne(b.getOwner_id()).getUserId();
+				input.setBusking_genre(genrename);
+				String ownerID = userRepository.getOne(b.getOwner_id()).getUserId();
+				input.setOwnerId(ownerID);
 				
 				ret.add(input);
 			}
@@ -103,6 +106,7 @@ public class BuskingServiceImpl implements BuskingService {
 		busking.setId(buskingId);
 		busking.setOwner_id(ownerId);
 		busking.setTitle(buskingModifyInfo.getTitle());
+		busking.setThumbnail_url(buskingModifyInfo.getThumbnail_url());
 //		busking.setBusking_genre(buskingModifyInfo.getGenre());
 		busking.setDescription(buskingModifyInfo.getDescription());
 		busking.setIs_active(originbusking.getIs_active());
@@ -132,9 +136,12 @@ public class BuskingServiceImpl implements BuskingService {
 				input.setViewers(b.getViewers());
 				input.setStart_time(b.getStart_time());
 				input.setThumbnail_url(b.getThumbnail_url());
-				
+				input.setId(b.getId());
+
 				String genrename = buskingGenreRespository.getOne(b.getBusking_genre()).getName();
-				String useridString = userRepository.getOne(b.getOwner_id()).getUserId();
+				input.setBusking_genre(genrename);
+				String ownerID = userRepository.getOne(b.getOwner_id()).getUserId();
+				input.setOwnerId(ownerID);
 				
 				ret.add(input);
 			}

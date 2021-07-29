@@ -12,6 +12,7 @@ import lombok.Setter;
 @ApiModel("BuskingListResponse")
 public class BuskingListRes {
 
+	long id;
 	String ownerId;
 	String busking_genre;
 	String title;

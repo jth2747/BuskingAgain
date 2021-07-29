@@ -1,5 +1,5 @@
 <template>
-  <h1>{{ $route.params.conferenceId + '번 방 상세 보기 페이지' }}</h1>
+  <h1>{{ state.form.ownerId }}님의 버스킹</h1>
   <el-button-group>
     <el-button type="warning" icon="el-icon-edit" @click="openRoomEdit">수정</el-button>
     <el-button type="danger" icon="el-icon-delete" @click="roomDelete">방 종료</el-button>
@@ -8,7 +8,7 @@
     :open="state.form.roomEditDialogOpen"
     :title="state.form.title"
     :description="state.form.description"
-    :thumbnailurl="state.thumbnailurltitle"
+    :thumbnail_url="state.form.thumbnail_url"
     :genre="state.form.genre"
     :token="state.form.token"
     :id="$route.params.conferenceId"
@@ -38,10 +38,10 @@ export default {
         token: localStorage.getItem('jwt'), // jwt 토큰
         title: '',
         description: '',
-        thumbnailurl: '',
+        thumbnail_url: '',
         genre: '',
-        roomEditDialogOpen: false
-      }
+        roomEditDialogOpen: false,
+      },
     })
 
     // 페이지 진입시 불리는 훅
@@ -52,7 +52,12 @@ export default {
       store.dispatch('root/roomDetail', { id: route.params.conferenceId }
       )
       .then(function (result) {
-        console.log('result',result)
+        console.log(result.data)
+        state.form.title = result.data["title"]
+        state.form.ownerId = result.data["ownerId"]
+        state.form.description = result.data["description"]
+        state.form.thumbnail_url = result.data["thumbnail_url"]
+        state.form.genre = result.data["busking_genre"]
       })
     })
 
@@ -80,7 +85,6 @@ export default {
       })
       .then(function () {
         alert('버스킹이 종료되었습니다.')
-        location.reload()
       })
     }
 

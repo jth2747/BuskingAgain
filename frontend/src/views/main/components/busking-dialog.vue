@@ -58,11 +58,10 @@
 }
 </style>
 <script>
-//import axios from "axios"
 import { reactive, computed, ref, onMounted } from 'vue'
 import { useStore } from 'vuex'
+import { useRouter } from 'vue-router'
 
-//const SERVER_URL = "http://localhost:8080";
 
 export default {
   name: 'busking-dialog',
@@ -79,6 +78,8 @@ export default {
 
   setup(props, { emit }) {
     const store = useStore()
+    const router = useRouter()
+
     // 마운드 이후 바인딩 될 예정 - 컨텍스트에 노출시켜야함. <return>
     const buskingForm = ref(null)
 
@@ -105,35 +106,21 @@ export default {
         description: state.form.description,
         thumbnailurl: state.form.thumbnailurl,
       })
-      .then(function () {
+      .then(function (result) {
         alert('버스킹 생성 성공')
-        location.reload()
+        console.log(result)
+      //   router.push({
+      //   name: 'conference-detail',
+      //   params: {
+      //     conferenceId: result.data.id,
+      //   },
+      // })
       })
       .catch(function (err) {
         alert(err)
       })
-      // buskingForm.value.validate((valid) => {
-      //   if (valid) {
-      // console.log('submit')
-      // store.dispatch('root/requestBusking',{
-      //   token: props.token,
-      //   title: state.form.title,
-      //   genre: state.form.genre,
-      //   decription: state.form.description,
-      //   thumbnailurl: state.form.thumbnailurl,
-      // })
-      // .then(function () {
-      //   emit('showBuskingRoom')
-      //   alert('버스킹 생성 성공')
-      //   location.reload()
-      // })
-      // .catch(function (err) {
-      //   alert(err)
-      // })
-        // } else {
-        //   alert('Validate error!')
-        // }
-      }
+
+    }
 
     const handleClose = function () {
       state.form.title = ''

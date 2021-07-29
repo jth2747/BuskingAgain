@@ -1,8 +1,19 @@
 <template>
   <h1>{{ state.form.ownerId }}님의 버스킹</h1>
-  <el-button-group>
-    <el-button type="warning" icon="el-icon-edit" @click="openRoomEdit">수정</el-button>
+  <h2>방 제목 : {{ state.form.title }}</h2>
+  <h3>내용 : {{ state.form.description }}</h3>
+  <p>
+  <span>접속자 수 : {{ state.form.viewers}} / </span>
+  <span>  좋아요 : 0</span>
+  </p>
+  <!-- 방 만든 사람 -->
+  <el-button-group v-if="state.form.owner">
+    <el-button type="warning" icon="el-icon-edit" @click="clickRoomEdit">수정</el-button>
     <el-button type="danger" icon="el-icon-delete" @click="roomDelete">방 종료</el-button>
+  </el-button-group>
+  <!-- 관객 -->
+  <el-button-group v-else>
+    <el-button type="danger" @click="goBackHome">나가기</el-button>
   </el-button-group>
   <conference-update
     :open="state.form.roomEditDialogOpen"
@@ -48,6 +59,7 @@
 import { reactive, onMounted, onUnmounted } from 'vue'
 import { useStore } from 'vuex'
 import { useRoute } from 'vue-router'
+import { useRouter } from 'vue-router'
 import conferenceUpdate from './conference-update.vue'
 import Stomp from 'webstomp-client'
 import SockJS from 'sockjs-client'
@@ -117,6 +129,7 @@ export default {
 
   setup () {
     const route = useRoute()
+    const router = useRouter()
     const store = useStore()
     const state = reactive({
       conferenceId: '',
@@ -126,6 +139,8 @@ export default {
         description: '',
         thumbnail_url: '',
         genre: '',
+        viewers: 0,
+        owner: false,
         roomEditDialogOpen: false,
       },
     })
@@ -135,7 +150,7 @@ export default {
       console.log(route.params.conferenceId)
       state.conferenceId = route.params.conferenceId
       store.commit('root/setMenuActiveMenuName', 'home')
-      store.dispatch('root/roomDetail', { id: route.params.conferenceId }
+      store.dispatch('root/roomDetail', { token: state.form.token, id: route.params.conferenceId }
       )
       .then(function (result) {
         console.log(result.data)
@@ -144,6 +159,8 @@ export default {
         state.form.description = result.data["description"]
         state.form.thumbnail_url = result.data["thumbnail_url"]
         state.form.genre = result.data["busking_genre"]
+        state.form.owner = result.data["owner"]
+        state.form.viewers = result.data["viewers"]
       })
     })
 
@@ -153,7 +170,7 @@ export default {
     })
 
     // 버스킹 수정 모달창 생성
-    const openRoomEdit = function () {
+    const clickRoomEdit = function () {
       console.log(state.form.roomEditDialogOpen)
       state.form.roomEditDialogOpen = true
     }
@@ -171,10 +188,26 @@ export default {
       })
       .then(function () {
         alert('버스킹이 종료되었습니다.')
+        store.commit('root/setMenuActive', 0)
+        const MenuItems = store.getters['root/getMenus']
+        let keys = Object.keys(MenuItems)
+        router.push({
+          name: keys[0]
+      })
       })
     }
 
-    return { state, openRoomEdit, closeRoomEdit, roomDelete }
+    // 관객이 나가기 버튼 눌렀을 때
+    const goBackHome = function () {
+      store.commit('root/setMenuActive', 0)
+        const MenuItems = store.getters['root/getMenus']
+        let keys = Object.keys(MenuItems)
+        router.push({
+          name: keys[0]
+      })
+    }
+
+    return { state, clickRoomEdit, closeRoomEdit, roomDelete, goBackHome }
   }
 }
 </script>

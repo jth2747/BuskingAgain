@@ -1,6 +1,6 @@
 <template>
   <el-dialog custom-class="conference-update" title="버스킹 정보 수정" v-model="state.dialogVisible" @close="handleClose">
-    <el-form :model="state.form" :rules="state.rules" ref="buskingForm" :label-position="state.form.align">
+    <el-form :model="state.form" :rules="state.rules" ref="roomUpdateForm" :label-position="state.form.align">
       <el-form-item prop="title" label="방 제목" :label-width="state.formLabelWidth" >
         <el-input v-model="state.form.title" autocomplete="off"></el-input>
         <span v-if="state.form.title.length == 0"></span>
@@ -58,11 +58,8 @@
 }
 </style>
 <script>
-//import axios from "axios"
 import { reactive, computed, ref, onMounted } from 'vue'
 import { useStore } from 'vuex'
-
-//const SERVER_URL = "http://localhost:8080";
 
 export default {
   name: 'conference-update',
@@ -95,7 +92,7 @@ export default {
   setup(props, { emit }) {
     const store = useStore()
     // 마운드 이후 바인딩 될 예정 - 컨텍스트에 노출시켜야함. <return>
-    const buskingForm = ref(null)
+    const roomUpdateForm = ref(null)
 
     const state = reactive({
       form: {
@@ -109,7 +106,8 @@ export default {
     })
 
     onMounted(() => {
-      console.log('buskingForm.value', open)
+      console.log('open', open)
+      console.log('props',props.title)
       state.form.title = props.title
       state.form.genre = props.genre
       state.form.description = props.description
@@ -142,7 +140,7 @@ export default {
       emit('closeRoomEdit')
     }
 
-    return { buskingForm, state, roomUpdate, handleClose }
+    return { roomUpdateForm, state, roomUpdate, handleClose }
   }
 }
 </script>

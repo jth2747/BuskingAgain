@@ -13,7 +13,8 @@
         <span v-else>
           <div v-if="state.form.id.length < 17">
             <div v-if="state.form.id.length > 0">
-              <el-button type="primary" @click="[clickLogin(), lodingStart()]">로그인</el-button>
+              <!-- <el-button type="primary" @click="[clickLogin(), lodingStart()]">로그인</el-button> -->
+              <el-button type="primary" @click="clickLogin">로그인</el-button>
             </div>
             <div v-else>
               <el-button>로그인</el-button>
@@ -130,11 +131,13 @@ export default {
             location.reload()
           })
           .catch(function (err) {
-            alert(err)
+            console.log(err)
+            alert('아이디와 비밀번호를 확인해 주세요.')
           })
-        } else {
-          alert('Validate error!')
         }
+        // else {
+        //   alert('Validate error!')
+        // }
       });
     }
 

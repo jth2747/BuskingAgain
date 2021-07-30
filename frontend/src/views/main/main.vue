@@ -114,7 +114,7 @@ export default {
     },
     // 로딩 스피너 작동하게 하는 함수
     startLoding(){
-      this.isLoding=true
+      this.isLoding= true
       setTimeout(() => {
         this.isLoding = false
       }, 500)

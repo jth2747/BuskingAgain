@@ -2,19 +2,19 @@
   <el-dialog custom-class="conference-update" title="버스킹 정보 수정" v-model="state.dialogVisible" @close="handleClose">
     <el-form :model="state.form" :rules="state.rules" ref="roomUpdateForm" :label-position="state.form.align">
       <el-form-item prop="title" label="방 제목" :label-width="state.formLabelWidth" >
-        <el-input v-model="state.form.title" autocomplete="off"></el-input>
-        <span v-if="state.form.title.length == 0"></span>
-        <span v-else-if="state.form.title.length < 2">최소 2글자 이상 입력하시오.</span>
+        <el-input v-model="title" autocomplete="off"></el-input>
+        <span v-if="title.length == 0"></span>
+        <span v-else-if="title.length < 2">최소 2글자 이상 입력하시오.</span>
       </el-form-item>
       <el-form-item prop="genre" label="장르" :label-width="state.formLabelWidth" >
-        <el-input v-model="state.form.genre" autocomplete="off"></el-input>
+        <el-input v-model="genre" autocomplete="off"></el-input>
       </el-form-item>
       <el-form-item prop="description" label="상세 설명" :label-width="state.formLabelWidth" >
-        <el-input v-model="state.form.description" autocomplete="off"></el-input>
-        <span v-if="state.form.description.length > 100">최대 100자까지 입력 가능합니다.</span>
+        <el-input v-model="description" autocomplete="off"></el-input>
+        <span v-if="description.length > 100">최대 100자까지 입력 가능합니다.</span>
       </el-form-item>
       <el-form-item prop="thumbnail_url" label="썸네일 사진" :label-width="state.formLabelWidth" >
-        <el-input v-model="state.form.thumbnail_url" autocomplete="off"></el-input>
+        <el-input v-model="thumbnail_url" autocomplete="off"></el-input>
       </el-form-item>
     </el-form>
     <template #footer>
@@ -105,24 +105,22 @@ export default {
       formLabelWidth: '120px'
     })
 
-    onMounted(() => {
-      console.log('open', open)
-      console.log('props',props.title)
-      state.form.title = props.title
-      state.form.genre = props.genre
-      state.form.description = props.description
-      state.form.thumbnail_url = props.thumbnail_url
-    })
+    // onMounted(() => {
+    //   state.form.title = props.title
+    //   state.form.genre = props.genre
+    //   state.form.description = props.description
+    //   state.form.thumbnail_url = props.thumbnail_url
+    // })
 
 
     // 버스킹 정보 수정
     const roomUpdate = function () {
       store.dispatch('root/updateRoom', {
         token: props.token,
-        title: state.form.title,
-        genre: state.form.genre,
-        description: state.form.description,
-        thumbnail_url: state.form.thumbnail_url,
+        title: props.title,
+        genre: props.genre,
+        description: props.description,
+        thumbnail_url: props.thumbnail_url,
         id: props.id,
       })
       .then(function (result) {

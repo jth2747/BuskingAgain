@@ -13,8 +13,9 @@
         <el-input v-model="state.form.description" autocomplete="off"></el-input>
         <span v-if="state.form.description.length > 100">최대 100자까지 입력 가능합니다.</span>
       </el-form-item>
-      <el-form-item prop="thumbnailurl" label="썸네일 사진" :label-width="state.formLabelWidth" >
-        <el-input v-model="state.form.thumbnailurl" autocomplete="off"></el-input>
+      <el-form-item prop="thumbnail_url" label="썸네일 사진" :label-width="state.formLabelWidth" >
+        <el-input v-model="state.form.thumbnail_url" autocomplete="off"></el-input>
+        <!-- <el-input type="file" v-model="state.form.thumbnail_url" autocomplete="off"></el-input> -->
       </el-form-item>
     </el-form>
     <template #footer>
@@ -88,7 +89,7 @@ export default {
         title:'',
         genre:'',
         description:'',
-        thumbnailurl:'',
+        thumbnail_url:'',
       },
       dialogVisible: computed(() => props.open),
       formLabelWidth: '120px'
@@ -104,7 +105,7 @@ export default {
         title: state.form.title,
         genre: state.form.genre,
         description: state.form.description,
-        thumbnailurl: state.form.thumbnailurl,
+        thumbnail_url: state.form.thumbnail_url,
       })
       .then(function (result) {
         alert('버스킹 생성 성공')
@@ -126,7 +127,7 @@ export default {
       state.form.title = ''
       state.form.genre = ''
       state.form.description = ''
-      state.form.thumbnailurl = ''
+      state.form.thumbnail_url = ''
       emit('closeBuskingDialog')
     }
 

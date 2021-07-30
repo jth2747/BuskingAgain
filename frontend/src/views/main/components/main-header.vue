@@ -31,7 +31,7 @@
         <div class="mobile-sidebar">
           <div class="mobile-sidebar-tool-wrapper">
             <div class="logo-wrapper"><div class="ic ic-logo"/></div>
-            <el-button  class="mobile-sidebar-btn login-btn" @click="clickProfile">회원정보</el-button>
+            <el-button  class="mobile-sidebar-btn login-btn" @click="clickProfile" >회원정보</el-button>
             <el-button type="primary" class="mobile-sidebar-btn login-btn" @click="clickLogout">로그아웃</el-button>
           </div>
           <el-menu
@@ -216,7 +216,7 @@ export default {
     height: 50px;
     background-size: contain;
     background-repeat: no-repeat;
-    background-image: url('../../../assets/images/ssafy-logo.png');
+    background-image: url('../../../assets/images/EBAA.png');
   }
   .mobile-sidebar-wrapper {
     position: absolute;
@@ -255,7 +255,7 @@ export default {
     margin-top: 30px;
     background-size: contain;
     background-repeat: no-repeat;
-    background-image: url('../../../assets/images/ssafy-logo.png');
+    background-image: url('../../../assets/images/EBAA.png');
   }
   .mobile-sidebar-wrapper .mobile-sidebar-backdrop {
     width: calc(100% - 260px); height: calc(100vh - 1px);
@@ -285,7 +285,7 @@ export default {
     height: 50px;
     background-size: contain;
     background-repeat: no-repeat;
-    background-image: url('../../../assets/images/ssafy-logo.png');
+    background-image: url('../../../assets/images/EBAA.png');
   }
   .main-header .hide-on-small .tool-wrapper {
     width: 50%;

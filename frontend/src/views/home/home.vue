@@ -12,14 +12,26 @@
   <el-button @click="clickBusking">버스킹 생성</el-button>
   </div>
   <ul class="infinite-list" v-infinite-scroll="load" style="overflow:auto">
-    <li v-for="(room, i) in state.form.roomData[0]" @click="clickConference(state.form.roomData[0][i]['id'])" class="infinite-list-item" :key="i" >
-      <conference
-        :image="room['thumbnail_url']"
-        :title="room['title']"
-        :desc="room['description']"
-        :genre="room['busking_genre']"
-      />
-    </li>
+    <div v-if="this.token">
+      <li v-for="(room, i) in state.form.roomData[0]" @click="clickConference(state.form.roomData[0][i]['id'])" class="infinite-list-item" :key="i" >
+        <conference
+          :image="room['thumbnail_url']"
+          :title="room['title']"
+          :desc="room['description']"
+          :genre="room['busking_genre']"
+        />
+      </li>
+    </div>
+    <div v-else>
+      <li v-for="(room, i) in state.form.roomData[0]" @click="loginDemended" class="infinite-list-item" :key="i" >
+        <conference
+          :image="room['thumbnail_url']"
+          :title="room['title']"
+          :desc="room['description']"
+          :genre="room['busking_genre']"
+        />
+      </li>
+    </div>
   </ul>
 
   <busking-dialog
@@ -137,7 +149,11 @@ export default {
       })
     }
 
-    return { state, load, clickConference}
+    const loginDemended = function () {
+      alert('버스킹에 입장하려면 로그인을 먼저 해주세요')
+    }
+
+    return { state, load, clickConference, loginDemended}
   }
 }
 </script>

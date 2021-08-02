@@ -100,7 +100,7 @@ export default {
     const state = reactive({
       form: {
         email:'',
-        genre:'',
+        //genre:'',
         name:'',
         uid: '',
         upwd: '',
@@ -113,9 +113,9 @@ export default {
         email: [
           { required: true, message: 'Please input email', trigger: 'blur' }
         ],
-        genre: [
-          { required: true, message: 'Please input genre', trigger: 'blur' }
-        ],
+        // genre: [
+        //   { required: true, message: 'Please input genre', trigger: 'blur' }
+        // ],
         name: [
           { required: true, message: 'Please input Name', trigger: 'blur' }
         ],
@@ -160,14 +160,17 @@ export default {
           console.log("아이디 유효성 "+validid());
         }
 
-        if(validinput() == false){
-          console.log("장르랑 이름 null")
-          state.form.evalid = false;
-        }else{
-          console.log("장르랑 이름 유효성" + validinput());
-        }
+        // if(validinput() == false){
+        //   console.log("장르랑 이름 null")
+        //   state.form.evalid = false;
+        // }else{
+        //   console.log("장르랑 이름 유효성" + validinput());
+        // }
 
-        if(validinput() && validpwd() && validemail() && validid())
+        // if(validinput() && validpwd() && validemail() && validid())
+        //   state.form.evalid = true;
+
+        if(validpwd() && validemail() && validid())
           state.form.evalid = true;
 
         if (state.form.evalid==true) {
@@ -177,7 +180,7 @@ export default {
           store.dispatch('root/requestSignup',
           {
             email: state.form.email,
-            genre: state.form.genre,
+            //genre: state.form.genre,
             name: state.form.name,
             id: state.form.uid,
             password: state.form.upwd })
@@ -234,15 +237,15 @@ export default {
         return false;
       return true;
     }
-    const validinput = function(){
-      var name = state.form.name;
-      var genre = state.form.genre;
-      if(name == "" || genre == ""){
-        console.log(name+" "+genre);
-        return false;
-      }
-      return true;
-    }
+    // const validinput = function(){
+    //   var name = state.form.name;
+    //   var genre = state.form.genre;
+    //   if(name == "" || genre == ""){
+    //     console.log(name+" "+genre);
+    //     return false;
+    //   }
+    //   return true;
+    // }
 
     const checkId = function(){
       console.log('check')
@@ -258,7 +261,7 @@ export default {
 
     const handleClose = function () {
       state.form.email = ''
-      state.form.genre = ''
+      //state.form.genre = ''
       state.form.name = ''
       state.form.uid = ''
       state.form.upwd = ''

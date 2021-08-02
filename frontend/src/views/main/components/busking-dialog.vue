@@ -14,8 +14,8 @@
         <span v-if="state.form.description.length > 100">최대 100자까지 입력 가능합니다.</span>
       </el-form-item>
       <el-form-item prop="thumbnail_url" label="썸네일 사진" :label-width="state.formLabelWidth" >
-        <el-input v-model="state.form.thumbnail_url" autocomplete="off"></el-input>
-        <!-- <el-input type="file" v-model="state.form.thumbnail_url" autocomplete="off"></el-input> -->
+        <!-- <el-input v-model="state.form.thumbnail_url" autocomplete="off"></el-input> -->
+        <input type="file" @change="imgUpload">
       </el-form-item>
     </el-form>
     <template #footer>
@@ -123,6 +123,15 @@ export default {
 
     }
 
+    const imgUpload = function (event) {
+      let file = event.target.files
+      console.log('파일', file[0])
+      let imgUrl = URL.createObjectURL(file[0])
+      console.log(imgUrl)
+      state.form.thumbnail_url = imgUrl
+    }
+
+
     const handleClose = function () {
       state.form.title = ''
       state.form.genre = ''
@@ -131,7 +140,7 @@ export default {
       emit('closeBuskingDialog')
     }
 
-    return { buskingForm, state, handleClose, clickCreate }
+    return { buskingForm, state, handleClose, clickCreate, imgUpload }
   }
 }
 </script>

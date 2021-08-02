@@ -21,8 +21,8 @@ public class UserRes{
 	String userId;
 	@ApiModelProperty(name="email")
 	String email;
-	@ApiModelProperty(name="genre")
-	String genre;
+//	@ApiModelProperty(name="genre")
+//	String genre;
 	@ApiModelProperty(name="name")
 	String name;
 	@ApiModelProperty(name="password")
@@ -32,7 +32,7 @@ public class UserRes{
 		UserRes res = new UserRes();
 		res.setUserId(user.getUserId());
 		res.setEmail(user.getEmail());
-		res.setGenre(user.getGenre());
+//		res.setGenre(user.getGenre());
 		res.setName(user.getName());
 		res.setPassword(user.getPassword());
 		return res;

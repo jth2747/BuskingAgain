@@ -39,10 +39,20 @@ public class UserServiceImpl implements UserService {
 		}else {			
 			user.setPassword(passwordEncoder.encode(userRegisterInfo.getPassword()));
 			user.setName(userRegisterInfo.getName());
-			user.setGenre(userRegisterInfo.getGenre());
+//			user.setGenre(userRegisterInfo.getGenre());
 			user.setEmail(userRegisterInfo.getEmail());
 			return userRepository.save(user);
 		}
+	}
+	
+	@Override
+	public boolean checkUserId(String userid) {
+		// TODO Auto-generated method stub
+		if(userRepositorySupport.findUserByUserId(userid).isPresent()) {
+			System.out.println("중복임!!!");
+			return false;
+		}
+		return true;
 	}
 
 	@Override
@@ -81,7 +91,7 @@ public class UserServiceImpl implements UserService {
 		user.setUserId(userId);
 		user.setPassword(passwordEncoder.encode(getUser.getPassword()));
 		user.setName(userModifyInfo.getName());
-		user.setGenre(userModifyInfo.getGenre());
+//		user.setGenre(userModifyInfo.getGenre());
 		user.setEmail(getUser.getEmail());
 
 //		return userRepositorySupport.update(id, user.getDepartment(), user.getName(), user.getPassword(), user.getPosition());
@@ -97,7 +107,7 @@ public class UserServiceImpl implements UserService {
 		user.setUserId(userId);
 		user.setPassword(passwordEncoder.encode(PW));
 		user.setName(getUser.getName());
-		user.setGenre(getUser.getGenre());
+//		user.setGenre(getUser.getGenre());
 		user.setEmail(getUser.getEmail());
 		
 		return userRepository.save(user);
@@ -109,6 +119,7 @@ public class UserServiceImpl implements UserService {
 		
 		return userRepositorySupport.findUserIdById(id);
 	}
+
 
 
 }

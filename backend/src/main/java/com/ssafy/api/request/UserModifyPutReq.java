@@ -12,6 +12,6 @@ public class UserModifyPutReq {
 	
 	@ApiModelProperty(name="유저 Name", example="name")
 	String name;
-	@ApiModelProperty(name="유저 Genre", example="genre")
-	String genre;
+//	@ApiModelProperty(name="유저 Genre", example="genre")
+//	String genre;
 }

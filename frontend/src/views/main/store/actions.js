@@ -126,3 +126,10 @@ export function deleteRoom ( { state }, payload) {
     }
   })
 }
+
+// 아이디 중복 체크
+export function checkSignupId ( {state}, payload) {
+  console.log('checkSignupId', state, payload)
+  const url = `users/create/${payload.id}`
+  return $axios.get(url)
+}

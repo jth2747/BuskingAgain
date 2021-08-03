@@ -42,7 +42,7 @@ public class FollowServiecImpl implements FollowService {
 			}
 		}
 		
-		List<String> list = genre.getGenre();
+		List<String> list = genre.getGenreList();
 		
 		for(String g : list) {
 			long g_id = buskingGenreRepositorySupport.findGenreByGenreName(g).getId();
@@ -89,7 +89,7 @@ public class FollowServiecImpl implements FollowService {
 			}
 		}
 		GenreListPostReq genreList = new GenreListPostReq();
-		genreList.setGenre(ret);
+		genreList.setGenreList(ret);
 		
 		return genreList;
 	}

@@ -9,6 +9,9 @@
       <el-form-item prop="genre" label="장르" :label-width="state.formLabelWidth" >
         <el-input v-model="state.form.genre" autocomplete="off"></el-input>
       </el-form-item>
+      <el-form-item prop="max_viewers" label="최대 인원" :label-width="state.formLabelWidth" >
+        <el-input v-model="state.form.max_viewers" autocomplete="off"></el-input>
+      </el-form-item>
       <el-form-item prop="description" label="상세 설명" :label-width="state.formLabelWidth" >
         <el-input v-model="state.form.description" autocomplete="off"></el-input>
         <span v-if="state.form.description.length > 100">최대 100자까지 입력 가능합니다.</span>
@@ -88,6 +91,7 @@ export default {
       form: {
         title:'',
         genre:'',
+        max_viewers:0,
         description:'',
         thumbnail_url:'',
       },
@@ -103,6 +107,7 @@ export default {
       store.dispatch('root/requestBusking', {
         token: props.token,
         title: state.form.title,
+        max_viewers: state.form.max_viewers,
         genre: state.form.genre,
         description: state.form.description,
         thumbnail_url: state.form.thumbnail_url,
@@ -135,6 +140,7 @@ export default {
     const handleClose = function () {
       state.form.title = ''
       state.form.genre = ''
+      state.form.max_viewers = 0
       state.form.description = ''
       state.form.thumbnail_url = ''
       emit('closeBuskingDialog')

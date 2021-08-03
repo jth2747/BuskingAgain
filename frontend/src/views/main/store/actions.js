@@ -152,12 +152,23 @@ export function checkSignupId ( {state}, payload) {
 // 회원정보 조회하기 전 비밀번호 확인
 export function checkPassword ( {state}, payload) {
   console.log('checkPassword', state, payload)
-  const url = 'user/check'
-  let body = payload.password
-  return $axios.get(url, body,
+  const url = `/users/check`
+  let body = payload
+  return $axios.post(url, body,
     {
       headers: {
         Authorization: 'Bearer ' + payload.token,
+    }
+  })
+}
+
+// 장르 조회
+export function getGenre ( { state }, payload) {
+  console.log("action:"+'getGenre', state, payload)
+  const url = '/genre/list'
+  return $axios.get(url, {
+    headers: {
+      Authorization: 'Bearer ' + payload.token,
     }
   })
 }

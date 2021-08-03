@@ -37,6 +37,7 @@ export default {
   userId: "",
   userName: "",
   user: "",
+  genreList:"",
   join: false,
   userDialog:false,
 }

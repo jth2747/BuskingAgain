@@ -15,9 +15,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import com.ssafy.api.request.GenreListPostReq;
 import com.ssafy.api.response.BuskingListRes;
 import com.ssafy.api.service.FollowService;
 import com.ssafy.api.service.UserService;
@@ -52,7 +54,7 @@ public class FollowController {
         @ApiResponse(code = 500, message = "서버 오류")
     })
 	public ResponseEntity<? extends BaseResponseBody> addFollow(@ApiIgnore Authentication authentication,
-			@RequestBody List<String> genre){
+			@RequestBody GenreListPostReq genre){
 		System.out.println("장르 팔로우 컨트롤러 들어옴");
 		
 //		userid를 확인하기 위해서 회원정보 조회
@@ -77,7 +79,7 @@ public class FollowController {
         @ApiResponse(code = 500, message = "서버 오류")
     })
 	public ResponseEntity<? extends BaseResponseBody> deleteFollow(@ApiIgnore Authentication authentication,
-			@RequestBody List<String> genre){
+			@RequestBody GenreListPostReq genre){
 		System.out.println("장르 팔로우 삭제 컨트롤러 들어옴");
 		
 //		userid를 확인하기 위해서 회원정보 조회
@@ -101,7 +103,7 @@ public class FollowController {
         @ApiResponse(code = 404, message = "사용자 없음"),
         @ApiResponse(code = 500, message = "서버 오류")
     })
-	public ResponseEntity<List<String>> getFollowList(@ApiIgnore Authentication authentication){
+	public ResponseEntity<GenreListPostReq> getFollowList(@ApiIgnore Authentication authentication){
 		System.out.println("장르 팔로우 리스트 컨트롤러 들어옴");
 		
 //		userid를 확인하기 위해서 회원정보 조회
@@ -110,9 +112,9 @@ public class FollowController {
 		User user = userService.getUserByUserId(userId);
 		System.out.println("userid :" + user.getId());
 		
-		List<String> list = followService.getList(user.getId());
+		GenreListPostReq list = followService.getList(user.getId());
 		
-		return new ResponseEntity<List<String>>(list, HttpStatus.OK);
+		return new ResponseEntity<GenreListPostReq>(list, HttpStatus.OK);
 
 	}
 

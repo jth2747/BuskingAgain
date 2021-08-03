@@ -174,13 +174,6 @@ export default {
 
     const clickGenre = () => {
       emit('openGenreDialog')
-      store.dispatch('root/getGenre', { token: props.token })
-        .then(function (result) {
-          console.log("장르"+result.data)
-        })
-        .catch(function (err){
-          alert(err)
-        })
     }
 
     // const clickProfile = function() {

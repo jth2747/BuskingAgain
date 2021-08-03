@@ -1,7 +1,9 @@
 <template>
   <el-dialog custom-class="genre-dialog" title="선호 장르" v-model="state.dialogVisible" @close="handleClose">
-      <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">Check all</el-checkbox>
-      <div style="margin: 15px 0;"></div>
+      <div>
+      <el-item style="margin: 10px">기존 선호 장르 리스트: {{state.form.genreList["genreList"]}}</el-item>
+      </div>
+      <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange" style="margin: 15px 10px">Check all</el-checkbox>
       <el-checkbox-group v-model="state.form.checkedGenre" @change="handleCheckedGenreChange">
       <el-checkbox style="margin: 5px 10px" v-for="gr in state.form.genre" :label="gr" :key="gr">{{gr}}</el-checkbox>
       </el-checkbox-group>
@@ -17,6 +19,7 @@
   width: 400px !important;
   height: 580px;
 }
+
 .genre-dialog .el-dialog__headerbtn {
   float: right;
 }
@@ -80,6 +83,7 @@ export default {
     store.dispatch('root/getGenre', { token: props.token })
         .then(function (result) {
           console.log(result.data)
+          state.form.genreList=result.data
         })
         .catch(function (err){
           alert(err)
@@ -88,6 +92,7 @@ export default {
       form: {
         checkAll: false,
         checkedGenre: [],
+        genreList:[],
         genre: genreOptions,
         isIndeterminate: true
       },

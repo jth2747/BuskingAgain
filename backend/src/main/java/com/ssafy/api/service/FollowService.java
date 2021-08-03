@@ -8,7 +8,7 @@ public interface FollowService {
 
 	void addGenre(GenreListPostReq genre, Long id);
 
-	void deleteGenre(GenreListPostReq genre, Long id);
+//	void deleteGenre(GenreListPostReq genre, Long id);
 
 	GenreListPostReq getList(Long id);
 

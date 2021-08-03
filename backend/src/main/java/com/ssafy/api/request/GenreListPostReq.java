@@ -10,5 +10,5 @@ import lombok.Setter;
 @Setter
 @ApiModel("GenreListPostRequest")
 public class GenreListPostReq {
-	List<String> genre;
+	List<String> genreList;
 }

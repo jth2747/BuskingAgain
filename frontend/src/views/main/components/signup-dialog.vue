@@ -223,10 +223,10 @@ export default {
       console.log('check')
       store.dispatch('root/checkSignupId', { id: state.form.uid })
       .then(function () {
-        alret('사용 가능한 아이디 입니다.')
+        alert('사용 가능한 아이디 입니다.')
       })
       .catch(function () {
-        alret('사용 중인 아이디 입니다.')
+        alert('사용 중인 아이디 입니다.')
       })
     }
 

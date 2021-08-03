@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ssafy.api.request.GenreListPostReq;
+import com.ssafy.api.response.GenreListRes;
 import com.ssafy.db.entity.Busking_genre;
 import com.ssafy.db.entity.Fav_genre;
 import com.ssafy.db.repository.BuskingGenreRepository;
@@ -34,15 +35,23 @@ public class FollowServiecImpl implements FollowService {
 		
 		System.out.println("장르 추가 서비스");
 		
-		List<Fav_genre> fav_genreList= followRepository.findAll();
-		
+		List<Fav_genre> fav_genreList= new ArrayList<Fav_genre>();
+		fav_genreList =	followRepository.findAll();
+
+		System.out.println("장르 삭제 서비스");
+	
+		System.out.println("test");
 		for(Fav_genre fg : fav_genreList) {
 			if(fg.getU_id() == u_id) {
 				followRepository.delete(fg);
 			}
 		}
+		System.out.println("원래 있던 애들 지우기 완료");			
 		
-		List<String> list = genre.getGenreList();
+		
+		
+		List<String> list = new ArrayList<String>();
+		list = genre.getGenre();
 		
 		for(String g : list) {
 			long g_id = buskingGenreRepositorySupport.findGenreByGenreName(g).getId();
@@ -74,7 +83,7 @@ public class FollowServiecImpl implements FollowService {
 //	}
 
 	@Override
-	public GenreListPostReq getList(Long u_id) {
+	public GenreListRes getList(Long u_id) {
 		List<Fav_genre> list = followRepository.findAll();
 		List<String> ret = new ArrayList<String>();
 		
@@ -88,7 +97,7 @@ public class FollowServiecImpl implements FollowService {
 				}
 			}
 		}
-		GenreListPostReq genreList = new GenreListPostReq();
+		GenreListRes genreList = new GenreListRes();
 		genreList.setGenreList(ret);
 		
 		return genreList;

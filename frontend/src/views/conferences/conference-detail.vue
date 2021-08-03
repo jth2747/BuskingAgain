@@ -162,11 +162,17 @@ export default {
         state.form.owner = result.data["owner"]
         state.form.viewers = result.data["viewers"]
       })
+      // 뒤로가기 버튼 비활성화
+      history.pushState(null, null, location.href);
+      window.onpopstate = function () {
+      history.go(1);
+      }
     })
 
     // 페이지 이탈시 불리는 훅
     onUnmounted(() => {
       state.conferenceId = ''
+
     })
 
     // 버스킹 수정 모달창 생성

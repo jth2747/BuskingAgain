@@ -23,7 +23,7 @@ public class QUser extends EntityPathBase<User> {
 
     public final StringPath email = createString("email");
 
-    public final StringPath genre = createString("genre");
+//    public final StringPath genre = createString("genre");
 
     //inherited
     public final NumberPath<Long> id = _super.id;

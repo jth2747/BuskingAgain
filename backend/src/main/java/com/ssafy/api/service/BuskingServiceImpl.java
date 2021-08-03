@@ -62,8 +62,9 @@ public class BuskingServiceImpl implements BuskingService {
 		busking.setTitle(buskingCreatInfo.getTitle());
 		busking.setDescription(buskingCreatInfo.getDescription());
 		busking.setThumbnail_url(buskingCreatInfo.getThumbnail_url());
-		System.out.println(busking.getThumbnail_url());
+		busking.setMax_viewers(buskingCreatInfo.getMax_viewers());
 		busking.setOwner_id(owner_id);
+
 		busking.setIs_active(1);
 		busking.setLikes(0);
 		busking.setViewers(0);
@@ -109,6 +110,7 @@ public class BuskingServiceImpl implements BuskingService {
 				input.setViewers(b.getViewers());
 				input.setStart_time(b.getStart_time());
 				input.setThumbnail_url(b.getThumbnail_url());
+				input.setMax_viewers(b.getMax_viewers());
 				input.setId(b.getId());
 
 				String genrename = buskingGenreRespository.getOne(b.getBusking_genre()).getName();
@@ -132,6 +134,7 @@ public class BuskingServiceImpl implements BuskingService {
 		busking.setThumbnail_url(buskingModifyInfo.getThumbnail_url());
 //		busking.setBusking_genre(buskingModifyInfo.getGenre());
 		busking.setDescription(buskingModifyInfo.getDescription());
+		busking.setMax_viewers(buskingModifyInfo.getMax_viewers());
 		busking.setIs_active(originbusking.getIs_active());
 		busking.setLikes(originbusking.getLikes());
 		busking.setStart_time(originbusking.getStart_time());
@@ -157,6 +160,7 @@ public class BuskingServiceImpl implements BuskingService {
 				input.setLikes(b.getLikes());
 				input.setTitle(b.getTitle());
 				input.setViewers(b.getViewers());
+				input.setMax_viewers(b.getMax_viewers());
 				input.setStart_time(b.getStart_time());
 				input.setThumbnail_url(b.getThumbnail_url());
 				input.setId(b.getId());

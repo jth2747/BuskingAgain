@@ -16,4 +16,5 @@ public interface UserService {
 	User findUserId(String name,String email);
 	String getUserIdById(Long id);
 	User modifyPW(String PW, String userId, Long id);
+	boolean checkUserId(String userid);
 }

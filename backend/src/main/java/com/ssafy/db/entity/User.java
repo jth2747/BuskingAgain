@@ -16,7 +16,7 @@ import javax.persistence.Entity;
 @Setter
 public class User extends BaseEntity{
     String email;
-    String genre;
+//    String genre;
     String name;
     String userId;
 
@@ -26,7 +26,7 @@ public class User extends BaseEntity{
 
 	@Override
 	public String toString() {
-		return "User [email=" + email + ", genre=" + genre + ", name=" + name + ", userId=" + userId + ", password="
+		return "User [email=" + email + ", name=" + name + ", userId=" + userId + ", password="
 				+ password + "]";
 	}
     

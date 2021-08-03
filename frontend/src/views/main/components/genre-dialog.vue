@@ -1,8 +1,10 @@
 <template>
   <el-dialog custom-class="genre-dialog" title="선호 장르" v-model="state.dialogVisible" @close="handleClose">
-      <div>
+      <el-button type="warning" @click="showGenreList" style="margin: 10px">기존 선호 장르 확인</el-button>
+      <div v-if="state.form.showGenre==true">
       <el-item style="margin: 10px">기존 선호 장르 리스트: {{state.form.genreList["genreList"]}}</el-item>
       </div>
+      <div v-else></div>
       <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange" style="margin: 15px 10px">Check all</el-checkbox>
       <el-checkbox-group v-model="state.form.checkedGenre" @change="handleCheckedGenreChange">
       <el-checkbox style="margin: 5px 10px" v-for="gr in state.form.genre" :label="gr" :key="gr">{{gr}}</el-checkbox>
@@ -80,16 +82,10 @@ export default {
     const store = useStore()
     // 마운드 이후 바인딩 될 예정 - 컨텍스트에 노출시켜야함. <return>
     const genreForm = ref(null)
-    store.dispatch('root/getGenre', { token: props.token })
-        .then(function (result) {
-          console.log(result.data)
-          state.form.genreList=result.data
-        })
-        .catch(function (err){
-          alert(err)
-        })
+
     const state = reactive({
       form: {
+        showGenre: false,
         checkAll: false,
         checkedGenre: [],
         genreList:[],
@@ -108,6 +104,18 @@ export default {
     onMounted(() => {
 
     })
+
+    const showGenreList=function(){
+      state.form.showGenre=true;
+      store.dispatch('root/getGenre', { token: props.token })
+        .then(function (result) {
+          console.log(result.data)
+          state.form.genreList=result.data
+        })
+        .catch(function (err){
+          alert(err)
+        })
+    }
 
     const handleCheckAllChange=function(val) {
         state.form.checkedGenre = val ? genreOptions : [];
@@ -146,7 +154,7 @@ export default {
           })
     }
 
-    return { genreForm, state, handleClose, clickCheckbox, handleCheckedGenreChange, handleCheckAllChange }
+    return { genreForm, state, handleClose, clickCheckbox, handleCheckedGenreChange, handleCheckAllChange, showGenreList }
   }
 }
 </script>

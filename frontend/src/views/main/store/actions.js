@@ -152,9 +152,9 @@ export function checkSignupId ( {state}, payload) {
 // 회원정보 조회하기 전 비밀번호 확인
 export function checkPassword ( {state}, payload) {
   console.log('checkPassword', state, payload)
-  const url = 'user/check'
-  let body = payload.password
-  return $axios.get(url, body,
+  const url = `/users/check`
+  let body = payload
+  return $axios.post(url, body,
     {
       headers: {
         Authorization: 'Bearer ' + payload.token,

@@ -118,7 +118,7 @@ export default {
           email: state.form.email,
           name: state.form.name,
           userId: state.form.userId,
-          password: state.form.password,
+          //password: state.form.password,
         })
         .then(function () {
           location.reload()
@@ -161,8 +161,8 @@ export default {
     }
 
     const handleClose = function () {
-      state.form.password = ''
-      state.form.passwordcheck = ''
+      //state.form.password = ''
+      //state.form.passwordcheck = ''
       //state.form.genre = props.userInfo.data.genre
       state.form.email = props.userInfo.data.email
       state.form.name = props.userInfo.data.name

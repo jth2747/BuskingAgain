@@ -5,20 +5,25 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ssafy.api.request.BuskingCreatePostReq;
 import com.ssafy.api.response.BuskingListRes;
+import com.ssafy.api.response.LikeRes;
 import com.ssafy.api.response.UserBuskingRes;
 import com.ssafy.db.entity.Busking;
 import com.ssafy.db.entity.Busking_genre;
+import com.ssafy.db.entity.Liked;
 import com.ssafy.db.entity.User_busking;
 import com.ssafy.db.repository.BuskingGenreRepository;
 import com.ssafy.db.repository.BuskingGenreRepositorySupport;
 import com.ssafy.db.repository.BuskingRepository;
 import com.ssafy.db.repository.BuskingRepositorySupport;
+import com.ssafy.db.repository.LikedRepository;
+import com.ssafy.db.repository.LikedRepositorySupport;
 import com.ssafy.db.repository.UserBuskingRepository;
 import com.ssafy.db.repository.UserBuskingRepositorySupport;
 import com.ssafy.db.repository.UserRepository;
@@ -43,6 +48,13 @@ public class BuskingServiceImpl implements BuskingService {
 	UserBuskingRepository userBuskingRepository;
 	@Autowired
 	UserBuskingRepositorySupport userBuskingRepositorySupport;
+	
+	@Autowired
+	LikedRepository likedRepository;
+	@Autowired
+	LikedRepositorySupport likedRepositorySupport;
+	
+	
 	
 	@Override
 	public Busking createBusking(BuskingCreatePostReq buskingCreatInfo, Long owner_id) {
@@ -224,6 +236,44 @@ public class BuskingServiceImpl implements BuskingService {
 		Busking save = buskingRespository.save(busking);
 		
 		return userBuskingRepository.save(user_busking);
+	}
+
+	@Override
+	public LikeRes likeBusking(Long userId, Long buskingId) {
+		// TODO Auto-generated method stub
+		
+		Busking busking = buskingRespository.getOne(buskingId);
+		LikeRes ret = new LikeRes();
+	
+		int likes = busking.getLikes();
+		boolean check = false;
+		
+		
+		if(likedRepositorySupport.findLikedByUid(userId, buskingId) == null) {			
+			Liked liked = new Liked();
+			liked.setB_id(buskingId);
+			liked.setU_id(userId);
+			
+			likedRepository.save(liked);
+			
+			likes++;
+			check = true;
+			busking.setLikes(likes);
+			buskingRespository.save(busking);
+		}else {
+			Liked liked = likedRepositorySupport.findLikedByUid(userId, buskingId);
+			likedRepository.delete(liked);
+			
+			likes--;
+			check = false;
+			busking.setLikes(likes);
+			buskingRespository.save(busking);
+		}
+		
+		ret.setCheck(check);
+		ret.setLikes(likes);
+		
+		return ret;
 	}
 
 

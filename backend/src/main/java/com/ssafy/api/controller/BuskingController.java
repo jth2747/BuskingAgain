@@ -22,6 +22,7 @@ import com.ssafy.api.request.BuskingCreatePostReq;
 import com.ssafy.api.response.BuskingCreateRes;
 import com.ssafy.api.response.BuskingListRes;
 import com.ssafy.api.response.BuskingRes;
+import com.ssafy.api.response.LikeRes;
 import com.ssafy.api.response.UserBuskingRes;
 import com.ssafy.api.service.BuskingService;
 import com.ssafy.api.service.UserService;
@@ -237,5 +238,34 @@ public class BuskingController {
 		
 		return new ResponseEntity<UserBuskingRes>(HttpStatus.BAD_REQUEST);
 	}
+	
+	@PostMapping("/{buskingId}")
+	@ApiOperation(value = "좋아요 누름", notes = "좋아요 누르는 기능.") 
+	@ApiResponses({
+		@ApiResponse(code = 200, message = "성공"),
+		@ApiResponse(code = 401, message = "인증 실패"),
+		@ApiResponse(code = 404, message = "사용자 없음"),
+		@ApiResponse(code = 500, message = "서버 오류")
+	})
+	public ResponseEntity<LikeRes> likeBusking(@ApiIgnore Authentication authentication, @PathVariable Long buskingId) {
+		/**
+		 * 요청 헤더 액세스 토큰이 포함된 경우에만 실행되는 인증 처리이후, 리턴되는 인증 정보 객체(authentication) 통해서 요청한 유저 식별.
+		 * 액세스 토큰이 없이 요청하는 경우, 403 에러({"error": "Forbidden", "message": "Access Denied"}) 발생.
+		 */
+		System.out.println("좋아요 입장");
+		Busking busking = buskingService.getBuskingByBuskingId(buskingId);
+		System.out.println(busking.getId());
+		
+		SsafyUserDetails userDetails = (SsafyUserDetails)authentication.getDetails();
+		String user_id = userDetails.getUsername();
+		User user = userService.getUserByUserId(user_id);
+		Long userId = user.getId();
+		
+		LikeRes likeRes = buskingService.likeBusking(userId, buskingId);
+		
+		
+		return new ResponseEntity<LikeRes>(likeRes, HttpStatus.OK);
+	}
+	
 	
 }

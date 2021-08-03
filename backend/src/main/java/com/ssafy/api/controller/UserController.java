@@ -152,7 +152,7 @@ public class UserController {
 		return ResponseEntity.status(400).body(null);
 	}
 	
-	@GetMapping("/check")
+	@PostMapping("/check")
 	@ApiOperation(value = "회원 본인 정보 조회 권한", notes = "로그인한 회원 본인의 정보를 권한이 있는지 확인한다.") 
 	@ApiResponses({
 		@ApiResponse(code = 200, message = "성공"),

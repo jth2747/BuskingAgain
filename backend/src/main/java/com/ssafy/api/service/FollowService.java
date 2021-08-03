@@ -3,6 +3,7 @@ package com.ssafy.api.service;
 import java.util.List;
 
 import com.ssafy.api.request.GenreListPostReq;
+import com.ssafy.api.response.GenreListRes;
 
 public interface FollowService {
 
@@ -10,6 +11,6 @@ public interface FollowService {
 
 //	void deleteGenre(GenreListPostReq genre, Long id);
 
-	GenreListPostReq getList(Long id);
+	GenreListRes getList(Long id);
 
 }

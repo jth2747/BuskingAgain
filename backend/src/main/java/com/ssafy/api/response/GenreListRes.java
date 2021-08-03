@@ -12,5 +12,5 @@ import lombok.Setter;
 @ApiModel("GenreListResponse")
 public class GenreListRes {
 
-	List<String> genre;
+	List<String> genreList;
 }

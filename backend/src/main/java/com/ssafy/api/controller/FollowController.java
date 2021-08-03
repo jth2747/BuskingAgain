@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import com.ssafy.api.request.GenreListPostReq;
 import com.ssafy.api.response.BuskingListRes;
+import com.ssafy.api.response.GenreListRes;
 import com.ssafy.api.service.FollowService;
 import com.ssafy.api.service.UserService;
 import com.ssafy.common.auth.SsafyUserDetails;
@@ -103,7 +104,7 @@ public class FollowController {
         @ApiResponse(code = 404, message = "사용자 없음"),
         @ApiResponse(code = 500, message = "서버 오류")
     })
-	public ResponseEntity<GenreListPostReq> getFollowList(@ApiIgnore Authentication authentication){
+	public ResponseEntity<GenreListRes> getFollowList(@ApiIgnore Authentication authentication){
 		System.out.println("장르 팔로우 리스트 컨트롤러 들어옴");
 		
 //		userid를 확인하기 위해서 회원정보 조회
@@ -112,9 +113,9 @@ public class FollowController {
 		User user = userService.getUserByUserId(userId);
 		System.out.println("userid :" + user.getId());
 		
-		GenreListPostReq list = followService.getList(user.getId());
+		GenreListRes list = followService.getList(user.getId());
 		
-		return new ResponseEntity<GenreListPostReq>(list, HttpStatus.OK);
+		return new ResponseEntity<GenreListRes>(list, HttpStatus.OK);
 
 	}
 

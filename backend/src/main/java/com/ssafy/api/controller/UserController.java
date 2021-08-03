@@ -160,7 +160,7 @@ public class UserController {
 		@ApiResponse(code = 404, message = "사용자 없음"),
 		@ApiResponse(code = 500, message = "서버 오류")
 	})
-	public ResponseEntity<UserLoginPostRes> checkUserInfo(@ApiIgnore Authentication authentication, @RequestBody String password) {
+	public ResponseEntity<UserLoginPostRes> checkUserInfo(@ApiIgnore Authentication authentication, @RequestBody UserModifyPWPatchReq inputpassword) {
 		/**
 		 * 요청 헤더 액세스 토큰이 포함된 경우에만 실행되는 인증 처리이후, 리턴되는 인증 정보 객체(authentication) 통해서 요청한 유저 식별.
 		 * 액세스 토큰이 없이 요청하는 경우, 403 에러({"error": "Forbidden", "message": "Access Denied"}) 발생.
@@ -169,6 +169,8 @@ public class UserController {
 		System.out.println(authentication);
 		SsafyUserDetails userDetails = (SsafyUserDetails)authentication.getDetails();
 		String userId = userDetails.getUsername();
+		
+		String password = inputpassword.getPassword();
 		
 		User user = userService.getUserByUserId(userId);
 		System.out.println("받은 password");

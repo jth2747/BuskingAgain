@@ -77,12 +77,13 @@ export default {
     })
 
     const passwordCheck = function() {
-      console.log('비밀번호 확인')
+      console.log('비밀번호 확인', props.token)
       store.dispatch('root/checkPassword', {
         token: props.token,
-        passowrd: state.form.password
+        password: state.form.password
       })
       .then(function () {
+        console.log('123')
         alert('확인이 완료되었습니다.')
         store.dispatch('root/getUser', { token: props.token })
         .then(function (result) {

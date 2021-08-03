@@ -9,6 +9,9 @@
       <el-form-item prop="genre" label="장르" :label-width="state.formLabelWidth" >
         <el-input v-model="genre" autocomplete="off"></el-input>
       </el-form-item>
+      <el-form-item prop="max_viewers" label="최대 인원 수" :label-width="state.formLabelWidth" >
+        <el-input v-model="max_viewers" autocomplete="off"></el-input>
+      </el-form-item>
       <el-form-item prop="description" label="상세 설명" :label-width="state.formLabelWidth" >
         <el-input v-model="description" autocomplete="off"></el-input>
         <span v-if="description.length > 100">최대 100자까지 입력 가능합니다.</span>
@@ -81,6 +84,9 @@ export default {
     genre: {
       type: String
     },
+    max_viewers: {
+      type: Number
+    },
     token: {
       type: String
     },
@@ -98,6 +104,7 @@ export default {
       form: {
         title: props.title,
         genre: props.genre,
+        max_viewers: props.max_viewers,
         description: props.description,
         thumbnail_url: props.thumbnail_url,
       },
@@ -119,6 +126,7 @@ export default {
         token: props.token,
         title: props.title,
         genre: props.genre,
+        max_viewers: props.max_viewers,
         description: props.description,
         thumbnail_url: props.thumbnail_url,
         id: props.id,
@@ -133,6 +141,7 @@ export default {
     const handleClose = function () {
       state.form.title = props.title
       state.form.genre = props.genre
+      state.form.max_viewers = props.max_viewers
       state.form.description = props.description
       state.form.thumbnail_url = props.thumbnail_url
       emit('closeRoomEdit')

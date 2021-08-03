@@ -15,15 +15,15 @@
           </el-input>
         </div>
         <div class="button-wrapper">
-          <el-button @click="clickProfile">회원정보</el-button>
-          <el-button type="primary" @click="clickLogout">로그아웃</el-button>
+          <el-button type="success" @click="clickGenre">선호 장르</el-button>
+          <el-button type="primary" @click="clickProfile">회원정보</el-button>
+          <el-button type="medium" @click="clickLogout">로그아웃</el-button>
         </div>
       </div>
     </div>
 
 
     <div class="hide-on-big">
-
       <div class="menu-icon-wrapper" @click="changeCollapse"><i class="el-icon-menu"></i></div>
       <div class="logo-wrapper" @click="clickLogo"><div class="ic ic-logo"/></div>
       <div class="menu-icon-wrapper"><i class="el-icon-search"></i></div>
@@ -31,6 +31,7 @@
         <div class="mobile-sidebar">
           <div class="mobile-sidebar-tool-wrapper">
             <div class="logo-wrapper"><div class="ic ic-logo"/></div>
+            <el-button  class="mobile-sidebar-btn login-btn" @click="clickGenre" >선호 장르</el-button>
             <el-button  class="mobile-sidebar-btn login-btn" @click="clickProfile" >회원정보</el-button>
             <el-button type="primary" class="mobile-sidebar-btn login-btn" @click="clickLogout">로그아웃</el-button>
           </div>
@@ -171,17 +172,26 @@ export default {
       emit('openSignupDialog')
     }
 
-    const clickProfile = function() {
-      // const token = localStorage.getItem('jwt')
-      store.dispatch('root/getUser', { token: props.token })
-      .then(function (result) {
-        console.log(result.data)
-        emit('openProfileDialog', result)
-      })
-      .catch(function (err){
-        alert(err)
-      })
+    const clickGenre = () => {
+      emit('openGenreDialog')
     }
+
+    // const clickProfile = function() {
+    //   // const token = localStorage.getItem('jwt')
+    //   store.dispatch('root/getUser', { token: props.token })
+    //   .then(function (result) {
+    //     console.log(result.data)
+    //     emit('openProfileDialog', result)
+    //   })
+    //   .catch(function (err){
+    //     alert(err)
+    //   })
+    // }
+
+    const clickProfile = function() {
+      emit('openPasswordCheckDialog')
+    }
+
 
     const changeCollapse = () => {
       state.isCollapse = !state.isCollapse
@@ -191,7 +201,7 @@ export default {
       emit('click-logout')
     }
 
-    return { state, menuSelect,clickLogo, clickLogin, clickSignup, changeCollapse, clickProfile, clickLogout }
+    return { state, menuSelect,clickLogo, clickLogin, clickSignup, changeCollapse, clickProfile, clickLogout, clickGenre }
   }
 }
 </script>
@@ -288,7 +298,7 @@ export default {
     background-image: url('../../../assets/images/EBAA.png');
   }
   .main-header .hide-on-small .tool-wrapper {
-    width: 50%;
+    width: 60%;
     float: right;
   }
   .main-header .hide-on-small .tool-wrapper .button-wrapper {
@@ -296,7 +306,7 @@ export default {
     float: right;
   }
   .main-header .hide-on-small .tool-wrapper .button-wrapper .el-button {
-    width: 45%;
+    width: 30%;
     height: 50px;
     cursor: pointer;
     margin-right: 1%;
@@ -314,9 +324,9 @@ export default {
     height: 100%;
   }
   .main-header .hide-on-small .tool-wrapper .search-field .el-input .el-input__inner {
-    width: 88%;
+    width: 80%;
     height: 50px;
-    margin-right: 1%;
+    margin-right: 0%;
   }
   .main-header .hide-on-small .tool-wrapper .search-field .el-input .el-input__prefix {
     top: 5px;

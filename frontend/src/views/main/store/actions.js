@@ -17,6 +17,19 @@ export function requestSignup ({ state }, payload) {
   return $axios.post(url, body)
 }
 
+//선호 장르
+export function requestGenre ({ state }, payload) {
+  console.log('requestGenre', state, payload)
+  const url = '/genre'
+  let body = payload
+  return $axios.post(url, body,
+    {
+      headers: {
+        Authorization: 'Bearer ' + payload.token,
+    }
+  })
+}
+
 // 버스킹 방 생성
 export function requestBusking ({ state }, payload) {
   console.log('requestBusking', state, payload)
@@ -132,4 +145,17 @@ export function checkSignupId ( {state}, payload) {
   console.log('checkSignupId', state, payload)
   const url = `users/create/${payload.id}`
   return $axios.get(url)
+}
+
+// 회원정보 조회하기 전 비밀번호 확인
+export function checkPassword ( {state}, payload) {
+  console.log('checkPassword', state, payload)
+  const url = 'user/check'
+  let body = payload.password
+  return $axios.get(url, body,
+    {
+      headers: {
+        Authorization: 'Bearer ' + payload.token,
+    }
+  })
 }

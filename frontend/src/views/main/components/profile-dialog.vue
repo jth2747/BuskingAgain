@@ -1,9 +1,6 @@
 <template>
   <el-dialog custom-class="profile-dialog" title="회원정보" v-model="state.dialogVisible" @close="handleClose">
     <el-form :model="state.form" :rules="state.rules" ref="signupForm" :label-position="state.form.align">
-      <el-form-item prop="genre" label="장르" :label-width="state.formLabelWidth" >
-        <el-input v-model="state.form.genre"></el-input>
-      </el-form-item>
       <el-form-item prop="email" label="이메일" :label-width="state.formLabelWidth" >
         <el-input v-model="state.form.email" :disabled="true"></el-input>
       </el-form-item>

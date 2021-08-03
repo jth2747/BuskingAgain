@@ -52,7 +52,7 @@ public class UserController {
 //	MailBodyUtil mailBodyUtil = new MailBodyUtil();
 	
 	@GetMapping("/create/{userid}")
-	@ApiOperation(value = "회원 가입", notes = "<strong>아이디와 패스워드</strong>를 통해 회원가입 한다.") 
+	@ApiOperation(value = "아이디 중복 검사", notes = "<strong>아이디와 패스워드</strong>를 통해 회원가입 한다.") 
     @ApiResponses({
         @ApiResponse(code = 200, message = "성공"),
         @ApiResponse(code = 401, message = "인증 실패"),
@@ -62,7 +62,7 @@ public class UserController {
 	public ResponseEntity<? extends BaseResponseBody> checkId(@PathVariable String userid) {
 		
 		
-		System.out.println("회원가입");
+		System.out.println("아이디 중복 검사");
 		//임의로 리턴된 User 인스턴스. 현재 코드는 회원 가입 성공 여부만 판단하기 때문에 굳이 Insert 된 유저 정보를 응답하지 않음.
 		boolean check = userService.checkUserId(userid);
 		if(!check)

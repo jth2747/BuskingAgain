@@ -25,6 +25,7 @@ public class QBusking extends EntityPathBase<Busking> {
 	public final NumberPath<Integer> is_active = createNumber("is_active", Integer.class);
 	public final NumberPath<Integer> likes = createNumber("likes", Integer.class);
 	public final NumberPath<Integer> viewers = createNumber("viewers", Integer.class);
+	public final NumberPath<Integer> max_viewers = createNumber("max_viewers", Integer.class);
 	public final StringPath thumbnail_url = createString("thumbnail_url");
 	public final StringPath title = createString("title");
 	public final StringPath description = createString("description");

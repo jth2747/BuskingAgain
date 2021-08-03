@@ -11,6 +11,7 @@ import lombok.Setter;
 public class UserBuskingRes {
 	
 	int viewers;
+	int max_viewers;
 	boolean owner;
 	String ownerId;
 	String busking_genre;
@@ -25,6 +26,8 @@ public class UserBuskingRes {
 		res.setTitle(busking.getTitle());
 		res.setDescription(busking.getDescription());
 		res.setThumbnail_url(busking.getThumbnail_url());
+		res.setViewers(busking.getViewers());
+		res.setMax_viewers(busking.getMax_viewers());
 		return res;
 		
 	}

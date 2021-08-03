@@ -3,7 +3,7 @@
       <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">Check all</el-checkbox>
       <div style="margin: 15px 0;"></div>
       <el-checkbox-group v-model="state.form.checkedGenre" @change="handleCheckedGenreChange">
-      <el-checkbox style="margin: 5px 10px" v-for="gr in genre" :label="gr" :key="gr">{{gr}}</el-checkbox>
+      <el-checkbox style="margin: 5px 10px" v-for="gr in state.form.genre" :label="gr" :key="gr">{{gr}}</el-checkbox>
       </el-checkbox-group>
     <template #footer>
       <span class="dialog-footer">
@@ -47,7 +47,7 @@
 </style>
 <script>
 import { reactive, computed, ref, onMounted} from 'vue'
-import { useStore } from 'vuex'
+import { mapGetters, useStore } from 'vuex'
 
 const genreOptions = ['발라드', '어쿠스틱', '힙합', 'K-POP', '마술', '댄스','클래식','재즈','블루스',
 '컨트리','포크','레게','디스코','록','EDM','트로트'];
@@ -62,16 +62,14 @@ export default {
     },
     token: {
       type: String
+    },
+    genreList:{
+      type:Array
     }
   },
 
-  data() {
-      return {
-        checkAll: false,
-        checkedGenre: [],
-        genre: genreOptions,
-        isIndeterminate: true
-      };
+  computed:{
+    ...mapGetters(["getAccessToken","getGenreList"])
   },
 
 
@@ -84,6 +82,7 @@ export default {
       form: {
         checkAll: false,
         checkedGenre: [],
+        genreList:props.genreList,
         genre: genreOptions,
         isIndeterminate: true
       },

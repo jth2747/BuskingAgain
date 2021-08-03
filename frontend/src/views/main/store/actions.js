@@ -20,6 +20,8 @@ export function requestSignup ({ state }, payload) {
 //선호 장르
 export function requestGenre ({ state }, payload) {
   console.log('requestGenre', state, payload)
+  console.log(state)
+  console.log(payload)
   const url = '/genre'
   let body = payload
   return $axios.post(url, body,

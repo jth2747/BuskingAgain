@@ -77,12 +77,17 @@ export default {
     const store = useStore()
     // 마운드 이후 바인딩 될 예정 - 컨텍스트에 노출시켜야함. <return>
     const genreForm = ref(null)
-
+    store.dispatch('root/getGenre', { token: props.token })
+        .then(function (result) {
+          console.log(result.data)
+        })
+        .catch(function (err){
+          alert(err)
+        })
     const state = reactive({
       form: {
         checkAll: false,
         checkedGenre: [],
-        genreList:props.genreList,
         genre: genreOptions,
         isIndeterminate: true
       },
@@ -110,6 +115,7 @@ export default {
         state.form.checkAll = checkedCount === state.form.genre.length;
         state.form.isIndeterminate = checkedCount > 0 && checkedCount < state.form.genre.length;
         console.log(state.form.checkedGenre);
+        //console.log(genreList);
     }
 
 

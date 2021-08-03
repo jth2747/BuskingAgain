@@ -161,3 +161,14 @@ export function checkPassword ( {state}, payload) {
     }
   })
 }
+
+// 장르 조회
+export function getGenre ( { state }, payload) {
+  console.log('getGenre', state, payload)
+  const url = '/genre/list'
+  return $axios.get(url, {
+    headers: {
+      Authorization: 'Bearer ' + payload.token,
+    }
+  })
+}

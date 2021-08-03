@@ -21,4 +21,5 @@ public class BuskingListRes {
 	Timestamp start_time;
 	int likes;
 	int viewers;
+	int max_viewers;
 }

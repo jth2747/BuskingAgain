@@ -5,10 +5,6 @@
         <el-input v-model="state.form.email" autocomplete="off"></el-input>
         <span v-if="state.form.email.length > 30">최대 30자까지 입력 가능합니다.</span>
       </el-form-item>
-      <!-- <el-form-item prop="genre" label="선호하는 장르" :label-width="state.formLabelWidth" >
-        <el-input v-model="state.form.genre" autocomplete="off"></el-input>
-        <span v-if="state.form.genre.length > 30">최대 30자까지 입력 가능합니다.</span>
-      </el-form-item> -->
       <el-form-item prop="name" label="이름" :label-width="state.formLabelWidth" >
         <el-input v-model="state.form.name" autocomplete="off"></el-input>
         <span v-if="state.form.name.length > 30">최대 30자까지 입력 가능합니다.</span>
@@ -100,7 +96,6 @@ export default {
     const state = reactive({
       form: {
         email:'',
-        //genre:'',
         name:'',
         uid: '',
         upwd: '',
@@ -113,9 +108,6 @@ export default {
         email: [
           { required: true, message: 'Please input email', trigger: 'blur' }
         ],
-        // genre: [
-        //   { required: true, message: 'Please input genre', trigger: 'blur' }
-        // ],
         name: [
           { required: true, message: 'Please input Name', trigger: 'blur' }
         ],
@@ -134,7 +126,7 @@ export default {
     })
 
     onMounted(() => {
-      // console.log(signupForm.value)
+
     })
 
     const clickSignup = function () {
@@ -160,16 +152,6 @@ export default {
           console.log("아이디 유효성 "+validid());
         }
 
-        // if(validinput() == false){
-        //   console.log("장르랑 이름 null")
-        //   state.form.evalid = false;
-        // }else{
-        //   console.log("장르랑 이름 유효성" + validinput());
-        // }
-
-        // if(validinput() && validpwd() && validemail() && validid())
-        //   state.form.evalid = true;
-
         if(validpwd() && validemail() && validid())
           state.form.evalid = true;
 
@@ -180,7 +162,6 @@ export default {
           store.dispatch('root/requestSignup',
           {
             email: state.form.email,
-            //genre: state.form.genre,
             name: state.form.name,
             id: state.form.uid,
             password: state.form.upwd })
@@ -237,15 +218,6 @@ export default {
         return false;
       return true;
     }
-    // const validinput = function(){
-    //   var name = state.form.name;
-    //   var genre = state.form.genre;
-    //   if(name == "" || genre == ""){
-    //     console.log(name+" "+genre);
-    //     return false;
-    //   }
-    //   return true;
-    // }
 
     const checkId = function(){
       console.log('check')
@@ -261,7 +233,6 @@ export default {
 
     const handleClose = function () {
       state.form.email = ''
-      //state.form.genre = ''
       state.form.name = ''
       state.form.uid = ''
       state.form.upwd = ''
@@ -269,7 +240,7 @@ export default {
       emit('closeSignupDialog')
     }
 
-    return { signupForm, state, clickSignup, handleClose, validpwd, validemail, validid, validinput, checkId }
+    return { signupForm, state, clickSignup, handleClose, validpwd, validemail, validid, checkId }
   }
 }
 </script>

@@ -3,9 +3,10 @@
     <main-header
       :height="`70px`"
       :token="token"
+      @openPasswordCheckDialog="onOpenPasswordCheckDialog"
       @openLoginDialog="onOpenLoginDialog"
       @openSignupDialog="onOpenSignupDialog"
-      @openProfileDialog="onOpenProfileDialog"
+      @openGenreDialog="onOpenGenreDialog"
       @click-logout="clickLogout"/>
     <el-container class="main-container">
       <el-aside class="hide-on-small" width="240px">
@@ -29,9 +30,23 @@
     @closeLoginDialog="onCloseLoginDialog"
     @start-loding="startLoding"
     />
+  <genre-dialog
+    :open="genreDialogOpen"
+    :token="token"
+    @closeGenreDialog="onCloseGenreDialog"/>
   <signup-dialog
     :open="signupDialogOpen"
     @closeSignupDialog="onCloseSignupDialog"/>
+  <password-check-dialog
+    :open="passwordCheckDialogOpen"
+    :token="token"
+    @closePasswordCheckDialog="onClosePasswordCheckDialog"
+    @openProfileDialog="onOpenProfileDialog"/>
+  <password-dialog
+    :open="passwordDialogOpen"
+    :token="token"
+    :userInfo="userInfo"
+    @closePasswordDialog="onClosePasswordDialog"/>
   <profile-dialog
     :open="profileDialogOpen"
     :userInfo="userInfo"
@@ -39,12 +54,6 @@
     @openPasswordDialog="onOpenPasswordDialog"
     @closeProfileDialog="onCloseProfileDialog"
     @click-logout="clickLogout"/>
-  <password-dialog
-    :open="passwordDialogOpen"
-    :token="token"
-    :userInfo="userInfo"
-    @closePasswordDialog="onClosePasswordDialog"
-  />
 </template>
 <style>
   @import "https://unpkg.com/element-plus/lib/theme-chalk/index.css";
@@ -62,6 +71,8 @@ import MainFooter from './components/main-footer'
 import ProfileDialog from './components/profile-dialog.vue'
 import PasswordDialog from './components/password-dialog.vue'
 import RingLoader from 'vue-spinner/src/RingLoader.vue'
+import GenreDialog from './components/genre-dialog.vue'
+import PasswordCheckDialog from './components/password-check-dialog.vue'
 
 export default {
   name: 'Main',
@@ -73,6 +84,8 @@ export default {
     SignupDialog,
     ProfileDialog,
     PasswordDialog,
+    GenreDialog,
+    PasswordCheckDialog,
     RingLoader,
   },
   data () {
@@ -80,10 +93,12 @@ export default {
       loginDialogOpen: false,
       signupDialogOpen: false,
       profileDialogOpen: false,
+      genreDialogOpen:false,
       isLoding: false, //스피너
       token: localStorage.getItem('jwt'), // jwt 토큰
       userInfo: '',
       passwordDialogOpen: false,
+      passwordCheckDialogOpen: false,
     }
   },
   methods: {
@@ -99,12 +114,25 @@ export default {
     onCloseSignupDialog() {
       this.signupDialogOpen = false
     },
+    onOpenGenreDialog() {
+      this.genreDialogOpen = true
+    },
+    onCloseGenreDialog() {
+      this.genreDialogOpen = false
+    },
     onOpenProfileDialog(result){
       this.profileDialogOpen = true
       this.userInfo = result
     },
     onCloseProfileDialog(){
       this.profileDialogOpen=false
+    },
+    onOpenPasswordCheckDialog(){
+      this.passwordCheckDialogOpen = true
+      console.log(this.passwordCheckDialogOpen)
+    },
+    onClosePasswordCheckDialog(){
+      this.passwordCheckDialogOpen = false
     },
     onClosePasswordDialog(){
       this.passwordDialogOpen=false

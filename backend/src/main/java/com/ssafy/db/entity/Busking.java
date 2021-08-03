@@ -21,4 +21,5 @@ public class Busking extends BaseEntity{
 	int is_active;
 	int likes;
 	int viewers;
+	int max_viewers;
 }

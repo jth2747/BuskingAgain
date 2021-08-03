@@ -16,6 +16,7 @@ public class BuskingGenreRepositorySupport {
 
 	public Busking_genre findGenreByGenreName(String name) {
 		Busking_genre busking_genre = jpaQueryFactory.select(qBusking_genre).from(qBusking_genre).where(qBusking_genre.name.eq(name)).fetchOne();
+		if(busking_genre == null) return null;
 		return busking_genre;
 	}
 }

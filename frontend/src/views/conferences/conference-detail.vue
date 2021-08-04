@@ -153,7 +153,7 @@ export default {
       store.dispatch('root/roomDetail', { token: state.form.token, id: route.params.conferenceId }
       )
       .then(function (result) {
-        console.log(result.data)
+        console.log('result' ,result.data)
         state.form.title = result.data["title"]
         state.form.ownerId = result.data["ownerId"]
         state.form.description = result.data["description"]
@@ -171,8 +171,14 @@ export default {
 
     // 페이지 이탈시 불리는 훅
     onUnmounted(() => {
+      store.dispatch('root/roomOut', {
+        token: state.form.token,
+        id: state.conferenceId
+      })
+      .then(function (result) {
+        console.log(result)
+      })
       state.conferenceId = ''
-
     })
 
     // 버스킹 수정 모달창 생성

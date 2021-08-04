@@ -172,3 +172,15 @@ export function getGenre ( { state }, payload) {
     }
   })
 }
+
+
+// 버스킹 방 나갔을 때
+export function roomOut ( { state }, payload) {
+  console.log('roomOut', state, payload)
+  const url = `/busking/${payload.id}`
+  return $axios.delete(url, {
+    headers: {
+      Authorization: 'Bearer ' + payload.token,
+    }
+  })
+}

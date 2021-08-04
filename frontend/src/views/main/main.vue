@@ -33,6 +33,7 @@
   <genre-dialog
     :open="genreDialogOpen"
     :token="token"
+    :genreList="genreList"
     @closeGenreDialog="onCloseGenreDialog"/>
   <signup-dialog
     :open="signupDialogOpen"
@@ -96,6 +97,7 @@ export default {
       genreDialogOpen:false,
       isLoding: false, //스피너
       token: localStorage.getItem('jwt'), // jwt 토큰
+      genreList:[],
       userInfo: '',
       passwordDialogOpen: false,
       passwordCheckDialogOpen: false,

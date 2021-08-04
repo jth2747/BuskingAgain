@@ -7,6 +7,8 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.ssafy.api.request.GenreListPostReq;
+import com.ssafy.api.response.GenreListRes;
 import com.ssafy.db.entity.Busking_genre;
 import com.ssafy.db.entity.Fav_genre;
 import com.ssafy.db.repository.BuskingGenreRepository;
@@ -28,12 +30,30 @@ public class FollowServiecImpl implements FollowService {
 	FollowRepositorySupport followRepositorySupport;
 	
 	@Override
-	public void addGenre(List<String> genre, Long u_id) {
+	public void addGenre(GenreListPostReq genre, Long u_id) {
 		// TODO Auto-generated method stub
 		
 		System.out.println("장르 추가 서비스");
 		
-		for(String g : genre) {
+		List<Fav_genre> fav_genreList= new ArrayList<Fav_genre>();
+		fav_genreList =	followRepository.findAll();
+
+		System.out.println("장르 삭제 서비스");
+	
+		System.out.println("test");
+		for(Fav_genre fg : fav_genreList) {
+			if(fg.getU_id() == u_id) {
+				followRepository.delete(fg);
+			}
+		}
+		System.out.println("원래 있던 애들 지우기 완료");			
+		
+		
+		
+		List<String> list = new ArrayList<String>();
+		list = genre.getGenre();
+		
+		for(String g : list) {
 			long g_id = buskingGenreRepositorySupport.findGenreByGenreName(g).getId();
 			if(followRepositorySupport.findFavGenreByGid(u_id, g_id)==null) {
 				Fav_genre fav_genre = new Fav_genre();
@@ -44,24 +64,26 @@ public class FollowServiecImpl implements FollowService {
 		}
 	}
 
-	@Override
-	public void deleteGenre(List<String> genre, Long u_id) {
-		// TODO Auto-generated method stub
-		
-		System.out.println("장르 삭제 서비스");
-		
-		for(String g : genre) {
-			long g_id = buskingGenreRepositorySupport.findGenreByGenreName(g).getId();
-			if(followRepositorySupport.findFavGenreByGid(u_id, g_id) != null) {
-				Fav_genre fav_genre = followRepositorySupport.findFavGenreByGid(u_id, g_id);
-				followRepository.delete(fav_genre);
-			}
-		}
-		
-	}
+//	@Override
+//	public void deleteGenre(GenreListPostReq genre, Long u_id) {
+//		// TODO Auto-generated method stub
+//		
+//		System.out.println("장르 삭제 서비스");
+//		
+//		List<String> list = genre.getGenre();
+//		
+//		for(String g : list) {
+//			long g_id = buskingGenreRepositorySupport.findGenreByGenreName(g).getId();
+//			if(followRepositorySupport.findFavGenreByGid(u_id, g_id) != null) {
+//				Fav_genre fav_genre = followRepositorySupport.findFavGenreByGid(u_id, g_id);
+//				followRepository.delete(fav_genre);
+//			}
+//		}
+//		
+//	}
 
 	@Override
-	public List<String> getList(Long u_id) {
+	public GenreListRes getList(Long u_id) {
 		List<Fav_genre> list = followRepository.findAll();
 		List<String> ret = new ArrayList<String>();
 		
@@ -75,8 +97,10 @@ public class FollowServiecImpl implements FollowService {
 				}
 			}
 		}
+		GenreListRes genreList = new GenreListRes();
+		genreList.setGenreList(ret);
 		
-		return ret;
+		return genreList;
 	}
 
 }

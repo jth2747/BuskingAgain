@@ -97,7 +97,7 @@ export default {
 
     const state = reactive({
       form: {
-        genre: props.userInfo.data.genre,
+        //genre: props.userInfo.data.genre,
         email: props.userInfo.data.email,
         name: props.userInfo.data.name,
         userId: props.userInfo.data.userId,
@@ -114,11 +114,11 @@ export default {
       if(vaildinput()){
         store.dispatch('root/updateUser', {
           token: props.token,
-          genre: state.form.genre,
+          //genre: state.form.genre,
           email: state.form.email,
           name: state.form.name,
           userId: state.form.userId,
-          password: state.form.password,
+          //password: state.form.password,
         })
         .then(function () {
           location.reload()
@@ -135,10 +135,10 @@ export default {
 
     const vaildinput = function(){
       var name = state.form.name;
-      var genre = state.form.genre;
+      //var genre = state.form.genre;
 
-      if(name == "" || genre == ""){
-        console.log(name+" "+genre);
+      if(name == "" ){
+        console.log(name);
         return false;
       }
       return true;
@@ -161,9 +161,9 @@ export default {
     }
 
     const handleClose = function () {
-      state.form.password = ''
-      state.form.passwordcheck = ''
-      state.form.genre = props.userInfo.data.genre
+      //state.form.password = ''
+      //state.form.passwordcheck = ''
+      //state.form.genre = props.userInfo.data.genre
       state.form.email = props.userInfo.data.email
       state.form.name = props.userInfo.data.name
       state.form.userId = props.userInfo.data.userId

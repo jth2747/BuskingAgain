@@ -1,9 +1,13 @@
 <template>
   <el-dialog custom-class="genre-dialog" title="선호 장르" v-model="state.dialogVisible" @close="handleClose">
-      <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">Check all</el-checkbox>
-      <div style="margin: 15px 0;"></div>
+      <el-button type="warning" @click="showGenreList" style="margin: 10px">기존 선호 장르 확인</el-button>
+      <div v-if="state.form.showGenre==true">
+      <el-item style="margin: 10px">기존 선호 장르 리스트: {{state.form.genreList["genreList"]}}</el-item>
+      </div>
+      <div v-else></div>
+      <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange" style="margin: 15px 10px">Check all</el-checkbox>
       <el-checkbox-group v-model="state.form.checkedGenre" @change="handleCheckedGenreChange">
-      <el-checkbox style="margin: 5px 10px" v-for="gr in genre" :label="gr" :key="gr">{{gr}}</el-checkbox>
+      <el-checkbox style="margin: 5px 10px" v-for="gr in state.form.genre" :label="gr" :key="gr">{{gr}}</el-checkbox>
       </el-checkbox-group>
     <template #footer>
       <span class="dialog-footer">
@@ -17,6 +21,7 @@
   width: 400px !important;
   height: 580px;
 }
+
 .genre-dialog .el-dialog__headerbtn {
   float: right;
 }
@@ -47,7 +52,7 @@
 </style>
 <script>
 import { reactive, computed, ref, onMounted} from 'vue'
-import { useStore } from 'vuex'
+import { mapGetters, useStore } from 'vuex'
 
 const genreOptions = ['발라드', '어쿠스틱', '힙합', 'K-POP', '마술', '댄스','클래식','재즈','블루스',
 '컨트리','포크','레게','디스코','록','EDM','트로트'];
@@ -62,16 +67,14 @@ export default {
     },
     token: {
       type: String
+    },
+    genreList:{
+      type:Array
     }
   },
 
-  data() {
-      return {
-        checkAll: false,
-        checkedGenre: [],
-        genre: genreOptions,
-        isIndeterminate: true
-      };
+  computed:{
+    ...mapGetters(["getAccessToken","getGenreList"])
   },
 
 
@@ -82,8 +85,10 @@ export default {
 
     const state = reactive({
       form: {
+        showGenre: false,
         checkAll: false,
         checkedGenre: [],
+        genreList:[],
         genre: genreOptions,
         isIndeterminate: true
       },
@@ -100,6 +105,18 @@ export default {
 
     })
 
+    const showGenreList=function(){
+      state.form.showGenre=true;
+      store.dispatch('root/getGenre', { token: props.token })
+        .then(function (result) {
+          console.log(result.data)
+          state.form.genreList=result.data
+        })
+        .catch(function (err){
+          alert(err)
+        })
+    }
+
     const handleCheckAllChange=function(val) {
         state.form.checkedGenre = val ? genreOptions : [];
         state.form.isIndeterminate = false;
@@ -111,6 +128,7 @@ export default {
         state.form.checkAll = checkedCount === state.form.genre.length;
         state.form.isIndeterminate = checkedCount > 0 && checkedCount < state.form.genre.length;
         console.log(state.form.checkedGenre);
+        //console.log(genreList);
     }
 
 
@@ -136,7 +154,7 @@ export default {
           })
     }
 
-    return { genreForm, state, handleClose, clickCheckbox, handleCheckedGenreChange, handleCheckAllChange }
+    return { genreForm, state, handleClose, clickCheckbox, handleCheckedGenreChange, handleCheckAllChange, showGenreList }
   }
 }
 </script>

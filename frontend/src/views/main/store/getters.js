@@ -28,3 +28,6 @@ export function getUserName (state) {
 	return state.userName;
 }
 
+export function getGenreList(state){
+  return state.genreList;
+}

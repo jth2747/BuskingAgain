@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ssafy.api.request.BuskingCreatePostReq;
+import com.ssafy.api.request.SearchPostReq;
 import com.ssafy.api.response.BuskingListRes;
 import com.ssafy.api.response.LikeRes;
 import com.ssafy.api.response.UserBuskingRes;
@@ -66,6 +67,8 @@ public class BuskingServiceImpl implements BuskingService {
 			for(Busking b : busking) {
 				if(b.getIs_active() == 1)
 					return null;
+				
+				System.out.println("확인용");
 			}
 				
 		}
@@ -214,7 +217,9 @@ public class BuskingServiceImpl implements BuskingService {
 		userBuskingRepository.deleteById(user_busking.getId());
 		
 		Busking busking = buskingRespository.getOne(buskingId);
-		busking.setViewers(busking.getViewers()-1);
+		int viewers = busking.getViewers()-1;
+		System.out.println(viewers+" "+busking.getViewers());
+		busking.setViewers(viewers);
 	
 		return buskingRespository.save(busking);
 	}
@@ -232,6 +237,12 @@ public class BuskingServiceImpl implements BuskingService {
 			user_busking = userBuskingRepositorySupport.findUser_buskingByUid(userid, buskingId);
 			return user_busking;
 		}
+		
+		if(busking.getMax_viewers()<=busking.getViewers()) {
+			System.out.println("인원 초과");
+			return null;
+		}
+		
 		busking.setViewers(busking.getViewers()+1);
 		Busking save = buskingRespository.save(busking);
 		
@@ -272,6 +283,37 @@ public class BuskingServiceImpl implements BuskingService {
 		
 		ret.setCheck(check);
 		ret.setLikes(likes);
+		
+		return ret;
+	}
+
+	@Override
+	public List<BuskingListRes> searchList(String title) {
+		// TODO Auto-generated method stub
+		
+		List<Busking> list = buskingRespository.findAll();
+		List<BuskingListRes> ret = new ArrayList<BuskingListRes>();
+		
+		
+		for(Busking b : list) {
+			if(b.getTitle().contains(title)) {
+				BuskingListRes buskingListRes = new BuskingListRes();
+				buskingListRes.setId(b.getId());
+				buskingListRes.setTitle(b.getTitle());
+				buskingListRes.setDescription(b.getDescription());
+				buskingListRes.setThumbnail_url(b.getThumbnail_url());
+				buskingListRes.setLikes(b.getLikes());
+				buskingListRes.setMax_viewers(b.getMax_viewers());
+				buskingListRes.setStart_time(b.getStart_time());
+				
+				String genre = buskingGenreRespository.getOne(b.getBusking_genre()).getName();
+				String ownerId = userRepository.getOne(b.getOwner_id()).getUserId();
+				buskingListRes.setOwnerId(ownerId);
+				buskingListRes.setBusking_genre(genre);
+				
+				ret.add(buskingListRes);
+			}
+		}
 		
 		return ret;
 	}

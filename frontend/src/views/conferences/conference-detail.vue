@@ -162,6 +162,16 @@ export default {
         state.form.owner = result.data["owner"]
         state.form.viewers = result.data["viewers"]
       })
+      .catch(function (err) {
+        console.log('err', err)
+        alert('입장가능 인원을 초과하였습니다.')
+        store.commit('root/setMenuActive', 0)
+        const MenuItems = store.getters['root/getMenus']
+        let keys = Object.keys(MenuItems)
+        router.push({
+          name: keys[0]
+      })
+      })
       // 뒤로가기 버튼 비활성화
       history.pushState(null, null, location.href);
       window.onpopstate = function () {

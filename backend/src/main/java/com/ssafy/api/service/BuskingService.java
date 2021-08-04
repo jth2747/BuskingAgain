@@ -3,6 +3,7 @@ package com.ssafy.api.service;
 import java.util.List;
 
 import com.ssafy.api.request.BuskingCreatePostReq;
+import com.ssafy.api.request.SearchPostReq;
 import com.ssafy.api.response.BuskingListRes;
 import com.ssafy.api.response.LikeRes;
 import com.ssafy.api.response.UserBuskingRes;
@@ -30,6 +31,8 @@ public interface BuskingService {
 	Busking outBusking(Long userId, Long buskingId);
 
 	LikeRes likeBusking(Long userId, Long buskingId);
+
+	List<BuskingListRes> searchList(String title);
 
 
 }

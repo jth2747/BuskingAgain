@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 
 import com.ssafy.api.request.BuskingCreatePostReq;
+import com.ssafy.api.request.SearchPostReq;
 import com.ssafy.api.response.BuskingCreateRes;
 import com.ssafy.api.response.BuskingListRes;
 import com.ssafy.api.response.BuskingRes;
@@ -224,6 +225,9 @@ public class BuskingController {
 		
 		if(userId != busking.getOwner_id() && busking.getIs_active() == 1) {
 			User_busking user_busking  = buskingService.enterBusking(user.getId(), buskingId);
+			if(user_busking == null) {
+				return new ResponseEntity<UserBuskingRes>(HttpStatus.BAD_REQUEST);
+			}
 			userBuskingRes.setOwner(false);
 			busking = buskingService.getBuskingByBuskingId(buskingId);
 			userBuskingRes.setViewers(busking.getViewers());
@@ -267,5 +271,24 @@ public class BuskingController {
 		return new ResponseEntity<LikeRes>(likeRes, HttpStatus.OK);
 	}
 	
+	@PostMapping("/search/{title}")
+	@ApiOperation(value = "list 조회", notes = "생성되어 있는 방(is_active)의 list를 응답한다.")
+    @ApiResponses({
+        @ApiResponse(code = 200, message = "성공"),
+        @ApiResponse(code = 401, message = "인증 실패"),
+        @ApiResponse(code = 404, message = "사용자 없음"),
+        @ApiResponse(code = 500, message = "서버 오류")
+    })
+	public ResponseEntity<List<BuskingListRes>> getBuskingList(@PathVariable String title) {
+		/**
+		 * 요청 헤더 액세스 토큰이 포함된 경우에만 실행되는 인증 처리이후, 리턴되는 인증 정보 객체(authentication) 통해서 요청한 유저 식별.
+		 * 액세스 토큰이 없이 요청하는 경우, 403 에러({"error": "Forbidden", "message": "Access Denied"}) 발생.
+		 */
+		System.out.println("진행중인 버스킹 목록 조회");
+		
+		List<BuskingListRes> list = buskingService.searchList(title);
 	
+		
+		return new ResponseEntity<List<BuskingListRes>>(list, HttpStatus.OK);
+	}	
 }

@@ -5,7 +5,7 @@
 
 # Node artifact files
 node_modules/
-dist/
+# dist/ @@@@@@@@@@@@@@@Modified: delete '#' and this phrase@@@@@@@@@@@@@@@@@@@
 
 # Compiled Java class files
 *.class
@@ -17,7 +17,7 @@ dist/
 *.log
 
 # Package files
-*.jar
+# *.jar @@@@@@@@@@@@@@@@@Modified: delete '#' and this phrase@@@@@@@@@@@@@@@@@@@@
 
 # Maven
 target/
@@ -51,7 +51,7 @@ Thumbs.db
 .gradle
 .settings
 bin
-build
+# build @@@@@@@@@@@@@@@@@Modified: delete '#' and this phrase@@@@@@@@@@@@@@@@@@@@
 .project
 .classpath
 

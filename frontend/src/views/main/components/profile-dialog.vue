@@ -1,6 +1,6 @@
 <template>
   <el-dialog custom-class="profile-dialog" title="회원정보" v-model="state.dialogVisible" @close="handleClose">
-    <el-form :model="state.form" :rules="state.rules" ref="signupForm" :label-position="state.form.align">
+    <el-form :model="state.form" :rules="state.rules" ref="profileForm" :label-position="state.form.align">
       <el-form-item prop="email" label="이메일" :label-width="state.formLabelWidth" >
         <el-input v-model="state.form.email" :disabled="true"></el-input>
       </el-form-item>
@@ -56,7 +56,7 @@
 <script>
 // import axios from "axios";
 // const SERVER_URL = "http://localhost:8080";
-import { mapGetters } from "vuex";
+// import { mapGetters } from "vuex";
 import { reactive, computed, ref, onMounted } from 'vue'
 import { useStore } from 'vuex'
 
@@ -76,20 +76,20 @@ export default {
     },
   },
 
-  data () {
-    return {
-      update: false,
-    };
-  },
-  computed: {
-    ...mapGetters(["profileDialog", "getAccessToken", "user"]),
-  },
-  methods: {
-    updateSetting() {
-      this.update = true;
-    },
+  // data () {
+  //   return {
+  //     update: false,
+  //   };
+  // },
+  // computed: {
+  //   ...mapGetters(["profileDialog", "getAccessToken", "user"]),
+  // },
+  // methods: {
+  //   updateSetting() {
+  //     this.update = true;
+  //   },
 
-  },
+  // },
 
   setup(props, { emit }) {
     const store = useStore()
@@ -114,11 +114,9 @@ export default {
       if(vaildinput()){
         store.dispatch('root/updateUser', {
           token: props.token,
-          //genre: state.form.genre,
           email: state.form.email,
           name: state.form.name,
           userId: state.form.userId,
-          //password: state.form.password,
         })
         .then(function () {
           location.reload()
@@ -161,9 +159,6 @@ export default {
     }
 
     const handleClose = function () {
-      //state.form.password = ''
-      //state.form.passwordcheck = ''
-      //state.form.genre = props.userInfo.data.genre
       state.form.email = props.userInfo.data.email
       state.form.name = props.userInfo.data.name
       state.form.userId = props.userInfo.data.userId

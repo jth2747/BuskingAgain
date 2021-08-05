@@ -83,7 +83,7 @@ export default {
         password: state.form.password
       })
       .then(function () {
-        console.log('123')
+        emit('closePasswordCheckDialog')
         alert('확인이 완료되었습니다.')
         store.dispatch('root/getUser', { token: props.token })
         .then(function (result) {
@@ -104,6 +104,7 @@ export default {
 
     const handleClose = function () {
       emit('closePasswordCheckDialog')
+      location.reload()
     }
 
     return { profileForm, state, passwordCheck, handleClose }

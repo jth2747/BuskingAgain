@@ -135,6 +135,7 @@ export default {
     const handleClose = function () {
       state.form.genre = ''
       emit('closeGenreDialog')
+      location.reload()
     }
 
     const clickCheckbox = function(){

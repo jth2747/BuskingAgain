@@ -163,6 +163,7 @@ export default {
       state.form.name = props.userInfo.data.name
       state.form.userId = props.userInfo.data.userId
       emit('closeProfileDialog')
+      location.reload()
     }
 
     return { profileForm, state, updateUser, vaildinput, passwordChange, deleteUser, handleClose }

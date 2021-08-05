@@ -231,12 +231,14 @@ public class BuskingController {
 			userBuskingRes.setOwner(false);
 			busking = buskingService.getBuskingByBuskingId(buskingId);
 			userBuskingRes.setViewers(busking.getViewers());
+			userBuskingRes.setUserId(user_id);
 			return new ResponseEntity<UserBuskingRes>(userBuskingRes, HttpStatus.OK);
 		}
-		else if(userId == busking.getOwner_id()) {
+		else if(userId == busking.getOwner_id()&& busking.getIs_active() == 1) {
 			User_busking user_busking  = buskingService.enterBusking(user.getId(), buskingId);
 			userBuskingRes.setOwner(true);
 			userBuskingRes.setViewers(busking.getViewers());
+			userBuskingRes.setUserId(user_id);
 			return new ResponseEntity<UserBuskingRes>(userBuskingRes, HttpStatus.OK);
 		}
 		

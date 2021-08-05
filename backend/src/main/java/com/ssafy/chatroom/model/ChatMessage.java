@@ -13,8 +13,8 @@ public class ChatMessage {
 	    JOIN, CHAT
 	}
 	
-    private String roomId;	//방번호
-    private String writer;
+    private Integer roomId;	//방번호
+    private String userName;
     private String message;
     private MessageType type;
 }

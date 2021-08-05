@@ -1,5 +1,5 @@
 <template>
-  <h2>{{ $route.params.conferenceId }}</h2>
+  <!-- <h2>{{ $route.params.conferenceId }}</h2> -->
   <h1>{{ state.form.ownerId }}님의 버스킹</h1>
   <h2>방 제목 : {{ state.form.title }}</h2>
   <h3>내용 : {{ state.form.description }}</h3>
@@ -41,13 +41,10 @@
       v-for="(item, idx) in state.form.recvList"
       :key="idx"
     >
-      <span> 유저이름: {{ item.writer }}</span>
+      <span> 유저이름: {{ item.userName }}</span>
       <span>내용: {{ item.message }}</span>
     </div>
-    <!-- <div>
-      유저 이름: {{ state.form.userName}}
-      내용 : {{ state.form.message}}
-    </div> -->
+
   </div>
 </template>
 <style>
@@ -99,8 +96,9 @@ export default {
 
     // 페이지 진입시 불리는 훅
     onMounted(() => {
+      // 페이지에 들어오면 connect 실행
       connect()
-      console.log('가나다라', Stomp.over(socket) )
+      // console.log('가나다라', Stomp.over(socket) )
       state.conferenceId = route.params.conferenceId
       store.commit('root/setMenuActiveMenuName', 'home')
       store.dispatch('root/roomDetail', { token: state.form.token, id: route.params.conferenceId }
@@ -182,7 +180,7 @@ export default {
       })
     }
 
-    ///////////////////////// 위에꺼 내리기 ////////////////////////////////
+    ///////////////////////// 채팅 관련 ////////////////////////////
 
     const sendMessage = function (e) {
       console.log('eeeeee', e.keyCode, 'username', state.form.userName, 'msg', state.form.message, 'recvList', state.form.recvList )
@@ -198,7 +196,7 @@ export default {
         const msg = {
           type: "CHAT",
           roomId: route.params.conferenceId,
-          writer: state.form.userName,
+          userName: state.form.userName,
           message: state.form.message,
           // recvList: state.form.recvList,
         };

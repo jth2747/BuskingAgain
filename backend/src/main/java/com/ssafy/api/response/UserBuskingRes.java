@@ -14,6 +14,7 @@ public class UserBuskingRes {
 	int max_viewers;
 	boolean owner;
 	String ownerId;
+	String userId;
 	String busking_genre;
 	String title;
 	String description;

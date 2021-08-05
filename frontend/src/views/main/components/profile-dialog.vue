@@ -114,9 +114,9 @@ export default {
       if(vaildinput()){
         store.dispatch('root/updateUser', {
           token: props.token,
-          // email: state.form.email,
+          email: state.form.email,
           name: state.form.name,
-          // userId: state.form.userId,
+          userId: state.form.userId,
         })
         .then(function () {
           location.reload()

@@ -27,11 +27,11 @@
     @closeRoomEdit="closeRoomEdit"
   />
   <div id="socket">
-    유저이름:
+    <!-- 유저이름:
     <input
       v-model="state.form.userName"
       type="text"
-    >
+    > -->
     내용: <input
       v-model="state.form.message"
       type="text"
@@ -41,8 +41,8 @@
       v-for="(item, idx) in state.form.recvList"
       :key="idx"
     >
-      <span> 유저이름: {{ item.userName }}</span>
-      <span>내용: {{ item.message }}</span>
+      <span> {{ item.userId }}</span>
+      <span> : {{ item.message }}</span>
     </div>
 
   </div>
@@ -91,6 +91,7 @@ export default {
         message: "",
         recvList: [],
         stompClient: "",
+        userId: "",
       },
     })
 
@@ -112,6 +113,7 @@ export default {
         state.form.genre = result.data["busking_genre"]
         state.form.owner = result.data["owner"]
         state.form.viewers = result.data["viewers"]
+        state.form.userId = result.data["userId"]
       })
       .catch(function (err) {
         console.log('err', err)
@@ -183,8 +185,8 @@ export default {
     ///////////////////////// 채팅 관련 ////////////////////////////
 
     const sendMessage = function (e) {
-      console.log('eeeeee', e.keyCode, 'username', state.form.userName, 'msg', state.form.message, 'recvList', state.form.recvList )
-      if(e.keyCode === 13 && state.form.userName !== '' && state.form.message !== ''){
+      console.log('eeeeee', e.keyCode, 'username', state.form.userId, 'msg', state.form.message, 'recvList', state.form.recvList )
+      if(e.keyCode === 13 && state.form.userId !== '' && state.form.message !== ''){
         send()
         state.form.message = ''
       }
@@ -196,8 +198,9 @@ export default {
         const msg = {
           type: "CHAT",
           roomId: route.params.conferenceId,
-          userName: state.form.userName,
+          // userName: state.form.userName,
           message: state.form.message,
+          userId: state.form.userId
           // recvList: state.form.recvList,
         };
         console.log('메세지확인', msg)

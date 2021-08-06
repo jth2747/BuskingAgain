@@ -89,12 +89,10 @@ public class UserServiceImpl implements UserService {
 		System.out.println("회원정보 수정");
 		user.setId(id);
 		user.setUserId(userId);
-		user.setPassword(passwordEncoder.encode(getUser.getPassword()));
+		user.setPassword(getUser.getPassword());
 		user.setName(userModifyInfo.getName());
-//		user.setGenre(userModifyInfo.getGenre());
 		user.setEmail(getUser.getEmail());
 
-//		return userRepositorySupport.update(id, user.getDepartment(), user.getName(), user.getPassword(), user.getPosition());
 		return userRepository.save(user);
 	}
 	

@@ -22,7 +22,7 @@ public interface BuskingService {
 
 	Busking ModifyBusking(BuskingCreatePostReq buskingModifyInfo, Long ownerId, Long buskingId, Busking originbusking);
 
-	List<BuskingListRes> listGenre(String genre);
+	List<BuskingListRes> listGenre(long userId);
 
 	Busking deleteBusking(Long buskingId, Busking busking);
 

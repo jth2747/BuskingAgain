@@ -17,12 +17,15 @@ import com.ssafy.api.response.LikeRes;
 import com.ssafy.api.response.UserBuskingRes;
 import com.ssafy.db.entity.Busking;
 import com.ssafy.db.entity.Busking_genre;
+import com.ssafy.db.entity.Fav_genre;
 import com.ssafy.db.entity.Liked;
 import com.ssafy.db.entity.User_busking;
 import com.ssafy.db.repository.BuskingGenreRepository;
 import com.ssafy.db.repository.BuskingGenreRepositorySupport;
 import com.ssafy.db.repository.BuskingRepository;
 import com.ssafy.db.repository.BuskingRepositorySupport;
+import com.ssafy.db.repository.FollowRepository;
+import com.ssafy.db.repository.FollowRepositorySupport;
 import com.ssafy.db.repository.LikedRepository;
 import com.ssafy.db.repository.LikedRepositorySupport;
 import com.ssafy.db.repository.UserBuskingRepository;
@@ -55,7 +58,10 @@ public class BuskingServiceImpl implements BuskingService {
 	@Autowired
 	LikedRepositorySupport likedRepositorySupport;
 	
-	
+	@Autowired
+	FollowRepository followRepository;
+	@Autowired
+	FollowRepositorySupport followRepositorySupport;
 	
 	@Override
 	public Busking createBusking(BuskingCreatePostReq buskingCreatInfo, Long owner_id) {
@@ -161,33 +167,38 @@ public class BuskingServiceImpl implements BuskingService {
 	}
 
 	@Override
-	public List<BuskingListRes> listGenre(String genre) {
+	public List<BuskingListRes> listGenre(long userId) {
 		// TODO Auto-generated method stub
 		List<Busking> list = buskingRespository.findAll();
 		List<BuskingListRes> ret = new ArrayList<>();
 		
-		Long buskingGenre = buskingGenreRepositorySupport.findGenreByGenreName(genre).getId();
-		
-		for(Busking b : list) {
-			if(b.getIs_active() == 1 && b.getBusking_genre() == buskingGenre) {
-				BuskingListRes input = new BuskingListRes();
-				input.setDescription(b.getDescription());
-				input.setLikes(b.getLikes());
-				input.setTitle(b.getTitle());
-				input.setViewers(b.getViewers());
-				input.setMax_viewers(b.getMax_viewers());
-				input.setStart_time(b.getStart_time());
-				input.setThumbnail_url(b.getThumbnail_url());
-				input.setId(b.getId());
-
-				String genrename = buskingGenreRespository.getOne(b.getBusking_genre()).getName();
-				input.setBusking_genre(genrename);
-				String ownerID = userRepository.getOne(b.getOwner_id()).getUserId();
-				input.setOwnerId(ownerID);
-				
-				ret.add(input);
+		List<Fav_genre> flist = followRepository.findAll();
+		for(Fav_genre f : flist) {
+			if(f.getU_id() == userId) {				
+				for(Busking b : list) {
+					if(b.getIs_active() == 1 && b.getBusking_genre() == f.getG_id()) {
+						BuskingListRes input = new BuskingListRes();
+						input.setDescription(b.getDescription());
+						input.setLikes(b.getLikes());
+						input.setTitle(b.getTitle());
+						input.setViewers(b.getViewers());
+						input.setMax_viewers(b.getMax_viewers());
+						input.setStart_time(b.getStart_time());
+						input.setThumbnail_url(b.getThumbnail_url());
+						input.setId(b.getId());
+						
+						String genrename = buskingGenreRespository.getOne(b.getBusking_genre()).getName();
+						input.setBusking_genre(genrename);
+						String ownerID = userRepository.getOne(b.getOwner_id()).getUserId();
+						input.setOwnerId(ownerID);
+						
+						ret.add(input);
+					}
+				}
 			}
 		}
+		
+		
 		return ret;
 	}
 

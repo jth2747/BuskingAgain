@@ -1,4 +1,5 @@
 <template>
+<div>
   <div class="button-wrapper">
   <el-select v-model="value" placeholder="Select">
     <el-option
@@ -11,6 +12,14 @@
 
   <el-button @click="clickBusking">버스킹 생성</el-button>
   </div>
+  <div class="search-field">
+    <el-input @keyup.enter="submit"
+      placeholder="버스킹 제목 검색"
+      prefix-icon="el-icon-search"
+      v-model="state.searchValue">
+    </el-input>
+  </div>
+</div>
   <ul class="infinite-list" v-infinite-scroll="load" style="overflow:auto">
     <div v-if="this.token">
       <li v-for="(room, i) in state.form.roomData[0]" @click="clickConference(state.form.roomData[0][i]['id'])" class="infinite-list-item" :key="i" >
@@ -40,10 +49,13 @@
     @closeBuskingDialog="onCloseBuskingDialog"/>
 </template>
 <style>
+.search-field {
+  width: 300px;
+}
 .button-wrapper {
-    width: 30%;
-    float: right;
-    margin: 5px;
+  width: 30%;
+  float: right;
+  /* margin: 5px; */
   }
 .infinite-list {
   padding-left: 0;
@@ -123,6 +135,7 @@ export default {
       form: {
         roomData: [],
       },
+      searchValue: '',
       count: 12
     })
 
@@ -130,13 +143,14 @@ export default {
       state.count += 4
     }
 
+
     onMounted(() => {
       store.dispatch('root/roomList')
       .then(function (result) {
         console.log(result.data)
         // state.form.roomData = result.data
         state.form.roomData.push(result.data)
-        console.log(state.form.roomData[0][0].title)
+        // console.log(state.form.roomData[0][0].title)
       })
     })
 
@@ -149,11 +163,25 @@ export default {
       })
     }
 
+     const submit = function() {
+      console.log("엔터입력")
+      console.log(state.searchValue)
+      store.dispatch('root/findRoomList',{
+        title: state.searchValue
+      })
+      .then(function(result){
+        console.log(result.data)
+        state.form.roomData = []
+        state.form.roomData.push(result.data)
+        // console.log(state.form.roomData[0][0].title)
+      })
+    }
+
     const loginDemended = function () {
       alert('버스킹에 입장하려면 로그인을 먼저 해주세요')
     }
 
-    return { state, load, clickConference, loginDemended}
+    return { state, load, clickConference, loginDemended, submit}
   }
 }
 </script>

@@ -7,6 +7,7 @@
       @openLoginDialog="onOpenLoginDialog"
       @openSignupDialog="onOpenSignupDialog"
       @openGenreDialog="onOpenGenreDialog"
+      @openIdPasswordDialog="onOpenIdPasswordDialog"
       @click-logout="clickLogout"/>
     <el-container class="main-container">
       <el-aside class="hide-on-small" width="240px">
@@ -30,6 +31,12 @@
     @closeLoginDialog="onCloseLoginDialog"
     @start-loding="startLoding"
     />
+  <id-password-dialog
+    :open="idPasswordDialogOpen"
+    :userInfo="userInfo"
+    :token="token"
+    @closeIdPasswordDialog="onCloseIdPasswordDialog"
+  />
   <genre-dialog
     :open="genreDialogOpen"
     :token="token"
@@ -54,7 +61,15 @@
     :token="token"
     @openPasswordDialog="onOpenPasswordDialog"
     @closeProfileDialog="onCloseProfileDialog"
+    @openDeleteConfirmDialog="onOpenDeleteConfirmDialog"
     @click-logout="clickLogout"/>
+  <delete-confirm-dialog
+    :open="deleteConfirmDialogOpen"
+    :userInfo="userInfo"
+    :token="token"
+    @closeDeleteConfirmDialog="onCloseDeleteConfirmDialog"
+  />
+
 </template>
 <style>
   @import "https://unpkg.com/element-plus/lib/theme-chalk/index.css";
@@ -74,6 +89,8 @@ import PasswordDialog from './components/password-dialog.vue'
 import RingLoader from 'vue-spinner/src/RingLoader.vue'
 import GenreDialog from './components/genre-dialog.vue'
 import PasswordCheckDialog from './components/password-check-dialog.vue'
+import DeleteConfirmDialog from './components/delete-confirm-dialog.vue'
+import IdPasswordDialog from './components/id-password-dialog.vue'
 
 export default {
   name: 'Main',
@@ -87,6 +104,8 @@ export default {
     PasswordDialog,
     GenreDialog,
     PasswordCheckDialog,
+    DeleteConfirmDialog,
+    IdPasswordDialog,
     RingLoader,
   },
   data () {
@@ -101,6 +120,8 @@ export default {
       userInfo: '',
       passwordDialogOpen: false,
       passwordCheckDialogOpen: false,
+      deleteConfirmDialogOpen: false,
+      idPasswordDialogOpen: false,
     }
   },
   methods: {
@@ -141,6 +162,18 @@ export default {
     },
     onOpenPasswordDialog(){
       this.passwordDialogOpen=true
+    },
+    onOpenDeleteConfirmDialog(){
+      this.deleteConfirmDialogOpen=true
+    },
+    onCloseDeleteConfirmDialog(){
+      this.deleteConfirmDialogOpen=false
+    },
+    onOpenIdPasswordDialog(){
+      this.idPasswordDialogOpen=true
+    },
+    onCloseIdPasswordDialog(){
+      this.idPasswordDialogOpen=false
     },
     // 로딩 스피너 작동하게 하는 함수
     startLoding(){

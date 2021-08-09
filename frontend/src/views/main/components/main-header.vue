@@ -7,13 +7,6 @@
     <div class="hide-on-small">
       <div class="logo-wrapper" @click="clickLogo"><div class="ic ic-logo"/></div>
       <div class="tool-wrapper">
-        <div class="search-field">
-          <el-input
-            placeholder="버스킹 제목, 장르 검색"
-            prefix-icon="el-icon-search"
-            v-model="state.searchValue">
-          </el-input>
-        </div>
         <div class="button-wrapper">
           <el-button type="success" @click="clickGenre">선호 장르</el-button>
           <el-button type="primary" @click="clickProfile">회원정보</el-button>
@@ -60,7 +53,7 @@
       <div class="logo-wrapper" @click="clickLogo"><div class="ic ic-logo"/></div>
       <div class="tool-wrapper">
         <div class="search-field">
-          <el-input
+          <el-input @keyup.enter="submit"
             placeholder="버스킹 제목, 장르 검색"
             prefix-icon="el-icon-search"
             v-model="state.searchValue">
@@ -69,6 +62,7 @@
         <div class="button-wrapper">
           <el-button @click="clickSignup" class="el-icon-circle-plus-outline"> 회원가입</el-button>
           <el-button type="primary" @click="clickLogin" class="el-icon-key">로그인</el-button>
+          <el-button type="success" @click="findIdPassword" plain>Id/Password</el-button>
         </div>
       </div>
     </div>
@@ -83,6 +77,7 @@
             <div class="logo-wrapper"><div class="ic ic-logo"/></div>
             <el-button type="primary" class="mobile-sidebar-btn login-btn" @click="clickLogin">로그인</el-button>
             <el-button class="mobile-sidebar-btn register-btn" @click="clickSignup">회원가입</el-button>
+            <el-button type="success" @click="findIdPassword" plain class="mobile-sidebar-btn register-btn">Id/Password</el-button>
           </div>
           <el-menu
             :default-active="String(state.activeIndex)"
@@ -106,7 +101,10 @@ import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 import $axios from "axios"
 
+
 const SERVER_URL = "http://localhost:8080";
+
+
 export default {
   name: 'main-header',
   props: {
@@ -120,11 +118,11 @@ export default {
     },
   },
 
+
   setup(props, { emit }) {
     const store = useStore()
     const router = useRouter()
     const state = reactive({
-      searchValue: null,
       isCollapse: true,
       menuItems: computed(() => {
         const MenuItems = store.getters['root/getMenus']
@@ -176,6 +174,8 @@ export default {
       emit('openGenreDialog')
     }
 
+
+
     // const clickProfile = function() {
     //   // const token = localStorage.getItem('jwt')
     //   store.dispatch('root/getUser', { token: props.token })
@@ -187,6 +187,19 @@ export default {
     //     alert(err)
     //   })
     // }
+
+    const submit = function() {
+      console.log("엔터입력")
+      console.log(state.searchValue)
+      store.dispatch('root/findRoomList',{
+        title: state.searchValue
+      })
+      .then(function(result){
+        console.log(result.data)
+        // .push(result.data)
+        // console.log(buskingList[0][0].title)
+      })
+    }
 
     const clickProfile = function() {
       emit('openPasswordCheckDialog')
@@ -200,8 +213,12 @@ export default {
     const clickLogout = function () {
       emit('click-logout')
     }
+    const findIdPassword = function () {
+      emit('openIdPasswordDialog')
+    }
 
-    return { state, menuSelect,clickLogo, clickLogin, clickSignup, changeCollapse, clickProfile, clickLogout, clickGenre }
+
+    return { state, menuSelect,clickLogo, clickLogin, clickSignup, changeCollapse, clickProfile, clickLogout, clickGenre, findIdPassword }
   }
 }
 </script>

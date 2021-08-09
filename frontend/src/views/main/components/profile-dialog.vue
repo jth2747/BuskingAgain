@@ -15,7 +15,8 @@
       <span class="dialog-footer">
         <el-button type="success"  @click="passwordChange">비밀번호 변경</el-button>
         <el-button type="warning" icon="el-icon-edit" @click="updateUser">정보수정</el-button>
-        <el-button type="danger" icon="el-icon-delete" @click="deleteUser">회원탈퇴</el-button>
+        <el-button type="danger" icon="el-icon-delete" @click="deleteConfirm">회원탈퇴</el-button>
+        <!-- <el-button type="danger" icon="el-icon-delete" @click="deleteUser">회원탈퇴</el-button> -->
       </span>
     </template>
   </el-dialog>
@@ -76,20 +77,6 @@ export default {
     },
   },
 
-  // data () {
-  //   return {
-  //     update: false,
-  //   };
-  // },
-  // computed: {
-  //   ...mapGetters(["profileDialog", "getAccessToken", "user"]),
-  // },
-  // methods: {
-  //   updateSetting() {
-  //     this.update = true;
-  //   },
-
-  // },
 
   setup(props, { emit }) {
     const store = useStore()
@@ -145,17 +132,21 @@ export default {
       emit('openPasswordDialog')
     }
 
-    const deleteUser = function() {
-      store.dispatch('root/deleteUser', { token: props.token, userId: props.userInfo.data.userId })
-      .then(function (result) {
-        console.log(result.date)
-        emit('click-logout')
-        location.reload()
-        alert('탈퇴가 완료되었습니다.')
-      })
-      .catch(function (err){
-        alert(err)
-      })
+    // const deleteUser = function() {
+    //   store.dispatch('root/deleteUser', { token: props.token, userId: props.userInfo.data.userId })
+    //   .then(function (result) {
+    //     console.log(result.date)
+    //     emit('click-logout')
+    //     location.reload()
+    //     alert('탈퇴가 완료되었습니다.')
+    //   })
+    //   .catch(function (err){
+    //     alert(err)
+    //   })
+    // }
+
+    const deleteConfirm = function() {
+      emit('openDeleteConfirmDialog')
     }
 
     const handleClose = function () {
@@ -166,7 +157,7 @@ export default {
       location.reload()
     }
 
-    return { profileForm, state, updateUser, vaildinput, passwordChange, deleteUser, handleClose }
+    return { profileForm, state, updateUser, vaildinput, passwordChange, handleClose, deleteConfirm }
   }
 }
 </script>

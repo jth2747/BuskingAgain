@@ -1,21 +1,64 @@
 <template>
   <!-- <h2>{{ $route.params.conferenceId }}</h2> -->
-  <h1>{{ state.form.ownerId }}님의 버스킹</h1>
-  <h2>방 제목 : {{ state.form.title }}</h2>
-  <h3>내용 : {{ state.form.description }}</h3>
-  <p>
-  <span>접속자 수 : {{ state.form.viewers}} / </span>
-  <span>좋아요 : 0</span>
-  </p>
+  <el-container>
+    <el-aside width="250px">
+      <div id="socket">
+        <el-scrollbar height="50pc">
+          <div v-for="(item, idx) in state.form.recvList" :key="idx">
+            <span> {{ item.userId }}</span>
+            <span> : {{ item.message }}</span>
+          </div>
+          채팅: <input
+            v-model="state.form.message"
+            type="text"
+            @keyup="sendMessage"
+          >
+        </el-scrollbar>
+      </div>
+    </el-aside>
+    <el-container>
+      <el-header>
+        <!-- {{ state.form.ownerId }}님의 버스킹 -->
+        {{ state.form.description }}
+        <span>  접속자 수 : {{ state.form.viewers}} / </span>
+        <span>좋아요 : 0</span>
+        </el-header>
+      <el-main>Main</el-main>
+      <el-footer>
+        <el-button-group v-if="state.form.owner">
+          <el-button type="warning" icon="el-icon-edit" @click="clickRoomEdit">수정</el-button>
+          <el-button type="danger" icon="el-icon-delete" @click="roomDelete">방 종료</el-button>
+        </el-button-group>
+        <el-button-group v-else>
+          <el-button type="danger" @click="goBackHome">나가기</el-button>
+        </el-button-group>
+      </el-footer>
+    </el-container>
+  </el-container>
+
+
+
+
+
+
+
+
+  <!-- <h1>{{ state.form.ownerId }}님의 버스킹</h1> -->
+  <!-- <h2>방 제목 : {{ state.form.title }}</h2> -->
+  <!-- <h3>내용 : {{ state.form.description }}</h3> -->
+  <!-- <p> -->
+  <!-- <span>접속자 수 : {{ state.form.viewers}} / </span> -->
+  <!-- <span>좋아요 : 0</span> -->
+  <!-- </p> -->
   <!-- 방 만든 사람 -->
-  <el-button-group v-if="state.form.owner">
+  <!-- <el-button-group v-if="state.form.owner">
     <el-button type="warning" icon="el-icon-edit" @click="clickRoomEdit">수정</el-button>
     <el-button type="danger" icon="el-icon-delete" @click="roomDelete">방 종료</el-button>
-  </el-button-group>
+  </el-button-group> -->
   <!-- 관객 -->
-  <el-button-group v-else>
+  <!-- <el-button-group v-else>
     <el-button type="danger" @click="goBackHome">나가기</el-button>
-  </el-button-group>
+  </el-button-group> -->
   <conference-update
     :open="state.form.roomEditDialogOpen"
     :title="state.form.title"
@@ -26,12 +69,12 @@
     :id="$route.params.conferenceId"
     @closeRoomEdit="closeRoomEdit"
   />
-  <div id="socket">
-    <!-- 유저이름:
+  <!-- <div id="socket">
+    유저이름:
     <input
       v-model="state.form.userName"
       type="text"
-    > -->
+    >
     내용: <input
       v-model="state.form.message"
       type="text"
@@ -45,16 +88,77 @@
       <span> : {{ item.message }}</span>
     </div>
 
-  </div>
+  </div> -->
+
+  <!-- <el-row :gutter="20">
+  <el-col :span="6" :offset="18">
+  <el-space wrap class="grid-content bg-purple">
+    <el-card class="box-card" style="width: 250px">
+      <template #header>
+        <div class="card-header">
+          <span>채팅창</span>
+        </div>
+      </template>
+      <div v-for="(item, idx) in state.form.recvList"
+      :key="idx" class="text item">
+        <span> {{ item.userId }}</span>
+      <span> : {{ item.message }}</span>
+      </div>
+    <input
+      v-model="state.form.message"
+      type="text"
+      @keyup="sendMessage"
+    >
+    </el-card>
+
+  </el-space>
+  </el-col>
+  </el-row> -->
+
+
+
 </template>
-<style>
+<style scoped>
   #socket {
     font-family: Avenir, Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    text-align: center;
+    text-align: left;
     color: #2c3e50;
     margin-top: 60px;
+    margin-left: 10px;
+  }
+  .el-header, .el-footer {
+    background-color: #B3C0D1;
+    color: #333;
+    text-align: center;
+    line-height: 60px;
+  }
+
+  .el-aside {
+    background-color: #D3DCE6;
+    color: #333;
+    text-align: center;
+    line-height: 30px;
+  }
+
+  .el-main {
+    background-color: white;
+    color: #333;
+    text-align: center;
+    line-height: 10pc;
+  }
+  body > .el-container {
+    margin-bottom: 100px;
+  }
+
+  .el-container:nth-child(5) .el-aside,
+  .el-container:nth-child(6) .el-aside {
+    line-height: 260px;
+  }
+
+  .el-container:nth-child(7) .el-aside {
+    line-height: 320px;
   }
 </style>
 <script>
@@ -92,6 +196,7 @@ export default {
         recvList: [],
         stompClient: "",
         userId: "",
+        drawer: false,
       },
     })
 

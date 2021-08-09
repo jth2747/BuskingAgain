@@ -12,7 +12,7 @@
       <el-form-item prop="uid" label="아이디" :label-width="state.formLabelWidth" >
         <el-input v-model="state.form.uid" autocomplete="off"></el-input>
         <span v-if="state.form.uid.length > 16">최대 16자까지 입력 가능합니다.</span>
-        <el-button type="warning" @click="checkId">중복확인</el-button>
+        <el-button type="warning" size="mini" @click="checkId">중복확인</el-button>
       </el-form-item>
       <el-form-item prop="upwd" label="비밀번호" :label-width="state.formLabelWidth">
         <el-input v-model="state.form.upwd" autocomplete="off" show-password></el-input>

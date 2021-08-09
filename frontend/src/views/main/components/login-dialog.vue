@@ -26,10 +26,11 @@
         </span>
 
 
+
       </el-form-item>
     </el-form>
     <template #footer>
-      <ring-loader v-if="isLoding" :loading="loading" :color="color1" :size="size"></ring-loader>
+      <!-- <ring-loader v-if="isLoding" :loading="loading" :color="color1" :size="size"></ring-loader> -->
     </template>
   </el-dialog>
 </template>

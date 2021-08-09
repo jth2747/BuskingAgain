@@ -9,8 +9,9 @@
       <el-form-item prop="genre" label="장르" :label-width="state.formLabelWidth" >
         <el-input v-model="state.form.genre" autocomplete="off"></el-input>
       </el-form-item>
-      <el-form-item prop="max_viewers" label="최대 인원" :label-width="state.formLabelWidth" >
-        <el-input v-model="state.form.max_viewers" autocomplete="off"></el-input>
+      <el-form-item prop="max_viewers" label="입장 가능 인원" :label-width="state.formLabelWidth" >
+        <!-- <el-input v-model="state.form.max_viewers" autocomplete="off"></el-input> -->
+        <el-input-number v-model="state.form.max_viewers" controls-position="right" @change="handleChange" :min="1" :max="20"></el-input-number>
       </el-form-item>
       <el-form-item prop="description" label="상세 설명" :label-width="state.formLabelWidth" >
         <el-input v-model="state.form.description" autocomplete="off"></el-input>
@@ -19,6 +20,7 @@
       <el-form-item prop="thumbnail_url" label="썸네일 사진" :label-width="state.formLabelWidth" >
         <!-- <el-input v-model="state.form.thumbnail_url" autocomplete="off"></el-input> -->
         <input type="file" @change="imgUpload">
+
       </el-form-item>
     </el-form>
     <template #footer>
@@ -91,7 +93,7 @@ export default {
       form: {
         title:'',
         genre:'',
-        max_viewers:0,
+        max_viewers: 1,
         description:'',
         thumbnail_url:'',
       },
@@ -146,7 +148,11 @@ export default {
       emit('closeBuskingDialog')
     }
 
-    return { buskingForm, state, handleClose, clickCreate, imgUpload }
+    const handleChange = function (value) {
+      console.log(value)
+    }
+
+    return { buskingForm, state, handleClose, clickCreate, imgUpload, handleChange }
   }
 }
 </script>

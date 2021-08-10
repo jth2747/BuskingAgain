@@ -52,13 +52,6 @@
     <div class="hide-on-small">
       <div class="logo-wrapper" @click="clickLogo"><div class="ic ic-logo"/></div>
       <div class="tool-wrapper">
-        <div class="search-field">
-          <el-input @keyup.enter="submit"
-            placeholder="버스킹 제목, 장르 검색"
-            prefix-icon="el-icon-search"
-            v-model="state.searchValue">
-          </el-input>
-        </div>
         <div class="button-wrapper">
           <el-button @click="clickSignup" class="el-icon-circle-plus-outline"> 회원가입</el-button>
           <el-button type="primary" @click="clickLogin" class="el-icon-key">로그인</el-button>

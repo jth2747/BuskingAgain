@@ -1,6 +1,7 @@
 <template>
+<div>
   <div class="button-wrapper">
-  <el-select v-model="value" placeholder="Select">
+  <el-select v-model="value" placeholder="Select" v-if="this.token">
     <el-option
       v-for="item in options"
       :key="item.value"
@@ -9,28 +10,42 @@
     </el-option>
   </el-select>
 
-  <el-button @click="clickBusking">버스킹 생성</el-button>
+  <el-button @click="clickBusking" v-if="this.token">버스킹 생성</el-button>
   </div>
+  <div class="search-field">
+    <el-input @keyup.enter="submit"
+      placeholder="버스킹 제목 검색"
+      prefix-icon="el-icon-search"
+      v-model="state.searchValue">
+    </el-input>
+  </div>
+</div>
   <ul class="infinite-list" v-infinite-scroll="load" style="overflow:auto">
     <div v-if="this.token">
-      <li v-for="(room, i) in state.form.roomData[0]" @click="clickConference(state.form.roomData[0][i]['id'])" class="infinite-list-item" :key="i" >
-        <conference
-          :image="room['thumbnail_url']"
-          :title="room['title']"
-          :desc="room['description']"
-          :genre="room['busking_genre']"
-        />
-      </li>
+      <el-carousel :interval="4000" type="card" height="330px">
+        <li v-for="(room, i) in state.form.roomData[0]" @click="clickConference(state.form.roomData[0][i]['id'])" class="infinite-list-item" :key="i">
+          <el-carousel-item class="medium">
+            <conference
+              :image="room['thumbnail_url']"
+              :title="room['title']"
+              :desc="room['description']"
+              :genre="room['busking_genre']"
+            />
+          </el-carousel-item>
+        </li>
+      </el-carousel>
     </div>
     <div v-else>
-      <li v-for="(room, i) in state.form.roomData[0]" @click="loginDemended" class="infinite-list-item" :key="i" >
+      <el-carousel :interval="4000" type="card" height="330px">
+      <el-carousel-item v-for="(room, i) in state.form.roomData[0]" @click="loginDemended" class="infinite-list-item medium" :key="i" >
         <conference
           :image="room['thumbnail_url']"
           :title="room['title']"
           :desc="room['description']"
           :genre="room['busking_genre']"
         />
-      </li>
+      </el-carousel-item>
+      </el-carousel>
     </div>
   </ul>
 
@@ -38,6 +53,8 @@
     :open="buskingDialogOpen"
     :token="token"
     @closeBuskingDialog="onCloseBuskingDialog"/>
+
+
 </template>
 <style>
 .button-wrapper {
@@ -70,7 +87,7 @@
 }
 </style>
 <script>
-import Conference from './components/conference-genre'
+import Conference from '../home/components/conference'
 import { onMounted, reactive } from 'vue'
 import { useRouter } from 'vue-router'
 import BuskingDialog from '../main/components/busking-dialog.vue'
@@ -121,6 +138,7 @@ export default {
 
     const state = reactive({
       form: {
+        token: localStorage.getItem('jwt'),
         roomData: [],
       },
       count: 12
@@ -131,7 +149,9 @@ export default {
     }
 
     onMounted(() => {
-      store.dispatch('root/roomGenreList')
+      store.dispatch('root/roomGenreList',{
+        token: state.form.token,
+      })
       .then(function (result) {
         console.log(result.data)
         // state.form.roomData = result.data

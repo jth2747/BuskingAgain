@@ -166,6 +166,7 @@
     line-height: 320px;
   }
 
+
 </style>
 <script>
 import { reactive, onMounted, onUnmounted } from 'vue'

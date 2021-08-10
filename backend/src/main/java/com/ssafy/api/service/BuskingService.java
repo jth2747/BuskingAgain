@@ -7,7 +7,9 @@ import com.ssafy.api.request.SearchPostReq;
 import com.ssafy.api.response.BuskingListRes;
 import com.ssafy.api.response.LikeRes;
 import com.ssafy.api.response.UserBuskingRes;
+import com.ssafy.api.response.ViewerListRes;
 import com.ssafy.db.entity.Busking;
+import com.ssafy.db.entity.User;
 import com.ssafy.db.entity.User_busking;
 
 public interface BuskingService {
@@ -33,6 +35,10 @@ public interface BuskingService {
 	LikeRes likeBusking(Long userId, Long buskingId);
 
 	List<BuskingListRes> searchList(String title);
+
+	ViewerListRes viewersList(Long buskingId);
+
+	void kickout(Long buskingId, List<String> kickoutIdList);
 
 
 }

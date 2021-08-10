@@ -243,7 +243,7 @@ export default {
     height: 50px;
     background-size: contain;
     background-repeat: no-repeat;
-    background-image: url('../../../assets/images/EBAA.png');
+    background-image: url('../../../assets/images/GIL.png');
   }
   .mobile-sidebar-wrapper {
     position: absolute;
@@ -282,7 +282,7 @@ export default {
     margin-top: 30px;
     background-size: contain;
     background-repeat: no-repeat;
-    background-image: url('../../../assets/images/EBAA.png');
+    background-image: url('../../../assets/images/GIL.png');
   }
   .mobile-sidebar-wrapper .mobile-sidebar-backdrop {
     width: calc(100% - 260px); height: calc(100vh - 1px);
@@ -312,7 +312,7 @@ export default {
     height: 50px;
     background-size: contain;
     background-repeat: no-repeat;
-    background-image: url('../../../assets/images/EBAA.png');
+    background-image: url('../../../assets/images/GIL.png');
   }
   .main-header .hide-on-small .tool-wrapper {
     width: 60%;

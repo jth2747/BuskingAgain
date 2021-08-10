@@ -1,7 +1,7 @@
 <template>
 <div>
   <div class="button-wrapper">
-  <el-select v-model="value" placeholder="Select">
+  <el-select v-model="value" placeholder="Select" v-if="this.token">
     <el-option
       v-for="item in options"
       :key="item.value"
@@ -10,7 +10,7 @@
     </el-option>
   </el-select>
 
-  <el-button @click="clickBusking">버스킹 생성</el-button>
+  <el-button @click="clickBusking" v-if="this.token">버스킹 생성</el-button>
   </div>
   <div class="search-field">
     <el-input @keyup.enter="submit"
@@ -22,24 +22,30 @@
 </div>
   <ul class="infinite-list" v-infinite-scroll="load" style="overflow:auto">
     <div v-if="this.token">
-      <li v-for="(room, i) in state.form.roomData[0]" @click="clickConference(state.form.roomData[0][i]['id'])" class="infinite-list-item" :key="i" >
-        <conference
-          :image="room['thumbnail_url']"
-          :title="room['title']"
-          :desc="room['description']"
-          :genre="room['busking_genre']"
-        />
-      </li>
+      <el-carousel :interval="4000" type="card" height="330px">
+        <li v-for="(room, i) in state.form.roomData[0]" @click="clickConference(state.form.roomData[0][i]['id'])" class="infinite-list-item" :key="i">
+          <el-carousel-item class="medium">
+            <conference
+              :image="room['thumbnail_url']"
+              :title="room['title']"
+              :desc="room['description']"
+              :genre="room['busking_genre']"
+            />
+          </el-carousel-item>
+        </li>
+      </el-carousel>
     </div>
     <div v-else>
-      <li v-for="(room, i) in state.form.roomData[0]" @click="loginDemended" class="infinite-list-item" :key="i" >
+      <el-carousel :interval="4000" type="card" height="330px">
+      <el-carousel-item v-for="(room, i) in state.form.roomData[0]" @click="loginDemended" class="infinite-list-item medium" :key="i" >
         <conference
           :image="room['thumbnail_url']"
           :title="room['title']"
           :desc="room['description']"
           :genre="room['busking_genre']"
         />
-      </li>
+      </el-carousel-item>
+      </el-carousel>
     </div>
   </ul>
 
@@ -80,6 +86,25 @@
   display: inline-block;
   cursor: pointer;
 }
+
+/* crousel */
+.el-carousel__item h3 {
+  color: #475669;
+  font-size: 14px;
+  opacity: 0.75;
+  line-height: 200px;
+  margin: 0;
+}
+
+.el-carousel__item:nth-child(2n) {
+  background-color: #99a9bf;
+}
+
+.el-carousel__item:nth-child(2n+1) {
+  background-color: #d3dce6;
+}
+
+
 </style>
 <script>
 import Conference from './components/conference'

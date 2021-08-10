@@ -23,7 +23,11 @@
         <span>  접속자 수 : {{ state.form.viewers}} / </span>
         <span>좋아요 : 0</span>
         </el-header>
-      <el-main>Main</el-main>
+      <el-row>
+        <el-col :span="24">
+          <el-main class="grid-content">Main</el-main>
+        </el-col>
+      </el-row>
       <el-footer>
         <el-button-group v-if="state.form.owner">
           <el-button type="warning" icon="el-icon-edit" @click="clickRoomEdit">수정</el-button>
@@ -64,6 +68,7 @@
     :title="state.form.title"
     :description="state.form.description"
     :thumbnail_url="state.form.thumbnail_url"
+    :max_viewers="state.form.max_viewers"
     :genre="state.form.genre"
     :token="state.form.token"
     :id="$route.params.conferenceId"
@@ -143,10 +148,10 @@
   }
 
   .el-main {
-    background-color: white;
+    background-color: #E9EEF3;
     color: #333;
     text-align: center;
-    line-height: 10pc;
+    line-height: 43.45pc;
   }
   body > .el-container {
     margin-bottom: 100px;
@@ -160,6 +165,7 @@
   .el-container:nth-child(7) .el-aside {
     line-height: 320px;
   }
+
 </style>
 <script>
 import { reactive, onMounted, onUnmounted } from 'vue'
@@ -175,6 +181,7 @@ export default {
   components: {
     conferenceUpdate,
   },
+
 
   setup () {
     const route = useRoute()
@@ -196,7 +203,8 @@ export default {
         recvList: [],
         stompClient: "",
         userId: "",
-        drawer: false,
+        max_viewers: 0
+        // drawer: false,
       },
     })
 
@@ -219,6 +227,7 @@ export default {
         state.form.owner = result.data["owner"]
         state.form.viewers = result.data["viewers"]
         state.form.userId = result.data["userId"]
+        state.form.max_viewers = result.data["max_viewers"]
       })
       .catch(function (err) {
         console.log('err', err)

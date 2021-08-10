@@ -15,6 +15,7 @@ import com.ssafy.api.request.SearchPostReq;
 import com.ssafy.api.response.BuskingListRes;
 import com.ssafy.api.response.LikeRes;
 import com.ssafy.api.response.UserBuskingRes;
+import com.ssafy.api.response.ViewerListRes;
 import com.ssafy.db.entity.Busking;
 import com.ssafy.db.entity.Busking_genre;
 import com.ssafy.db.entity.Fav_genre;
@@ -323,7 +324,7 @@ public class BuskingServiceImpl implements BuskingService {
 		
 		
 		for(Busking b : list) {
-			if(b.getTitle().contains(title)) {
+			if(b.getTitle().contains(title) && b.getIs_active() == 1) {
 				BuskingListRes buskingListRes = new BuskingListRes();
 				buskingListRes.setId(b.getId());
 				buskingListRes.setTitle(b.getTitle());
@@ -346,19 +347,22 @@ public class BuskingServiceImpl implements BuskingService {
 	}
 
 	@Override
-	public List<User> viewersList(Long buskingId) {
+	public ViewerListRes viewersList(Long buskingId) {
 		// TODO Auto-generated method stub
 		
-		List<User> ret = new ArrayList<User>();
+		ViewerListRes ret = new ViewerListRes();
 		
 		List<User_busking> userList = userBuskingRepository.findAll();
+		List<String> input = new ArrayList<String>();
 		
 		for(User_busking ub : userList) {
 			if(ub.getB_id() == buskingId) {
 				User user = userRepository.findById(ub.getU_id()).get();
-				ret.add(user);
+				input.add(user.getUserId());
 			}
 		}
+		
+		ret.setViewersList(input);
 		
 		return ret;
 	}

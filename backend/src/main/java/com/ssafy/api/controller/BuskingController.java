@@ -26,6 +26,7 @@ import com.ssafy.api.response.BuskingListRes;
 import com.ssafy.api.response.BuskingRes;
 import com.ssafy.api.response.LikeRes;
 import com.ssafy.api.response.UserBuskingRes;
+import com.ssafy.api.response.ViewerListRes;
 import com.ssafy.api.service.BuskingService;
 import com.ssafy.api.service.UserService;
 import com.ssafy.common.auth.SsafyUserDetails;
@@ -309,7 +310,7 @@ public class BuskingController {
 		@ApiResponse(code = 404, message = "사용자 없음"),
 		@ApiResponse(code = 500, message = "서버 오류")
 	})
-	public ResponseEntity<List<User>> getViewersList(@ApiIgnore Authentication authentication, @PathVariable Long buskingId)  {
+	public ResponseEntity<ViewerListRes> getViewersList(@ApiIgnore Authentication authentication, @PathVariable Long buskingId)  {
 		/**
 		 * 요청 헤더 액세스 토큰이 포함된 경우에만 실행되는 인증 처리이후, 리턴되는 인증 정보 객체(authentication) 통해서 요청한 유저 식별.
 		 * 액세스 토큰이 없이 요청하는 경우, 403 에러({"error": "Forbidden", "message": "Access Denied"}) 발생.
@@ -324,11 +325,11 @@ public class BuskingController {
 		Busking busking = buskingService.getBuskingByBuskingId(buskingId);
 		
 		if(busking.getOwner_id() == userId) {			
-			List<User> viewersList = buskingService.viewersList(buskingId);
-			return new ResponseEntity<List<User>>(viewersList, HttpStatus.OK);
+			ViewerListRes viewersList = buskingService.viewersList(buskingId);
+			return new ResponseEntity<ViewerListRes>(viewersList, HttpStatus.OK);
 		}else {
 			System.out.println("방장 아님...못봄");
-			return new ResponseEntity<List<User>>(HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<ViewerListRes>(HttpStatus.BAD_REQUEST);
 		}
 		
 	}	

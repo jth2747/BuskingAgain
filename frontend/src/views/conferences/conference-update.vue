@@ -10,14 +10,16 @@
         <el-input v-model="genre" autocomplete="off"></el-input>
       </el-form-item>
       <el-form-item prop="max_viewers" label="최대 인원 수" :label-width="state.formLabelWidth" >
-        <el-input v-model="max_viewers" autocomplete="off"></el-input>
+        <!-- <el-input v-model="max_viewers" autocomplete="off"></el-input> -->
+        <el-input-number v-model="max_viewers" controls-position="right" :min="1" :max="20"></el-input-number>
       </el-form-item>
       <el-form-item prop="description" label="상세 설명" :label-width="state.formLabelWidth" >
         <el-input v-model="description" autocomplete="off"></el-input>
         <span v-if="description.length > 100">최대 100자까지 입력 가능합니다.</span>
       </el-form-item>
       <el-form-item prop="thumbnail_url" label="썸네일 사진" :label-width="state.formLabelWidth" >
-        <el-input v-model="thumbnail_url" autocomplete="off"></el-input>
+        <!-- <el-input v-model="thumbnail_url" autocomplete="off"></el-input> -->
+        <input type="file" @change="imgUpload">
       </el-form-item>
     </el-form>
     <template #footer>
@@ -106,7 +108,8 @@ export default {
         genre: props.genre,
         max_viewers: props.max_viewers,
         description: props.description,
-        thumbnail_url: props.thumbnail_url,
+        thumbnail_url: '',
+        max_viewers: props.max_viewers,
       },
       dialogVisible: computed(() => props.open),
       formLabelWidth: '120px'
@@ -122,20 +125,39 @@ export default {
 
     // 버스킹 정보 수정
     const roomUpdate = function () {
-      store.dispatch('root/updateRoom', {
-        token: props.token,
-        title: props.title,
-        genre: props.genre,
-        max_viewers: props.max_viewers,
-        description: props.description,
-        thumbnail_url: props.thumbnail_url,
-        id: props.id,
-      })
-      .then(function (result) {
-        alert('수정 완료')
-        console.log(result)
-        location.reload()
-      })
+      if(state.form.thumbnail_url){
+        store.dispatch('root/updateRoom', {
+          token: props.token,
+          title: props.title,
+          genre: props.genre,
+          max_viewers: props.max_viewers,
+          description: props.description,
+          thumbnail_url: state.form.thumbnail_url,
+          max_viewers: props.max_viewers,
+          id: props.id,
+        })
+        .then(function (result) {
+          alert('수정 완료')
+          console.log(result)
+          handleClose()
+        })
+      } else{
+        store.dispatch('root/updateRoom', {
+          token: props.token,
+          title: props.title,
+          genre: props.genre,
+          max_viewers: props.max_viewers,
+          description: props.description,
+          thumbnail_url: props.thumbnail_url,
+          max_viewers: props.max_viewers,
+          id: props.id,
+        })
+        .then(function (result) {
+          alert('수정 완료')
+          console.log(result)
+          location.reload()
+        })
+      }
     }
 
     const handleClose = function () {
@@ -143,11 +165,20 @@ export default {
       state.form.genre = props.genre
       state.form.max_viewers = props.max_viewers
       state.form.description = props.description
-      state.form.thumbnail_url = props.thumbnail_url
+      // state.form.thumbnail_url = props.thumbnail_url
+      state.form.max_viewers = props.max_viewers
       emit('closeRoomEdit')
     }
 
-    return { roomUpdateForm, state, roomUpdate, handleClose }
+    const imgUpload = function (event) {
+      let file = event.target.files
+      console.log('파일', file[0])
+      let imgUrl = URL.createObjectURL(file[0])
+      console.log(imgUrl)
+      state.form.thumbnail_url = imgUrl
+    }
+
+    return { roomUpdateForm, state, roomUpdate, handleClose, imgUpload }
   }
 }
 </script>

@@ -173,7 +173,21 @@ export default {
       alert('버스킹에 입장하려면 로그인을 먼저 해주세요')
     }
 
-    return { state, load, clickConference, loginDemended}
+    const submit = function() {
+      console.log("엔터입력")
+      console.log(state.searchValue)
+      store.dispatch('root/findRoomList',{
+        title: state.searchValue
+      })
+      .then(function(result){
+        console.log(result.data)
+        state.form.roomData = []
+        state.form.roomData.push(result.data)
+        // console.log(state.form.roomData[0][0].title)
+      })
+    }
+
+    return { state, load, clickConference, loginDemended, submit}
   }
 }
 </script>

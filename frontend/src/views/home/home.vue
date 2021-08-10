@@ -23,28 +23,26 @@
   <ul class="infinite-list" v-infinite-scroll="load" style="overflow:auto">
     <div v-if="this.token">
       <el-carousel :interval="4000" type="card" height="330px">
-        <li v-for="(room, i) in state.form.roomData[0]" @click="clickConference(state.form.roomData[0][i]['id'])" class="infinite-list-item" :key="i">
-          <el-carousel-item class="medium">
+        <el-carousel-item v-for="(room, i) in state.form.roomData[0]" @click="clickConference(state.form.roomData[0][i]['id'])" class="infinite-list-item medium" :key="i">
             <conference
               :image="room['thumbnail_url']"
               :title="room['title']"
               :desc="room['description']"
               :genre="room['busking_genre']"
             />
-          </el-carousel-item>
-        </li>
+        </el-carousel-item>
       </el-carousel>
     </div>
     <div v-else>
       <el-carousel :interval="4000" type="card" height="330px">
-      <el-carousel-item v-for="(room, i) in state.form.roomData[0]" @click="loginDemended" class="infinite-list-item medium" :key="i" >
-        <conference
-          :image="room['thumbnail_url']"
-          :title="room['title']"
-          :desc="room['description']"
-          :genre="room['busking_genre']"
-        />
-      </el-carousel-item>
+        <el-carousel-item v-for="(room, i) in state.form.roomData[0]" @click="loginDemended" class="infinite-list-item medium" :key="i" >
+          <conference
+            :image="room['thumbnail_url']"
+            :title="room['title']"
+            :desc="room['description']"
+            :genre="room['busking_genre']"
+          />
+        </el-carousel-item>
       </el-carousel>
     </div>
   </ul>

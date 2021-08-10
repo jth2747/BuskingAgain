@@ -18,7 +18,9 @@ import com.ssafy.api.response.UserBuskingRes;
 import com.ssafy.db.entity.Busking;
 import com.ssafy.db.entity.Busking_genre;
 import com.ssafy.db.entity.Fav_genre;
+import com.ssafy.db.entity.Kickout_info;
 import com.ssafy.db.entity.Liked;
+import com.ssafy.db.entity.User;
 import com.ssafy.db.entity.User_busking;
 import com.ssafy.db.repository.BuskingGenreRepository;
 import com.ssafy.db.repository.BuskingGenreRepositorySupport;
@@ -26,6 +28,8 @@ import com.ssafy.db.repository.BuskingRepository;
 import com.ssafy.db.repository.BuskingRepositorySupport;
 import com.ssafy.db.repository.FollowRepository;
 import com.ssafy.db.repository.FollowRepositorySupport;
+import com.ssafy.db.repository.KickoutRepository;
+import com.ssafy.db.repository.KickoutRepositorySupport;
 import com.ssafy.db.repository.LikedRepository;
 import com.ssafy.db.repository.LikedRepositorySupport;
 import com.ssafy.db.repository.UserBuskingRepository;
@@ -62,6 +66,12 @@ public class BuskingServiceImpl implements BuskingService {
 	FollowRepository followRepository;
 	@Autowired
 	FollowRepositorySupport followRepositorySupport;
+	
+	@Autowired
+	KickoutRepository kickoutRepository;
+	@Autowired
+	KickoutRepositorySupport kickoutRepositorySupport;
+	
 	
 	@Override
 	public Busking createBusking(BuskingCreatePostReq buskingCreatInfo, Long owner_id) {
@@ -254,6 +264,12 @@ public class BuskingServiceImpl implements BuskingService {
 			return null;
 		}
 		
+//		강퇴로 입장 불가
+		if(kickoutRepositorySupport.findUserByUid(userid, buskingId) != null) {
+			System.out.println("입장 불가");
+			return null;
+		}
+		
 		busking.setViewers(busking.getViewers()+1);
 		Busking save = buskingRespository.save(busking);
 		
@@ -327,6 +343,55 @@ public class BuskingServiceImpl implements BuskingService {
 		}
 		
 		return ret;
+	}
+
+	@Override
+	public List<User> viewersList(Long buskingId) {
+		// TODO Auto-generated method stub
+		
+		List<User> ret = new ArrayList<User>();
+		
+		List<User_busking> userList = userBuskingRepository.findAll();
+		
+		for(User_busking ub : userList) {
+			if(ub.getB_id() == buskingId) {
+				User user = userRepository.findById(ub.getU_id()).get();
+				ret.add(user);
+			}
+		}
+		
+		return ret;
+	}
+
+	@Override
+	public void kickout(Long buskingId, List<String> kickoutIdList) {
+		// TODO Auto-generated method stub
+		
+		int cnt = 0;
+		//일단 현재 리스트에 있는 사람을 방에서 강퇴
+		for(String userid : kickoutIdList) {
+			User user = userRepository.findByUserId(userid).get();
+			System.out.println(user.getUserId());
+			User_busking ub = userBuskingRepositorySupport.findUser_buskingByUid(user.getId(), buskingId);
+			if(ub != null) {
+				userBuskingRepository.delete(ub);
+				
+				Kickout_info kickout_info = new Kickout_info();
+				kickout_info.setB_id(buskingId);
+				kickout_info.setU_id(user.getId());
+				kickoutRepository.save(kickout_info);
+					
+				cnt++;
+			}
+			
+		}
+		
+		//강퇴한 인원만큼 지우기
+		Busking busking = buskingRespository.getOne(buskingId);
+		int viewers = busking.getViewers()-cnt;
+		busking.setViewers(viewers);
+		
+		
 	}
 
 

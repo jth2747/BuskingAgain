@@ -2,6 +2,7 @@
   <!-- <h2>{{ $route.params.conferenceId }}</h2> -->
   <el-container>
     <el-aside width="250px">
+      <conference-chat/>
       <div id="socket">
         <el-scrollbar height="50pc">
           <div v-for="(item, idx) in state.form.recvList" :key="idx">
@@ -25,7 +26,13 @@
         </el-header>
       <el-row>
         <el-col :span="24">
-          <el-main class="grid-content">Main</el-main>
+          <el-main class="grid-content">
+            <conference-main
+             :conferenceId="$route.params.conferenceId"
+             :onwer="state.form.onwerId"
+             :userId="state.form.userId"
+            />
+          </el-main>
         </el-col>
       </el-row>
       <el-footer>
@@ -80,7 +87,7 @@
     background-color: #E9EEF3;
     color: #333;
     text-align: center;
-    line-height: 43.45pc;
+    line-height: 100px;
   }
   body > .el-container {
     margin-bottom: 100px;
@@ -94,8 +101,6 @@
   .el-container:nth-child(7) .el-aside {
     line-height: 320px;
   }
-
-
 </style>
 <script>
 import { reactive, onMounted, onUnmounted } from 'vue'
@@ -105,11 +110,16 @@ import { useRouter } from 'vue-router'
 import conferenceUpdate from './conference-update.vue'
 import Stomp from 'webstomp-client'
 import SockJS from 'sockjs-client'
+import conferenceMain from './conference-main.vue'
+import conferenceChat from './conference-chat.vue'
+
 
 export default {
   name: 'conference-detail',
   components: {
     conferenceUpdate,
+    conferenceMain,
+    conferenceChat
   },
 
 

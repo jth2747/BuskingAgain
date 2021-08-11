@@ -210,3 +210,17 @@ export function findId ( { state }, payload) {
   let body = payload
   return $axios.post(url, body)
 }
+
+// 좋아요 순 랭킹
+export function roomRankLike ( { state }, payload) {
+  console.log('roomRankLike', state, payload)
+  const url = '/busking/ranklike'
+  return $axios.get(url)
+}
+
+// 접속자 순 랭킹
+export function roomRankPerson ( { state }, payload) {
+  console.log('roomRankPerson', state, payload)
+  const url = '/busking/rankperson'
+  return $axios.get(url)
+}

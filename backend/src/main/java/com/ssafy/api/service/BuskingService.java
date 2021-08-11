@@ -40,5 +40,9 @@ public interface BuskingService {
 
 	void kickout(Long buskingId, List<String> kickoutIdList);
 
+	List<BuskingListRes> sortByViewers();
+
+	List<BuskingListRes> sortByLikes();
+
 
 }

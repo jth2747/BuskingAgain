@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.ssafy.api.request.BuskingCreatePostReq;
@@ -332,6 +333,7 @@ public class BuskingServiceImpl implements BuskingService {
 				buskingListRes.setThumbnail_url(b.getThumbnail_url());
 				buskingListRes.setLikes(b.getLikes());
 				buskingListRes.setMax_viewers(b.getMax_viewers());
+				buskingListRes.setViewers(b.getViewers());
 				buskingListRes.setStart_time(b.getStart_time());
 				
 				String genre = buskingGenreRespository.getOne(b.getBusking_genre()).getName();
@@ -396,6 +398,75 @@ public class BuskingServiceImpl implements BuskingService {
 		busking.setViewers(viewers);
 		
 		
+	}
+
+	@Override
+	public List<BuskingListRes> sortByViewers() {
+		// TODO Auto-generated method stub
+		
+		System.out.println("서비스");
+		List<Busking> list = buskingRespository.findAll(Sort.by(Sort.Direction.DESC, "viewers"));
+		System.out.println(list.size());
+		List<BuskingListRes> ret = new ArrayList<BuskingListRes>();
+		int cnt = 0;
+		for(Busking b : list) {
+			if(b.getIs_active() == 1) {
+				BuskingListRes buskingListRes = new BuskingListRes();
+				buskingListRes.setId(b.getId());
+				buskingListRes.setTitle(b.getTitle());
+				buskingListRes.setDescription(b.getDescription());
+				buskingListRes.setThumbnail_url(b.getThumbnail_url());
+				buskingListRes.setLikes(b.getLikes());
+				buskingListRes.setMax_viewers(b.getMax_viewers());
+				buskingListRes.setViewers(b.getViewers());
+				buskingListRes.setStart_time(b.getStart_time());
+				
+				String genre = buskingGenreRespository.getOne(b.getBusking_genre()).getName();
+				String ownerId = userRepository.getOne(b.getOwner_id()).getUserId();
+				buskingListRes.setOwnerId(ownerId);
+				buskingListRes.setBusking_genre(genre);
+				
+				ret.add(buskingListRes);
+				cnt++;
+			}
+			if(cnt >= 5)
+				break;
+		}
+		return ret;
+	}
+	@Override
+	public List<BuskingListRes> sortByLikes() {
+		// TODO Auto-generated method stub
+		
+		System.out.println("서비스");
+		List<Busking> list = buskingRespository.findAll(Sort.by(Sort.Direction.DESC, "likes"));
+		System.out.println(list.size());
+		List<BuskingListRes> ret = new ArrayList<BuskingListRes>();
+		int cnt = 0;
+		for(Busking b : list) {
+			if(b.getIs_active() == 1) {
+				BuskingListRes buskingListRes = new BuskingListRes();
+				buskingListRes.setId(b.getId());
+				buskingListRes.setTitle(b.getTitle());
+				buskingListRes.setDescription(b.getDescription());
+				buskingListRes.setThumbnail_url(b.getThumbnail_url());
+				buskingListRes.setLikes(b.getLikes());
+				buskingListRes.setMax_viewers(b.getMax_viewers());
+				buskingListRes.setViewers(b.getViewers());
+				buskingListRes.setStart_time(b.getStart_time());
+				
+				String genre = buskingGenreRespository.getOne(b.getBusking_genre()).getName();
+				String ownerId = userRepository.getOne(b.getOwner_id()).getUserId();
+				buskingListRes.setOwnerId(ownerId);
+				buskingListRes.setBusking_genre(genre);
+				
+				ret.add(buskingListRes);
+				cnt++;
+			}
+			if(cnt >= 5)
+				break;
+		}
+		return ret;
 	}
 
 

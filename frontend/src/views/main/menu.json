@@ -12,5 +12,12 @@
     "path" : "/history",
     "icon" : "el-icon-star-on",
     "children" : []
+  },
+  "rank" : {
+    "name" : "랭킹 TOP6",
+    "hidden" : false,
+    "path" : "/rank",
+    "icon" : "el-icon-trophy",
+    "children" : []
   }
 }

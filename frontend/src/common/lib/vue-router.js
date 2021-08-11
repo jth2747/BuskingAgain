@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Home from '@/views/home/home'
 import ConferencesDetail from '@/views/conferences/conference-detail'
 import History from '@/views/history/history'
+import Rank from '@/views/rank/rank'
 
 const fullMenu = require('@/views/main/menu.json')
 function makeRoutesFromMenu () {
@@ -10,6 +11,8 @@ function makeRoutesFromMenu () {
       return { path: fullMenu[key].path, name: key, component: Home  }
     } else if (key === 'history') {
       return { path: fullMenu[key].path, name: key, component: History }
+    } else if (key === 'rank'){
+      return { path: fullMenu[key].path, name: key, component: Rank }
     } else { // menu.json 에 들어있는 로그아웃 메뉴
       return null
     }
@@ -29,6 +32,7 @@ const routes = makeRoutesFromMenu()
 
 const router = createRouter({
   history: createWebHistory(),
+  rank: createWebHistory(),
   routes
 })
 

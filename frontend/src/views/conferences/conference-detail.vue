@@ -32,6 +32,7 @@
         <el-button-group v-if="state.form.owner">
           <el-button type="warning" icon="el-icon-edit" @click="clickRoomEdit">수정</el-button>
           <el-button type="danger" icon="el-icon-delete" @click="roomDelete">방 종료</el-button>
+          <el-button type="success" icon="el-icon-delete" @click="kickOutDialog">강퇴</el-button>
         </el-button-group>
         <el-button-group v-else>
           <el-button type="danger" @click="goBackHome">나가기</el-button>
@@ -39,30 +40,6 @@
       </el-footer>
     </el-container>
   </el-container>
-
-
-
-
-
-
-
-
-  <!-- <h1>{{ state.form.ownerId }}님의 버스킹</h1> -->
-  <!-- <h2>방 제목 : {{ state.form.title }}</h2> -->
-  <!-- <h3>내용 : {{ state.form.description }}</h3> -->
-  <!-- <p> -->
-  <!-- <span>접속자 수 : {{ state.form.viewers}} / </span> -->
-  <!-- <span>좋아요 : 0</span> -->
-  <!-- </p> -->
-  <!-- 방 만든 사람 -->
-  <!-- <el-button-group v-if="state.form.owner">
-    <el-button type="warning" icon="el-icon-edit" @click="clickRoomEdit">수정</el-button>
-    <el-button type="danger" icon="el-icon-delete" @click="roomDelete">방 종료</el-button>
-  </el-button-group> -->
-  <!-- 관객 -->
-  <!-- <el-button-group v-else>
-    <el-button type="danger" @click="goBackHome">나가기</el-button>
-  </el-button-group> -->
   <conference-update
     :open="state.form.roomEditDialogOpen"
     :title="state.form.title"
@@ -74,54 +51,6 @@
     :id="$route.params.conferenceId"
     @closeRoomEdit="closeRoomEdit"
   />
-  <!-- <div id="socket">
-    유저이름:
-    <input
-      v-model="state.form.userName"
-      type="text"
-    >
-    내용: <input
-      v-model="state.form.message"
-      type="text"
-      @keyup="sendMessage"
-    >
-    <div
-      v-for="(item, idx) in state.form.recvList"
-      :key="idx"
-    >
-      <span> {{ item.userId }}</span>
-      <span> : {{ item.message }}</span>
-    </div>
-
-  </div> -->
-
-  <!-- <el-row :gutter="20">
-  <el-col :span="6" :offset="18">
-  <el-space wrap class="grid-content bg-purple">
-    <el-card class="box-card" style="width: 250px">
-      <template #header>
-        <div class="card-header">
-          <span>채팅창</span>
-        </div>
-      </template>
-      <div v-for="(item, idx) in state.form.recvList"
-      :key="idx" class="text item">
-        <span> {{ item.userId }}</span>
-      <span> : {{ item.message }}</span>
-      </div>
-    <input
-      v-model="state.form.message"
-      type="text"
-      @keyup="sendMessage"
-    >
-    </el-card>
-
-  </el-space>
-  </el-col>
-  </el-row> -->
-
-
-
 </template>
 <style scoped>
   #socket {
@@ -245,10 +174,13 @@ export default {
       window.onpopstate = function () {
       history.go(1);
       }
+      localStorage.setItem('abc', state.conferenceId )
+
     })
 
     // 페이지 이탈시 불리는 훅
     onUnmounted(() => {
+      localStorage.removeItem('abc')
       store.dispatch('root/roomOut', {
         token: state.form.token,
         id: state.conferenceId

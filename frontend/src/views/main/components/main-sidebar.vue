@@ -1,6 +1,7 @@
 <template>
   <el-row
     class="main-sidebar"
+    v-if="sidebar == flase"
     :gutter="10"
     :style="{ 'width': width }">
     <div class="hide-on-small">
@@ -57,6 +58,10 @@ export default {
       default: '240px'
     },
     token: {
+      type: String,
+      default: ''
+    },
+    sidebar: {
       type: String,
       default: ''
     }

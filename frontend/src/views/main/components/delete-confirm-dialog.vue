@@ -92,6 +92,7 @@ export default {
         .then(function (result) {
           console.log(result.date)
           emit('click-logout')
+          localStorage.removeItem('jwt')
           location.reload()
           alert('탈퇴가 완료되었습니다.')
         })

@@ -15,6 +15,7 @@
           :width="`240px`"
           :isLoding="isLoding"
           :token="token"
+          :sidebar="sidebar"
           />
       </el-aside>
 
@@ -122,6 +123,7 @@ export default {
       passwordCheckDialogOpen: false,
       deleteConfirmDialogOpen: false,
       idPasswordDialogOpen: false,
+      sidebar: localStorage.getItem('abc')
     }
   },
   methods: {

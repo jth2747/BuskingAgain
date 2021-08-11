@@ -25,7 +25,13 @@
         </el-header>
       <el-row>
         <el-col :span="24">
-          <el-main class="grid-content">Main</el-main>
+          <el-main class="grid-content">Main
+            <conference-main
+             :conferenceId="$route.params.conferenceId"
+             :onwer="state.form.onwerId"
+             :userId="state.form.userId"
+            />
+          </el-main>
         </el-col>
       </el-row>
       <el-footer>
@@ -105,11 +111,13 @@ import { useRouter } from 'vue-router'
 import conferenceUpdate from './conference-update.vue'
 import Stomp from 'webstomp-client'
 import SockJS from 'sockjs-client'
+import conferenceMain from './conference-main.vue'
 
 export default {
   name: 'conference-detail',
   components: {
     conferenceUpdate,
+    conferenceMain,
   },
 
 

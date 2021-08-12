@@ -37,9 +37,9 @@
       </el-carousel>
     </div>
   </ul>
-  <ul class="infinite-list" v-infinite-scroll="load" style="overflow:auto">
+  <ul class="infinite-list" v-infinite-scroll="load">
     <div v-if="this.token">
-      <li v-for="(room,i) in state.form.roomData[0]" @click="loginDemended" class="infinite-list-item medium" :key="i">
+      <li v-for="(room,i) in state.form.roomData[0]" @click="clickConference(state.form.roomData[0][i]['id'])" class="infinite-list-item medium" :key="i">
         <conference
             :image="room['thumbnail_url']"
             :title="room['title']"
@@ -49,7 +49,7 @@
       </li>
     </div>
     <div v-else>
-      <li v-for="(room,i) in state.form.roomData[0]" @click="clickConference(state.form.roomRandomData[0][i]['id'])" class="infinite-list-item medium" :key="i">
+      <li v-for="(room,i) in state.form.roomData[0]" @click="loginDemended" class="infinite-list-item medium" :key="i">
         <conference
             :image="room['thumbnail_url']"
             :title="room['title']"

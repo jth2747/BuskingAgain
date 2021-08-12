@@ -224,3 +224,14 @@ export function roomRankPerson ( { state }, payload) {
   const url = '/busking/rankperson'
   return $axios.get(url)
 }
+
+// 버스킹 생성 이력
+export function roomHistory ( { state }, payload) {
+  console.log('roomHistory', state, payload)
+  const url = '/busking/history'
+  return $axios.get(url, {
+    headers: {
+      Authorization: 'Bearer ' + payload.token,
+    }
+  })
+}

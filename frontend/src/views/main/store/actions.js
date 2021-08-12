@@ -103,6 +103,13 @@ export function roomList ( { state }, payload) {
   return $axios.get(url)
 }
 
+// 방 랜덤 목록 조회(홈 화면에 나오는 정보)
+export function roomRandomList ( { state }, payload) {
+  console.log('roomList', state, payload)
+  const url = '/busking/randomlist'
+  return $axios.get(url)
+}
+
 // 버스킹 목록 검색(검색한 목록 불러오기)
 export function findRoomList({state}, payload) {
   console.log('findRoomList', state, payload)

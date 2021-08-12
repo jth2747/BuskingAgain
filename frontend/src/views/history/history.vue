@@ -1,15 +1,15 @@
 <template>
   <div class="block">
   <el-timeline v-for="(room, i) in state.form.roomList[0]" :key="i">
-    <el-timeline-item placement="top"> {{room.start_time}}
+    <el-timeline-item style="text-align:left">{{room.start_time}}
       <el-card>
-        <h4 style="text-align:left">Title: {{ room.title }}</h4>
-        <p>Genre: {{room.busking_genre}}</p>
-        <p>Start Time: {{room.start_time}}</p>
-        <p>End Time: {{room.end_time}}</p>
-        <p>Description: {{room.description}}</p>
-        <p>Likes: {{room.likes}}</p>
-        <p>viewers: {{room.viewers}}</p>
+        <h4 style="text-align:left">방 제목: {{ room.title }}</h4>
+        <p>장르: {{room.busking_genre}}</p>
+        <p>시작 시간: {{room.start_time}}</p>
+        <p>마친 시간: {{room.end_time}}</p>
+        <p>설명: {{room.description}}</p>
+        <p>좋아요: {{room.likes}}</p>
+        <p>시청자: {{room.viewers}}</p>
       </el-card>
     </el-timeline-item>
   </el-timeline>

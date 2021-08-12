@@ -47,5 +47,7 @@ public interface BuskingService {
 
 	List<BuskingHistoryRes> history(Long userId);
 
+	List<BuskingListRes> random();
+
 
 }

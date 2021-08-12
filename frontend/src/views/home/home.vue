@@ -14,7 +14,7 @@
   <ul class="infinite-list" v-infinite-scroll="load" style="overflow:auto">
     <div v-if="this.token">
       <el-carousel :interval="4000" type="card" height="330px">
-        <el-carousel-item v-for="(room, i) in state.form.roomData[0]" @click="clickConference(state.form.roomData[0][i]['id'])" class="infinite-list-item medium" :key="i">
+        <el-carousel-item v-for="(room, i) in state.form.roomRandomData[0]" @click="clickConference(state.form.roomRandomData[0][i]['id'])" class="infinite-list-item medium" :key="i">
             <conference
               :image="room['thumbnail_url']"
               :title="room['title']"
@@ -26,7 +26,7 @@
     </div>
     <div v-else>
       <el-carousel :interval="4000" type="card" height="330px">
-        <el-carousel-item v-for="(room, i) in state.form.roomData[0]" @click="loginDemended" class="infinite-list-item medium" :key="i" >
+        <el-carousel-item v-for="(room, i) in state.form.roomRandomData[0]" @click="loginDemended" class="infinite-list-item medium" :key="i" >
           <conference
             :image="room['thumbnail_url']"
             :title="room['title']"
@@ -37,7 +37,28 @@
       </el-carousel>
     </div>
   </ul>
-
+  <ul class="infinite-list" v-infinite-scroll="load" style="overflow:auto">
+    <div v-if="this.token">
+      <li v-for="(room,i) in state.form.roomData[0]" @click="loginDemended" class="infinite-list-item medium" :key="i">
+        <conference
+            :image="room['thumbnail_url']"
+            :title="room['title']"
+            :desc="room['description']"
+            :genre="room['busking_genre']"
+          />
+      </li>
+    </div>
+    <div v-else>
+      <li v-for="(room,i) in state.form.roomData[0]" @click="clickConference(state.form.roomRandomData[0][i]['id'])" class="infinite-list-item medium" :key="i">
+        <conference
+            :image="room['thumbnail_url']"
+            :title="room['title']"
+            :desc="room['description']"
+            :genre="room['busking_genre']"
+          />
+      </li>
+    </div>
+  </ul>
   <busking-dialog
     :open="buskingDialogOpen"
     :token="token"
@@ -96,7 +117,7 @@
 
 </style>
 <script>
-import Conference from './components/conference'
+import Conference from './components/conference.vue'
 import { onMounted, reactive } from 'vue'
 import { useRouter } from 'vue-router'
 import BuskingDialog from '../main/components/busking-dialog.vue'
@@ -109,6 +130,7 @@ export default {
 
   components: {
     BuskingDialog,
+    Conference,
     Conference,
   },
 
@@ -137,6 +159,7 @@ export default {
 
     const state = reactive({
       form: {
+        roomRandomData: [],
         roomData: [],
       },
       searchValue: '',
@@ -149,12 +172,15 @@ export default {
 
 
     onMounted(() => {
+      store.dispatch('root/roomRandomList')
+      .then(function (result) {
+        console.log(result.data)
+        state.form.roomRandomData.push(result.data)
+      })
       store.dispatch('root/roomList')
       .then(function (result) {
         console.log(result.data)
-        // state.form.roomData = result.data
         state.form.roomData.push(result.data)
-        // console.log(state.form.roomData[0][0].title)
       })
     })
 

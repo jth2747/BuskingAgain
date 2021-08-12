@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.ssafy.api.request.BuskingCreatePostReq;
 import com.ssafy.api.request.SearchPostReq;
+import com.ssafy.api.response.BuskingHistoryRes;
 import com.ssafy.api.response.BuskingListRes;
 import com.ssafy.api.response.LikeRes;
 import com.ssafy.api.response.UserBuskingRes;
@@ -43,6 +44,8 @@ public interface BuskingService {
 	List<BuskingListRes> sortByViewers();
 
 	List<BuskingListRes> sortByLikes();
+
+	List<BuskingHistoryRes> history(Long userId);
 
 
 }

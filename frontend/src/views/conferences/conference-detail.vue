@@ -2,7 +2,6 @@
   <!-- <h2>{{ $route.params.conferenceId }}</h2> -->
   <el-container>
     <el-aside width="250px">
-      <conference-chat/>
       <div id="socket">
         <el-scrollbar height="50pc">
           <div v-for="(item, idx) in state.form.recvList" :key="idx">
@@ -39,7 +38,7 @@
         <el-button-group v-if="state.form.owner">
           <el-button type="warning" icon="el-icon-edit" @click="clickRoomEdit">수정</el-button>
           <el-button type="danger" icon="el-icon-delete" @click="roomDelete">방 종료</el-button>
-          <el-button type="success" icon="el-icon-delete" @click="kickOutDialog">강퇴</el-button>
+          <el-button type="success" icon="el-icon-delete" @click="onOpenKickOutDialog">강퇴</el-button>
         </el-button-group>
         <el-button-group v-else>
           <el-button type="danger" @click="goBackHome">나가기</el-button>
@@ -58,6 +57,11 @@
     :id="$route.params.conferenceId"
     @closeRoomEdit="closeRoomEdit"
   />
+  <conference-kickoutdialog
+    :open="state.form.kickOutDialogOpen"
+    :token="state.form.token"
+  />
+
 </template>
 <style scoped>
   #socket {
@@ -111,15 +115,14 @@ import conferenceUpdate from './conference-update.vue'
 import Stomp from 'webstomp-client'
 import SockJS from 'sockjs-client'
 import conferenceMain from './conference-main.vue'
-import conferenceChat from './conference-chat.vue'
-
+import conferenceKickOutDialog from './conference-kickoutdialog.vue'
 
 export default {
   name: 'conference-detail',
   components: {
     conferenceUpdate,
     conferenceMain,
-    conferenceChat
+    conferenceKickOutDialog
   },
 
 
@@ -143,7 +146,8 @@ export default {
         recvList: [],
         stompClient: "",
         userId: "",
-        max_viewers: 0
+        max_viewers: 0,
+        kickOutDialogOpen: false
         // drawer: false,
       },
     })
@@ -239,6 +243,15 @@ export default {
       })
     }
 
+    // 강퇴 버튼
+    const onOpenKickOutDialog = function () {
+      state.form.kickOutDialogOpen = true
+    }
+
+    const onCloseKickOutDialog = function () {
+      state.form.kickOutDialogOpen = false
+    }
+
     ///////////////////////// 채팅 관련 ////////////////////////////
 
     const sendMessage = function (e) {
@@ -266,7 +279,7 @@ export default {
     }
 
     const connect = function() {
-      const serverURL = "http://localhost:8080"
+      const serverURL = "https://localhost:8080"
       let socket = new SockJS(serverURL);
       state.form.stompClient = Stomp.over(socket);
       console.log(`소켓 연결을 시도합니다. 서버 주소: ${serverURL}`)
@@ -294,7 +307,7 @@ export default {
       );
     }
 
-    return { state, clickRoomEdit, closeRoomEdit, roomDelete, goBackHome, sendMessage, send, connect}
+    return { state, clickRoomEdit, closeRoomEdit, roomDelete, goBackHome, sendMessage, send, connect, onOpenKickOutDialog, onCloseKickOutDialog }
   }
 }
 </script>

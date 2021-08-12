@@ -6,10 +6,10 @@
     "icon" : "el-icon-video-camera",
     "children" : []
   },
-  "history" : {
+  "prefer" : {
     "name" : "선호하는 장르 목록",
     "hidden" : false,
-    "path" : "/history",
+    "path" : "/prefer",
     "icon" : "el-icon-star-on",
     "children" : []
   },

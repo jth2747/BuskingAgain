@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import com.ssafy.api.request.BuskingCreatePostReq;
 import com.ssafy.api.request.SearchPostReq;
+import com.ssafy.api.response.BuskingHistoryRes;
 import com.ssafy.api.response.BuskingListRes;
 import com.ssafy.api.response.LikeRes;
 import com.ssafy.api.response.UserBuskingRes;
@@ -466,6 +467,37 @@ public class BuskingServiceImpl implements BuskingService {
 			if(cnt >= 5)
 				break;
 		}
+		return ret;
+	}
+
+	@Override
+	public List<BuskingHistoryRes> history(Long userId) {
+		// TODO Auto-generated method stub
+		List<Busking> list = buskingRespository.findAll();
+		List<BuskingHistoryRes> ret = new ArrayList<BuskingHistoryRes>();
+		
+		for(Busking b : list) {
+			if(b.getOwner_id() == userId && b.getIs_active() == 0) {
+				BuskingHistoryRes buskingListRes = new BuskingHistoryRes();
+				buskingListRes.setId(b.getId());
+				buskingListRes.setTitle(b.getTitle());
+				buskingListRes.setDescription(b.getDescription());
+				buskingListRes.setThumbnail_url(b.getThumbnail_url());
+				buskingListRes.setLikes(b.getLikes());
+				buskingListRes.setMax_viewers(b.getMax_viewers());
+				buskingListRes.setViewers(b.getViewers());
+				buskingListRes.setStart_time(b.getStart_time());
+				buskingListRes.setEnd_time(b.getEnd_time());
+				
+				String genre = buskingGenreRespository.getOne(b.getBusking_genre()).getName();
+				String ownerId = userRepository.getOne(b.getOwner_id()).getUserId();
+				buskingListRes.setOwnerId(ownerId);
+				buskingListRes.setBusking_genre(genre);
+				
+				ret.add(buskingListRes);
+			}
+		}
+
 		return ret;
 	}
 

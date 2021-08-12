@@ -489,7 +489,7 @@ public class BuskingServiceImpl implements BuskingService {
 				buskingListRes.setStart_time(b.getStart_time().toString());
 				buskingListRes.setEnd_time(b.getEnd_time().toString());
 				
-				System.out.println(buskingListRes.getStart_time().toString());
+//				System.out.println(buskingListRes.getStart_time().toString());
 				
 				String genre = buskingGenreRespository.getOne(b.getBusking_genre()).getName();
 				String ownerId = userRepository.getOne(b.getOwner_id()).getUserId();
@@ -500,6 +500,58 @@ public class BuskingServiceImpl implements BuskingService {
 			}
 		}
 
+		return ret;
+	}
+
+	@Override
+	public List<BuskingListRes> random() {
+		// TODO Auto-generated method stub
+
+		List<Busking> list = buskingRespository.findAll();
+		List<BuskingListRes> now = new ArrayList<>();
+		List<BuskingListRes> ret = new ArrayList<>();
+		
+		for(Busking b : list) {
+			if(b.getIs_active() == 1) {
+				BuskingListRes input = new BuskingListRes();
+				input.setDescription(b.getDescription());
+				input.setLikes(b.getLikes());
+				input.setTitle(b.getTitle());
+				input.setViewers(b.getViewers());
+				input.setStart_time(b.getStart_time());
+				input.setThumbnail_url(b.getThumbnail_url());
+				input.setMax_viewers(b.getMax_viewers());
+				input.setId(b.getId());
+
+				String genrename = buskingGenreRespository.getOne(b.getBusking_genre()).getName();
+				input.setBusking_genre(genrename);
+				String ownerID = userRepository.getOne(b.getOwner_id()).getUserId();
+				input.setOwnerId(ownerID);
+				
+				now.add(input);
+			}
+		}
+
+		int size = Math.min(6, now.size());
+		int[] numbers = new int[size];
+		
+		for(int i = 0; i < numbers.length ; i++){
+			numbers[i] = (int)(Math.random() * now.size());
+			for(int searchCur = 0; searchCur < i; searchCur ++){
+				if(numbers[i] == numbers[searchCur]){
+					i--;
+					break;
+				}
+			}
+		}
+		
+		
+		for(int i=0; i<numbers.length; i++) {
+			System.out.println(numbers[i]);
+			ret.add(now.get(numbers[i]));
+		}
+		
+		
 		return ret;
 	}
 

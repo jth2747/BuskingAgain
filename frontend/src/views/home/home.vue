@@ -1,15 +1,6 @@
 <template>
 <div>
   <div class="button-wrapper">
-  <el-select v-model="value" placeholder="Select" v-if="this.token">
-    <el-option
-      v-for="item in options"
-      :key="item.value"
-      :label="item.label"
-      :value="item.value">
-    </el-option>
-  </el-select>
-
   <el-button @click="clickBusking" v-if="this.token">버스킹 생성</el-button>
   </div>
   <div class="search-field">
@@ -126,16 +117,6 @@ export default {
       buskingDialogOpen:false,
       token: localStorage.getItem('jwt'), // jwt 토큰
       image: 'https://www.ssafy.com/swp/images/sns_img.png',
-      options: [{
-          value: 'Option1',
-          label: '좋아요 순'
-        }, {
-          value: 'Option2',
-          label: '접속자 순'
-        }, {
-          value: 'Option3',
-          label: '제목 순'
-        }],
       value: '',
     }
   },

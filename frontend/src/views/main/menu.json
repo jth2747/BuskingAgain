@@ -19,5 +19,12 @@
     "path" : "/rank",
     "icon" : "el-icon-trophy",
     "children" : []
+  },
+  "history" : {
+    "name" : "버스킹 생성 이력",
+    "hidden" : false,
+    "path" : "/history",
+    "icon" : "el-icon-document",
+    "children" : []
   }
 }

@@ -3,6 +3,7 @@ import Home from '@/views/home/home'
 import ConferencesDetail from '@/views/conferences/conference-detail'
 import Prefer from '@/views/prefer/prefer'
 import Rank from '@/views/rank/rank'
+import History from '@/views/history/history'
 
 const fullMenu = require('@/views/main/menu.json')
 function makeRoutesFromMenu () {
@@ -13,6 +14,8 @@ function makeRoutesFromMenu () {
       return { path: fullMenu[key].path, name: key, component: Prefer }
     } else if (key === 'rank'){
       return { path: fullMenu[key].path, name: key, component: Rank }
+    } else if (key === 'history'){
+      return { path: fullMenu[key].path, name: key, component: History }
     } else { // menu.json 에 들어있는 로그아웃 메뉴
       return null
     }

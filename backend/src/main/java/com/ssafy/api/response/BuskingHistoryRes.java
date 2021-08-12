@@ -16,8 +16,8 @@ public class BuskingHistoryRes {
 	String title;
 	String description;
 	String thumbnail_url;
-	Timestamp start_time;
-	Timestamp end_time;
+	String start_time;
+	String end_time;
 	int likes;
 	int viewers;
 	int max_viewers;

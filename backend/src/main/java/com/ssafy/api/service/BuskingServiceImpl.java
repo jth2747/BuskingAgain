@@ -486,8 +486,10 @@ public class BuskingServiceImpl implements BuskingService {
 				buskingListRes.setLikes(b.getLikes());
 				buskingListRes.setMax_viewers(b.getMax_viewers());
 				buskingListRes.setViewers(b.getViewers());
-				buskingListRes.setStart_time(b.getStart_time());
-				buskingListRes.setEnd_time(b.getEnd_time());
+				buskingListRes.setStart_time(b.getStart_time().toString());
+				buskingListRes.setEnd_time(b.getEnd_time().toString());
+				
+				System.out.println(buskingListRes.getStart_time().toString());
 				
 				String genre = buskingGenreRespository.getOne(b.getBusking_genre()).getName();
 				String ownerId = userRepository.getOne(b.getOwner_id()).getUserId();

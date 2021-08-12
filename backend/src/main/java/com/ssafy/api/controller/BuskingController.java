@@ -22,6 +22,7 @@ import com.ssafy.api.request.BuskingCreatePostReq;
 import com.ssafy.api.request.KickOutPostReq;
 import com.ssafy.api.request.SearchPostReq;
 import com.ssafy.api.response.BuskingCreateRes;
+import com.ssafy.api.response.BuskingHistoryRes;
 import com.ssafy.api.response.BuskingListRes;
 import com.ssafy.api.response.BuskingRes;
 import com.ssafy.api.response.LikeRes;
@@ -133,7 +134,6 @@ public class BuskingController {
 		 * 액세스 토큰이 없이 요청하는 경우, 403 에러({"error": "Forbidden", "message": "Access Denied"}) 발생.
 		 */
 		System.out.println("진행중인 버스킹 목록 조회");
-		
 		List<BuskingListRes> list = buskingService.list();
 	
 		
@@ -406,5 +406,29 @@ public class BuskingController {
 		
 		
 		return new ResponseEntity<List<BuskingListRes>>(list, HttpStatus.OK);
+	}	
+	@GetMapping("/history")
+	@ApiOperation(value = "과거 list 조회", notes = "과거에 생성했던 버스킹 목록 불러오기")
+	@ApiResponses({
+		@ApiResponse(code = 200, message = "성공"),
+		@ApiResponse(code = 401, message = "인증 실패"),
+		@ApiResponse(code = 404, message = "사용자 없음"),
+		@ApiResponse(code = 500, message = "서버 오류")
+	})
+	public ResponseEntity<List<BuskingHistoryRes>> getBuskingHistory(@ApiIgnore Authentication authentication)  {
+		/**
+		 * 요청 헤더 액세스 토큰이 포함된 경우에만 실행되는 인증 처리이후, 리턴되는 인증 정보 객체(authentication) 통해서 요청한 유저 식별.
+		 * 액세스 토큰이 없이 요청하는 경우, 403 에러({"error": "Forbidden", "message": "Access Denied"}) 발생.
+		 */
+		System.out.println("버스킹 과거 목록 불러오기");
+		SsafyUserDetails userDetails = (SsafyUserDetails)authentication.getDetails();
+		String user_id = userDetails.getUsername();
+		User user = userService.getUserByUserId(user_id);
+		Long userId = user.getId();
+		
+		List<BuskingHistoryRes> list = buskingService.history(userId);
+		
+		
+		return new ResponseEntity<List<BuskingHistoryRes>>(list, HttpStatus.OK);
 	}	
 }

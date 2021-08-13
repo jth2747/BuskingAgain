@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ssafy.api.request.UserFindPostReq;
 import com.ssafy.api.request.UserModifyPWPatchReq;
 import com.ssafy.api.request.UserModifyPutReq;
+import com.ssafy.api.request.UserPasswordFindPostReq;
 import com.ssafy.api.request.UserRegisterPostReq;
 import com.ssafy.api.response.UserLoginPostRes;
 import com.ssafy.api.response.UserRes;
@@ -112,7 +113,7 @@ public class UserController {
         @ApiResponse(code = 404, message = "사용자 없음"),
         @ApiResponse(code = 500, message = "서버 오류")
     })
-	public ResponseEntity<String> findPassword(@RequestBody @ApiParam(value="비밀번호 찾기", required = true) UserFindPostReq findPassword) {
+	public ResponseEntity<String> findPassword(@RequestBody @ApiParam(value="비밀번호 찾기", required = true) UserPasswordFindPostReq findPassword) {
 		/**
 		 * 요청 헤더 액세스 토큰이 포함된 경우에만 실행되는 인증 처리이후, 리턴되는 인증 정보 객체(authentication) 통해서 요청한 유저 식별.
 		 * 액세스 토큰이 없이 요청하는 경우, 403 에러({"error": "Forbidden", "message": "Access Denied"}) 발생.
@@ -121,8 +122,7 @@ public class UserController {
 		System.out.println("비밀번호 찾기");
 		User user = userService.findUserPassword(findPassword.getName(), findPassword.getEmail());
 		
-		if(user!=null) {
-			System.out.println("비밀번호 찾았다");
+		if(user!=null && user.getId().equals(findPassword.getUserid())) {
 			System.out.println("랜덤 비밀번호로 수정할거다");
 			
 			Long id = user.getId();
@@ -160,7 +160,6 @@ public class UserController {
 		 * 요청 헤더 액세스 토큰이 포함된 경우에만 실행되는 인증 처리이후, 리턴되는 인증 정보 객체(authentication) 통해서 요청한 유저 식별.
 		 * 액세스 토큰이 없이 요청하는 경우, 403 에러({"error": "Forbidden", "message": "Access Denied"}) 발생.
 		 */
-		
 		
 		System.out.println("아이디 찾기");
 		User user = userService.findUserId(findUser.getName(), findUser.getEmail());

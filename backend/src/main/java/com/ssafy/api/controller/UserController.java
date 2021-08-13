@@ -122,7 +122,7 @@ public class UserController {
 		System.out.println("비밀번호 찾기");
 		User user = userService.findUserPassword(findPassword.getName(), findPassword.getEmail());
 		
-		if(user!=null && user.getId().equals(findPassword.getUserid())) {
+		if(user!=null && user.getUserId().equals(findPassword.getUserId())) {
 			System.out.println("랜덤 비밀번호로 수정할거다");
 			
 			Long id = user.getId();

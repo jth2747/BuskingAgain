@@ -1,5 +1,7 @@
 package com.ssafy.api.controller;
 
+import java.util.Random;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -117,11 +119,34 @@ public class UserController {
 		 */
 
 		System.out.println("비밀번호 찾기");
+		User user = userService.findUserPassword(findPassword.getName(), findPassword.getEmail());
+		
+		if(user!=null) {
+			System.out.println("비밀번호 찾았다");
+			System.out.println("랜덤 비밀번호로 수정할거다");
+			
+			Long id = user.getId();
+			
+			Random rand = new Random();
+			String userPassword = "";	//난수로 비밀번호 임시 변경시켜줌
 
-		return null;
+			for(int i=0;i<10;i++) {
+				//0~9 까지 난수 생성
+				String ran = Integer.toString(rand.nextInt(10));
+
+				userPassword += ran;
+			}
+			
+			System.out.println("임시 비밀번호로 수정해버림"+userPassword);
+			userService.modifyPW(userPassword, user.getUserId(), id);
+
+			return ResponseEntity.status(200).body(userPassword);
+		}
+		System.out.println("회원정보 못찾았다");
+		return ResponseEntity.status(400).body("가입된 회원이 확인되지 않습니다");
 	}
-	
-	
+
+
 	@PostMapping("/findid")
 	@ApiOperation(value = "아이디 찾기", notes = "회원의 아이디를 찾는다") 
     @ApiResponses({

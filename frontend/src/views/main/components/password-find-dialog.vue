@@ -120,7 +120,7 @@ export default {
       store.dispatch('root/findPassword', {
         name: state.form.name,
         email: state.form.email,
-        id: state.form.id,
+        userId: state.form.id,
       })
       .then(function (result) {
         console.log('result',result.data)

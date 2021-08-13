@@ -220,7 +220,7 @@ export function findId ( { state }, payload) {
 
 // 비밀번호 찾기
 export function findPassword ( { state }, payload) {
-  console.log('findId', state, payload)
+  console.log('findpassword', state, payload)
   const url = '/users/findpassword'
   let body = payload
   return $axios.post(url, body)

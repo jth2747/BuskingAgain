@@ -115,12 +115,12 @@ export default {
       formLabelWidth: '120px'
     })
 
-    // onMounted(() => {
-    //   state.form.title = props.title
-    //   state.form.genre = props.genre
-    //   state.form.description = props.description
-    //   state.form.thumbnail_url = props.thumbnail_url
-    // })
+    onMounted(() => {
+      state.form.title = props.title
+      state.form.genre = props.genre
+      state.form.description = props.description
+      state.form.thumbnail_url = props.thumbnail_url
+    })
 
 
     // 버스킹 정보 수정

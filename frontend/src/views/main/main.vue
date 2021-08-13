@@ -37,6 +37,11 @@
     :userInfo="userInfo"
     :token="token"
     @closeIdPasswordDialog="onCloseIdPasswordDialog"
+    @openPasswordFindDialog="onOpenPasswordFindDialog"
+  />
+  <password-find-dialog
+    :open="passwordFindDialogOpen"
+    @closePasswordDialog="onClosePasswordFindDialog"
   />
   <genre-dialog
     :open="genreDialogOpen"
@@ -92,6 +97,7 @@ import GenreDialog from './components/genre-dialog.vue'
 import PasswordCheckDialog from './components/password-check-dialog.vue'
 import DeleteConfirmDialog from './components/delete-confirm-dialog.vue'
 import IdPasswordDialog from './components/id-password-dialog.vue'
+import PasswordFindDialog from './components/password-find-dialog.vue'
 
 export default {
   name: 'Main',
@@ -107,6 +113,7 @@ export default {
     PasswordCheckDialog,
     DeleteConfirmDialog,
     IdPasswordDialog,
+    PasswordFindDialog,
     RingLoader,
   },
   data () {
@@ -123,6 +130,7 @@ export default {
       passwordCheckDialogOpen: false,
       deleteConfirmDialogOpen: false,
       idPasswordDialogOpen: false,
+      passwordFindDialogOpen: false,
       sidebar: localStorage.getItem('abc')
     }
   },
@@ -177,6 +185,14 @@ export default {
     onCloseIdPasswordDialog(){
       this.idPasswordDialogOpen=false
     },
+    onOpenPasswordFindDialog(){
+      this.passwordFindDialogOpen=true
+    },
+    onClosePasswordFindDialog(){
+      this.passwordFindDialogOpen=false
+    },
+
+
     // 로딩 스피너 작동하게 하는 함수
     startLoding(){
       this.isLoding= true

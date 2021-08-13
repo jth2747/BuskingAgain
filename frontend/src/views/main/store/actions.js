@@ -218,6 +218,14 @@ export function findId ( { state }, payload) {
   return $axios.post(url, body)
 }
 
+// 비밀번호 찾기
+export function findPassword ( { state }, payload) {
+  console.log('findId', state, payload)
+  const url = '/users/findpassword'
+  let body = payload
+  return $axios.post(url, body)
+}
+
 // 좋아요 순 랭킹
 export function roomRankLike ( { state }, payload) {
   console.log('roomRankLike', state, payload)

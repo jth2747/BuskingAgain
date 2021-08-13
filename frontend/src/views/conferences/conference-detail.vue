@@ -39,6 +39,11 @@
           <el-button type="warning" icon="el-icon-edit" @click="clickRoomEdit">수정</el-button>
           <el-button type="danger" icon="el-icon-delete" @click="roomDelete">방 종료</el-button>
           <el-button type="success" @click="onOpenKickOutDialog">강퇴</el-button>
+          <conference-kickoutdialog
+            :open="state.form.kickOutDialogOpen"
+            :token="state.form.token"
+            @closeKickOutDialog="onCloseKickOutDialog"
+          />
         </el-button-group>
         <el-button-group v-else>
           <el-button type="danger" @click="goBackHome">나가기</el-button>
@@ -57,11 +62,7 @@
     :id="$route.params.conferenceId"
     @closeRoomEdit="closeRoomEdit"
   />
-  <conference-kickoutdialog
-    :open="state.form.kickOutDialogOpen"
-    :token="state.form.token"
-    @closeKickOutDialog="onCloseKickOutDialog"
-  />
+
 
 </template>
 <style scoped>
@@ -123,7 +124,7 @@ export default {
   components: {
     conferenceUpdate,
     conferenceMain,
-    conferenceKickOutDialog
+    conferenceKickOutDialog,
   },
 
 

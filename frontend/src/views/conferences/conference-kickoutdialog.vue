@@ -1,6 +1,6 @@
 <template>
   <el-dialog custom-class="conference-update" title="버스킹 정보 수정" v-model="state.dialogVisible" @close="handleClose">
-    <el-form :model="state.form" :rules="state.rules" ref="roomUpdateForm" :label-position="state.form.align">
+    <!-- <el-form :model="state.form" :rules="state.rules" ref="roomUpdateForm" :label-position="state.form.align">
       <el-form-item prop="title" label="방 제목" :label-width="state.formLabelWidth" >
         <el-input v-model="title" autocomplete="off"></el-input>
         <span v-if="title.length == 0"></span>
@@ -10,7 +10,6 @@
         <el-input v-model="genre" autocomplete="off"></el-input>
       </el-form-item>
       <el-form-item prop="max_viewers" label="최대 인원 수" :label-width="state.formLabelWidth" >
-        <!-- <el-input v-model="max_viewers" autocomplete="off"></el-input> -->
         <el-input-number v-model="max_viewers" controls-position="right" :min="1" :max="20"></el-input-number>
       </el-form-item>
       <el-form-item prop="description" label="상세 설명" :label-width="state.formLabelWidth" >
@@ -18,7 +17,6 @@
         <span v-if="description.length > 100">최대 100자까지 입력 가능합니다.</span>
       </el-form-item>
       <el-form-item prop="thumbnail_url" label="썸네일 사진" :label-width="state.formLabelWidth" >
-        <!-- <el-input v-model="thumbnail_url" autocomplete="off"></el-input> -->
         <input type="file" @change="imgUpload">
       </el-form-item>
     </el-form>
@@ -26,7 +24,7 @@
       <span class="dialog-footer">
         <el-button type="success" @click="roomUpdate">방 정보 수정</el-button>
       </span>
-    </template>
+    </template> -->
   </el-dialog>
 </template>
 <style>

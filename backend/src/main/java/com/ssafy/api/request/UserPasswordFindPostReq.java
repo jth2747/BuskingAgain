@@ -15,5 +15,5 @@ public class UserPasswordFindPostReq {
 	@ApiModelProperty(name="유저 Email", example="email")
 	String email;
 	@ApiModelProperty(name="유저 id", example="id")
-	String userid;
+	String userId;
 }

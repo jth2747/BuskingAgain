@@ -7,7 +7,14 @@
         <span v-else-if="state.form.title.length < 2">최소 2글자 이상 입력하시오.</span>
       </el-form-item>
       <el-form-item prop="genre" label="장르" :label-width="state.formLabelWidth" >
-        <el-input v-model="state.form.genre" autocomplete="off"></el-input>
+      <el-select v-model="state.form.genre" placeholder="장르 선택" autocomplete="off">
+        <el-option
+          v-for="item in options"
+          :key="item.value"
+          :label="item.label"
+          :value="item.value">
+        </el-option>
+      </el-select>
       </el-form-item>
       <el-form-item prop="max_viewers" label="입장 가능 인원" :label-width="state.formLabelWidth" >
         <!-- <el-input v-model="state.form.max_viewers" autocomplete="off"></el-input> -->
@@ -71,6 +78,61 @@ import { useRouter } from 'vue-router'
 
 export default {
   name: 'busking-dialog',
+
+  data() {
+      return {
+        options: [{
+          value: '발라드',
+          label: '발라드'
+        }, {
+          value: '어쿠스틱',
+          label: '어쿠스틱'
+        }, {
+          value: '힙합',
+          label: '힙합'
+        }, {
+          value: 'K-POP',
+          label: 'K-POP'
+        }, {
+          value: '마술',
+          label: '마술'
+        }, {
+          value: '댄스',
+          label: '댄스'
+        }, {
+          value: '클래식',
+          label: '클래식'
+        }, {
+          value: '재즈',
+          label: '재즈'
+        }, {
+          value: '블루스',
+          label: '블루스'
+        }, {
+          value: '컨트리',
+          label: '컨트리'
+        }, {
+          value: '포크',
+          label: '포크'
+        }, {
+          value: '레게',
+          label: '레게'
+        }, {
+          value: '디스코',
+          label: '디스코'
+        }, {
+          value: '록',
+          label: '록'
+        }, {
+          value: 'EDM',
+          label: 'EDM'
+        }, {
+          value: '트로트',
+          label: '트로트'
+        }],
+        value: ''
+      }
+    },
 
   props: {
     open: {

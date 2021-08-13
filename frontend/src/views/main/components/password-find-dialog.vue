@@ -1,5 +1,9 @@
 <template>
-  <el-dialog custom-class="delete-confirm-dialog" title="아이디/비밀번호 찾기" v-model="state.dialogVisible" @close="handleClose">
+  <el-dialog custom-class="delete-confirm-dialog" title="비밀번호 찾기" v-model="state.dialogVisible" @close="handleClose">
+    <el-form :model="state.form" :rules="state.rules" ref="buskingForm" :label-position="state.form.align">
+      <el-form-item prop="title" label="ID" :label-width="state.formLabelWidth" >
+        <el-input v-model="state.form.id"></el-input>
+      </el-form-item>
     <el-form :model="state.form" :rules="state.rules" ref="buskingForm" :label-position="state.form.align">
       <el-form-item prop="title" label="이름" :label-width="state.formLabelWidth" >
         <el-input v-model="state.form.name"></el-input>
@@ -10,11 +14,11 @@
         <el-input v-model="state.form.email"></el-input>
       </el-form-item>
     </el-form>
+    </el-form>
 
     <template #footer>
       <span class="dialog-footer">
-        <el-button type="success" @click="clickFindId">아이디 찾기</el-button>
-        <el-button type="danger" @click="onOpenPasswordDialog">비밀번호 찾기</el-button>
+        <el-button type="danger" @click="clickFindPassword">비밀번호 찾기</el-button>
       </span>
     </template>
 
@@ -67,12 +71,6 @@ export default {
       type: Boolean,
       default: false
     },
-    userInfo: {
-      type: Object,
-    },
-    token: {
-      type: String
-    },
   },
 
   setup(props, { emit }) {
@@ -117,14 +115,31 @@ export default {
       emit('openPasswordFindDialog')
     }
 
+
+    const clickFindPassword = function() {
+      store.dispatch('root/findPassword', {
+        name: state.form.name,
+        email: state.form.email,
+        id: state.form.id,
+      })
+      .then(function (result) {
+        console.log('result',result.data)
+        alert(`회원님의 임시 비밀번호는 ${result.data} 입니다. 로그인 후 비밀번호를 변경해 주세요`)
+        location.reload()
+      })
+      .catch(function () {
+        alert('회원 정보를 다시 확인해 주세요')
+      })
+    }
+
     const handleClose = function () {
       state.form.name = ''
       state.form.email = ''
-      emit('closeIdPasswordDialog')
-      location.reload()
+      state.form.id = ''
+      emit('closePasswordDialog')
     }
 
-    return { buskingForm, state, handleClose, clickFindId, onOpenPasswordDialog }
+    return { buskingForm, state, handleClose, clickFindId, onOpenPasswordDialog, clickFindPassword }
   }
 }
 </script>

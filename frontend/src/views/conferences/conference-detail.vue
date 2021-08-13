@@ -38,7 +38,7 @@
         <el-button-group v-if="state.form.owner">
           <el-button type="warning" icon="el-icon-edit" @click="clickRoomEdit">수정</el-button>
           <el-button type="danger" icon="el-icon-delete" @click="roomDelete">방 종료</el-button>
-          <el-button type="success" icon="el-icon-delete" @click="onOpenKickOutDialog">강퇴</el-button>
+          <el-button type="success" @click="onOpenKickOutDialog">강퇴</el-button>
         </el-button-group>
         <el-button-group v-else>
           <el-button type="danger" @click="goBackHome">나가기</el-button>
@@ -60,6 +60,7 @@
   <conference-kickoutdialog
     :open="state.form.kickOutDialogOpen"
     :token="state.form.token"
+    @closeKickOutDialog="onCloseKickOutDialog"
   />
 
 </template>
@@ -279,7 +280,7 @@ export default {
     }
 
     const connect = function() {
-      const serverURL = "https://localhost:8080"
+      const serverURL = "http://localhost:8080/"
       let socket = new SockJS(serverURL);
       state.form.stompClient = Stomp.over(socket);
       console.log(`소켓 연결을 시도합니다. 서버 주소: ${serverURL}`)

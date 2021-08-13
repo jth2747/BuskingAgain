@@ -132,13 +132,10 @@ export default {
             location.reload()
           })
           .catch(function (err) {
-            console.log(err)
             alert('아이디와 비밀번호를 확인해 주세요.')
+            location.reload()
           })
         }
-        // else {
-        //   alert('Validate error!')
-        // }
       });
     }
 

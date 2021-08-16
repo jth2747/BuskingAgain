@@ -7,8 +7,8 @@ module.exports = {
     open: true,
     proxy: {
       '/api/v1': {
-        // target: 'https://i5d107.p.ssafy.io/'
-        target: 'https://localhost:8080/'
+        target: 'https://i5d107.p.ssafy.io/'
+        // target: 'https://localhost:8080/'
       },
       // '/api/v1/auth': {
       //   target: 'https://localhost:8443/'

@@ -282,8 +282,7 @@ export default {
 
     const connect = function() {
       // const serverURL = "https://localhost:8080/ws-stomp"
-      const serverURL = "https://localhost:8080/ws-stomp"
-      // const serverURL = "https://i5d107.p.ssafy.io/ws-stomp"
+      const serverURL = "https://i5d107.p.ssafy.io/ws-stomp"
       let socket = new SockJS(serverURL);
       state.form.stompClient = Stomp.over(socket);
       console.log(`소켓 연결을 시도합니다. 서버 주소: ${serverURL}`)

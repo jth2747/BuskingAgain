@@ -2,7 +2,7 @@
 	<div id="container">
 			<h1>main</h1>
 			<div id="participants"></div>
-			<el-button type="danger" round @click="goMain">방나가기</el-button>
+			<!-- <el-button type="danger" round @click="goMain">방나가기</el-button> -->
 	</div>
 </template>
 
@@ -44,8 +44,8 @@ export default {
 		})
 
 		const connect = function() {
-			state.ws = new WebSocket('wss://' + 'i5d107.p.ssafy.io' + '/groupcall');
-      // state.ws = new WebSocket('wss://' + location.host + '/groupcall');
+			// state.ws = new WebSocket('wss://' + 'i5d107.p.ssafy.io' + '/groupcall');
+      state.ws = new WebSocket('wss://' + location.host + '/groupcall');
 			state.ws.onopen = function(event) {
 				console.log(event)
 				console.log("Successfully connected to the echo websocket server...")

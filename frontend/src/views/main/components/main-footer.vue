@@ -1,30 +1,29 @@
 <template>
   <el-row
-    class="main-footer"
-    :gutter="10">
+    class="main-footer">
     <div class="contents">
       Copyright © SAMSUNG All Rights Reserved.
     </div>
   </el-row>
 </template>
 <style>
-@media (max-width: 700px) {
+@media (max-width: 60px) {
   .main-footer {
-    height: 190px;
+    height: 60px;
   }
   .main-footer .contents {
-    line-height: 190px;
+    line-height: 60px;
     text-align: center;
     margin: 0 auto;
   }
 }
 
-@media (min-width: 701px) {
+@media (min-width: 61px) {
   .main-footer {
-    height: 110px;
+    height: 60px;
   }
   .main-footer .contents {
-    line-height: 110px;
+    line-height: 60px;
     text-align: center;
     margin: 0 auto;
   }
@@ -40,7 +39,7 @@ export default {
   props: {
     height: {
       type: String,
-      default: '110px'
+      default: '60px'
     }
   },
 

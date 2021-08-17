@@ -178,7 +178,7 @@ export default {
           console.log("인증번호 유효성"+validateCnumber())
         }
 
-        if(validpwd() && validemail() && validid())
+        if(validpwd() && validemail() && validid() && validateCnumber())
           state.form.evalid = true;
 
         if (state.form.evalid==true) {
@@ -190,7 +190,9 @@ export default {
             email: state.form.email,
             name: state.form.name,
             id: state.form.uid,
-            password: state.form.upwd })
+            password: state.form.upwd,
+            phone: state.form.phone
+          })
           .then(function (
           ) {
             alert('회원가입 성공')
@@ -228,6 +230,7 @@ export default {
         alert("비밀번호가 일치하지 않습니다.");
         return false;
       }
+      return true;
     }
 
     const validemail = function(){
@@ -259,8 +262,8 @@ export default {
       store.dispatch('root/checkCNumber', {phone: state.form.phone})
       .then(function (result) {
         // state.checkCNumber = state.form.CNumber
-        console.log(result)
-        state.form.recvNum = result
+        console.log('result.data', result.data)
+        state.form.recvNum = result.data
         alert('인증번호가 전송되었습니다')
       })
       .catch(function (err) {
@@ -270,10 +273,14 @@ export default {
 
     const validateCnumber = function(){
       var checkNum = state.form.CNumber
-      console.log(checkNum)
-      if(checkNum != state.form.recvNum)
+      console.log('checkNum', checkNum)
+      console.log('CNumber', state.form.CNumber)
+      if(checkNum != state.form.recvNum){
         alert("인증번호가 일치하지 않습니다.")
         return false;
+      } else {
+        return true;
+      }
     }
 
     const handleClose = function () {
@@ -282,6 +289,7 @@ export default {
       state.form.uid = ''
       state.form.upwd = ''
       state.form.upwd_check = ''
+      state.form.phone = ''
       emit('closeSignupDialog')
     }
 

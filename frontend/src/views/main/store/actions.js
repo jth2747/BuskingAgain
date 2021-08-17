@@ -17,6 +17,14 @@ export function requestSignup ({ state }, payload) {
   return $axios.post(url, body)
 }
 
+// 휴대폰 번호 확인
+export function checkCNumber ({ state }, payload) {
+  console.log('checkCNumber', state, payload)
+  const url = `/auth/${payload.phone}`
+  let body = payload
+  return $axios.post(url, body)
+}
+
 //선호 장르
 export function requestGenre ({ state }, payload) {
   console.log('requestGenre', state, payload)

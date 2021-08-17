@@ -266,23 +266,30 @@ export default {
 
     const send = function() {
       console.log("Send message:" + state.form.message);
-      if (state.form.stompClient && state.form.stompClient.connected) {
-        const msg = {
-          type: "CHAT",
-          roomId: route.params.conferenceId,
-          // userName: state.form.userName,
-          message: state.form.message,
-          userId: state.form.userId
-          // recvList: state.form.recvList,
-        };
+      // if (state.form.stompClient && state.form.stompClient.connected) {
+      //   const msg = {
+      //     type: "CHAT",
+      //     roomId: route.params.conferenceId,
+      //     // userName: state.form.userName,
+      //     message: state.form.message,
+      //     userId: state.form.userId
+      //     // recvList: state.form.recvList,
+      //   };
+      const msg = {
+        type: "CHAT",
+        roomId: route.params.conferenceId,
+        // userName: state.form.userName,
+        message: state.form.message,
+        userId: state.form.userId
+        // recvList: state.form.recvList,
+      }
         console.log('메세지확인', msg)
         state.form.stompClient.send("/pub/chat/message", JSON.stringify(msg), {});
-      }
     }
 
     const connect = function() {
-      const serverURL = "https://localhost:8080/ws-stomp"
-      // const serverURL = "https://i5d107.p.ssafy.io/ws-stomp"
+      // const serverURL = "https://localhost:8080/ws-stomp"
+      const serverURL = "https://i5d107.p.ssafy.io/ws-stomp"
       let socket = new SockJS(serverURL);
       state.form.stompClient = Stomp.over(socket);
       console.log(`소켓 연결을 시도합니다. 서버 주소: ${serverURL}`)

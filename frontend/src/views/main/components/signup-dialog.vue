@@ -14,6 +14,16 @@
         <span v-if="state.form.uid.length > 16">최대 16자까지 입력 가능합니다.</span>
         <el-button type="warning" size="mini" @click="checkId">중복확인</el-button>
       </el-form-item>
+      <el-form-item prop="phone" label="휴대폰" class="formIn">
+        <el-input v-model="state.form.phone" autocomplete="off" placeholder="-없이 입력">
+          <template #append>
+            <el-button class="phone_certify" @click="checkCnumber">인증번호전송</el-button>
+          </template>
+        </el-input>
+      </el-form-item>
+      <el-form-item prop="CNumber" label="인증번호" class="formIn">
+        <el-input v-model="state.form.CNumber" autocomplete="off"></el-input>
+      </el-form-item>
       <el-form-item prop="upwd" label="비밀번호" :label-width="state.formLabelWidth">
         <el-input v-model="state.form.upwd" autocomplete="off" show-password></el-input>
         <span v-if="state.form.upwd.length === 0"></span>
@@ -100,6 +110,9 @@ export default {
         uid: '',
         upwd: '',
         upwd_check:'',
+        phone: '',
+        CNumber: '',
+        recvNum: '',
         align: 'left',
         date_array: [false, false, false, false, false, false],
         evalid: true,
@@ -119,6 +132,12 @@ export default {
         ],
         upwd_check: [
           { required: true, message: 'Please input password', trigger: 'blur' }
+        ],
+        phone: [
+          { required: true, message: '핸드폰번호를 입력해주세요',trigger: 'blur'}
+        ],
+        CNumber: [
+          { required: true, validator: validateCnumber ,trigger: 'blur'}
         ]
       },
       dialogVisible: computed(() => props.open),
@@ -150,6 +169,13 @@ export default {
           state.form.evalid = false;
         }else{
           console.log("아이디 유효성 "+validid());
+        }
+
+        if (validateCnumber() == false){
+          console.log("인증번호 유효성 안맞음")
+          state.form.evalid = false;
+        }else{
+          console.log("인증번호 유효성"+validateCnumber())
         }
 
         if(validpwd() && validemail() && validid())
@@ -202,7 +228,6 @@ export default {
         alert("비밀번호가 일치하지 않습니다.");
         return false;
       }
-      return true;
     }
 
     const validemail = function(){
@@ -230,6 +255,26 @@ export default {
       })
     }
 
+    const checkCnumber = function () {
+      store.dispatch('root/checkCNumber', {phone: state.form.phone})
+      .then(function (result) {
+        // state.checkCNumber = state.form.CNumber
+        console.log(result)
+        state.form.recvNum = result
+        alert('인증번호가 전송되었습니다')
+      })
+      .catch(function (err) {
+        console.log(err.response)
+      })
+    }
+
+    const validateCnumber = function(){
+      var checkNum = state.form.CNumber
+      console.log(checkNum)
+      if(checkNum != state.form.recvNum)
+        alert("인증번호가 일치하지 않습니다.")
+        return false;
+    }
 
     const handleClose = function () {
       state.form.email = ''
@@ -240,7 +285,7 @@ export default {
       emit('closeSignupDialog')
     }
 
-    return { signupForm, state, clickSignup, handleClose, validpwd, validemail, validid, checkId }
+    return { signupForm, state, clickSignup, handleClose, validpwd, validemail, validid, checkId, checkCnumber}
   }
 }
 </script>

@@ -102,6 +102,7 @@ export default {
 			sendMessage(message);
 		}
 		const onNewParticipant = function(request) {
+      console.log('requset.name',request.name)
 			receiveVideo(request.name);
 		}
 		const receiveVideoResponse = function(result) {

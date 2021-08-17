@@ -2,31 +2,98 @@
   <el-row
     v-if="token"
     class="main-header"
-    :gutter="10"
+    :gutter="20"
     :style="{ 'height': height }">
     <div class="hide-on-small">
-      <div class="logo-wrapper" @click="clickLogo"><div class="ic ic-logo"/></div>
+      <span @click="drawer = true" type="primary" style="margin: 16px;  cursor : pointer;">
+        <i class="el-icon-menu" style="margin-top:10px; font-size: 20px; color: #FFFFFF"></i>
+      </span>
+      <el-drawer
+        title="I am the title"
+        v-model="drawer"
+        :direction="direction"
+        :before-close="handleClose"
+        :with-header="false"
+        >
+        <div></div>
+        <div class="logo-wrapper" @click="clickLogo"><div class="ic ic-logo"/></div>
+        <div class="mobile-sidebar">
+          <el-menu
+            :default-active="String(state.activeIndex)"
+            active-text-color="#ffd04b"
+            class="el-menu-vertical-demo"
+            @select="menuSelect">
+            <el-menu-item v-for="(item, index) in state.menuItems" :key="index" :index="index.toString()">
+              <i v-if="item.icon" :class="['ic', item.icon]"/>
+              <span>{{ item.title }}</span>
+            </el-menu-item>
+          </el-menu>
+        </div>
+      </el-drawer>
       <div class="tool-wrapper">
+        <!-- <div class="logo-wrapper" @click="clickLogo"><div class="ic ic-logo"/></div> -->
         <div class="button-wrapper">
-          <el-button type="success" @click="clickGenre">선호 장르</el-button>
-          <el-button type="primary" @click="clickProfile">회원정보</el-button>
-          <el-button type="medium" @click="clickLogout">로그아웃</el-button>
+          <el-popover placement="bottom" title="버스킹 생성" trigger="hover">
+            <template #reference>
+              <span type="medium" style="cursor:pointer; margin-right: 20px; font-size: 20px; color: #FFFFFF"  @click="clickBusking" v-if="this.token" class="el-icon-plus"></span>
+            </template>
+          </el-popover>
+          <el-popover placement="bottom" title="선호 장르 선택" trigger="hover">
+            <template #reference>
+              <span type="medium" style="cursor:pointer; margin-right: 20px; font-size: 20px; color: #FFFFFF"  @click="clickGenre" v-if="this.token" class="el-icon-star-on"></span>
+            </template>
+          </el-popover>
+          <el-popover placement="bottom" title="회원 정보" trigger="hover">
+            <template #reference>
+              <span type="medium" style="cursor:pointer; margin-right: 20px; font-size: 20px; color: #FFFFFF"  @click="clickProfile" v-if="this.token" class="el-icon-user"></span>
+            </template>
+          </el-popover>
+          <el-popover placement="bottom" title="로그아웃" trigger="hover">
+            <template #reference>
+              <span type="medium" style="cursor:pointer; margin-right: 20px; font-size: 20px; color: #FFFFFF"  @click="clickLogout" v-if="this.token" class="el-icon-unlock"></span>
+            </template>
+          </el-popover>
         </div>
       </div>
     </div>
 
 
     <div class="hide-on-big">
-      <div class="menu-icon-wrapper" @click="changeCollapse"><i class="el-icon-menu"></i></div>
-      <div class="logo-wrapper" @click="clickLogo"><div class="ic ic-logo"/></div>
-      <div class="menu-icon-wrapper"><i class="el-icon-search"></i></div>
-      <div class="mobile-sidebar-wrapper" v-if="!state.isCollapse">
+      <!-- <div class="menu-icon-wrapper" @click="changeCollapse"><i class="el-icon-menu"></i></div> -->
+      <span @click="drawer = true" type="primary" style="margin: 16px;  cursor : pointer;">
+        <i class="el-icon-menu" style="margin-top:10px; font-size: 20px"></i>
+      </span>
+      <el-drawer
+        title="I am the title"
+        v-model="drawer"
+        :direction="direction"
+        :before-close="handleClose"
+        :with-header="false"
+        >
+        <div></div>
+        <div class="logo-wrapper" @click="clickLogo"><div class="ic ic-logo"/></div>
         <div class="mobile-sidebar">
-          <div class="mobile-sidebar-tool-wrapper">
-            <div class="logo-wrapper"><div class="ic ic-logo"/></div>
-            <el-button  class="mobile-sidebar-btn login-btn" @click="clickGenre" >선호 장르</el-button>
-            <el-button  class="mobile-sidebar-btn login-btn" @click="clickProfile" >회원정보</el-button>
-            <el-button type="primary" class="mobile-sidebar-btn login-btn" @click="clickLogout">로그아웃</el-button>
+          <div class="text-center">
+            <el-popover placement="bottom" title="버스킹 생성" trigger="hover">
+              <template #reference>
+                <span type="medium" style="cursor:pointer; margin-right: 20px; font-size: 20px;"  @click="clickBusking" v-if="this.token" class="el-icon-plus"></span>
+              </template>
+            </el-popover>
+            <el-popover placement="bottom" title="선호 장르 선택" trigger="hover">
+              <template #reference>
+                <span type="medium" style="cursor:pointer; margin-right: 20px; font-size: 20px"  @click="clickGenre" v-if="this.token" class="el-icon-star-on"></span>
+              </template>
+            </el-popover>
+            <el-popover placement="bottom" title="회원 정보" trigger="hover">
+              <template #reference>
+                <span type="medium" style="cursor:pointer; margin-right: 20px; font-size: 20px"  @click="clickProfile" v-if="this.token" class="el-icon-user"></span>
+              </template>
+            </el-popover>
+            <el-popover placement="bottom" title="로그아웃" trigger="hover">
+              <template #reference>
+                <span type="medium" style="cursor:pointer; margin-right: 20px; font-size: 20px"  @click="clickLogout" v-if="this.token" class="el-icon-unlock"></span>
+              </template>
+            </el-popover>
           </div>
           <el-menu
             :default-active="String(state.activeIndex)"
@@ -39,10 +106,11 @@
             </el-menu-item>
           </el-menu>
         </div>
-        <div class="mobile-sidebar-backdrop" @click="changeCollapse"></div>
-      </div>
+      </el-drawer>
+      <div class="logo-wrapper" @click="clickLogo"><div class="ic ic-logo"/></div>
     </div>
   </el-row>
+
 
   <el-row
     v-else
@@ -50,49 +118,134 @@
     :gutter="10"
     :style="{ 'height': height }">
     <div class="hide-on-small">
-      <div class="logo-wrapper" @click="clickLogo"><div class="ic ic-logo"/></div>
-      <div class="tool-wrapper">
-        <div class="button-wrapper">
-          <el-button @click="clickSignup" class="el-icon-circle-plus-outline"> 회원가입</el-button>
-          <el-button type="primary" @click="clickLogin" class="el-icon-key">로그인</el-button>
-          <el-button type="success" @click="findIdPassword" plain>Id/Password</el-button>
-        </div>
-      </div>
-    </div>
-
-    <div class="hide-on-big">
-      <div class="menu-icon-wrapper" @click="changeCollapse"><i class="el-icon-menu"></i></div>
-      <div class="logo-wrapper" @click="clickLogo"><div class="ic ic-logo"/></div>
-      <div class="menu-icon-wrapper"><i class="el-icon-search"></i></div>
-      <div class="mobile-sidebar-wrapper" v-if="!state.isCollapse">
+      <!-- <div class="logo-wrapper" @click="clickLogo"><div class="ic ic-logo"/></div> -->
+      <span @click="drawer = true" type="primary" style="margin: 16px;  cursor : pointer;">
+        <i class="el-icon-menu" style="margin-top:10px; font-size: 20px"></i>
+      </span>
+      <el-drawer
+        title="I am the title"
+        v-model="drawer"
+        :direction="direction"
+        :before-close="handleClose"
+        :with-header="false"
+        >
+        <div class="logo-wrapper" @click="clickLogo"><div class="ic ic-logo"/></div>
         <div class="mobile-sidebar">
-          <div class="mobile-sidebar-tool-wrapper">
-            <div class="logo-wrapper"><div class="ic ic-logo"/></div>
-            <el-button type="primary" class="mobile-sidebar-btn login-btn" @click="clickLogin">로그인</el-button>
-            <el-button class="mobile-sidebar-btn register-btn" @click="clickSignup">회원가입</el-button>
-            <el-button type="success" @click="findIdPassword" plain class="mobile-sidebar-btn register-btn">Id/Password</el-button>
-          </div>
           <el-menu
             :default-active="String(state.activeIndex)"
             active-text-color="#ffd04b"
             class="el-menu-vertical-demo"
             @select="menuSelect">
-            <el-menu-item v-for="(item, index) in state.menuItems" :key="index" :index="index.toString()">
-              <i v-if="item.icon" :class="['ic', item.icon]"/>
-              <span>{{ item.title }}</span>
-            </el-menu-item>
+            <div v-if="token">
+              <el-menu-item v-for="(item, index) in state.menuItems" :key="index" :index="index.toString()">
+                <i v-if="item.icon" :class="['ic', item.icon]"/>
+                <span>{{ item.title }}</span>
+              </el-menu-item>
+            </div>
+            <div v-else>
+              <el-menu-item @click="clickHome">
+                <i :class="['ic', state.menuItems[0].icon]"/>
+                {{ state.menuItems[0].title}}
+              </el-menu-item>
+            </div>
           </el-menu>
+        </div>
+      </el-drawer>
+      <div class="tool-wrapper">
+        <div class="button-wrapper">
+          <el-popover placement="bottom" title="회원가입" trigger="hover">
+            <template #reference>
+              <span style="cursor:pointer; margin-right: 20px; font-size: 20px; color: #FFFFFF" @click="clickSignup" class="el-icon-circle-plus-outline"></span>
+            </template>
+          </el-popover>
+          <el-popover placement="bottom" title="로그인" trigger="hover">
+            <template #reference>
+              <span style="cursor:pointer; margin-right: 20px; font-size: 20px; color: #FFFFFF" @click="clickLogin" class="el-icon-lock"></span>
+            </template>
+          </el-popover>
+          <el-popover placement="bottom" title="Id/Password 찾기" trigger="hover">
+            <template #reference>
+              <span style="cursor:pointer; margin-right: 20px; font-size: 20px; color: #FFFFFF" @click="findIdPassword" class="el-icon-key"></span>
+            </template>
+          </el-popover>
         </div>
         <div class="mobile-sidebar-backdrop" @click="changeCollapse"></div>
       </div>
     </div>
+
+
+
+    <div class="hide-on-big">
+      <span @click="drawer = true" type="primary" style="margin: 16px;  cursor : pointer;">
+        <i class="el-icon-menu" style="margin-top:10px; font-size: 20px"></i>
+      </span>
+      <el-drawer
+        title="I am the title"
+        v-model="drawer"
+        :direction="direction"
+        :before-close="handleClose"
+        :with-header="false"
+        >
+        <div></div>
+        <div class="logo-wrapper" @click="clickLogo"><div class="ic ic-logo"/></div>
+
+        <div class="mobile-sidebar">
+          <div class ="text-center">
+            <el-popover placement="bottom" title="회원가입" trigger="hover">
+              <template #reference>
+                <span style="cursor:pointer; margin-right: 20px; font-size: 20px" @click="clickSignup" class="el-icon-circle-plus-outline"></span>
+              </template>
+            </el-popover>
+            <el-popover placement="bottom" title="로그인" trigger="hover">
+              <template #reference>
+                <span style="cursor:pointer; margin-right: 20px; font-size: 20px" @click="clickLogin" class="el-icon-lock"></span>
+              </template>
+            </el-popover>
+            <el-popover placement="bottom" title="Id/Password 찾기; font-size: 20px" trigger="hover">
+              <template #reference>
+                <span style="cursor:pointer; margin-right: 20px" @click="findIdPassword" class="el-icon-key"></span>
+              </template>
+            </el-popover>
+          </div>
+          <el-menu
+              :default-active="String(state.activeIndex)"
+              active-text-color="#ffd04b"
+              class="el-menu-vertical-demo"
+              @select="menuSelect">
+              <div v-if="token">
+                <el-menu-item v-for="(item, index) in state.menuItems" :key="index" :index="index.toString()">
+                  <i v-if="item.icon" :class="['ic', item.icon]"/>
+                  <span>{{ item.title }}</span>
+                </el-menu-item>
+              </div>
+              <div v-else>
+                <el-menu-item @click="clickHome">
+                  <i :class="['ic', state.menuItems[0].icon]"/>
+                  {{ state.menuItems[0].title}}
+                </el-menu-item>
+              </div>
+            </el-menu>
+        </div>
+
+      </el-drawer>
+      <div class="logo-wrapper" @click="clickLogo"><div class="ic ic-logo"/></div>
+
+
+    </div>
   </el-row>
+
+  <busking-dialog
+        :open="buskingDialogOpen"
+        :token="token"
+        @closeBuskingDialog="onCloseBuskingDialog"/>
+
 </template>
 <script>
 import { reactive, computed } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 import $axios from "axios"
+import BuskingDialog from '../components/busking-dialog.vue'
 
 
 const SERVER_URL = "http://localhost:8080";
@@ -111,6 +264,37 @@ export default {
     },
   },
 
+  components: {
+    BuskingDialog
+  },
+
+  data() {
+    return {
+      buskingDialogOpen:false,
+      token: localStorage.getItem('jwt'), // jwt 토큰
+      image: 'https://www.ssafy.com/swp/images/sns_img.png',
+      value: '',
+      drawer: false,
+      direction: 'ltr',
+    }
+  },
+
+  methods:{
+    clickBusking(){
+      console.log("inin");
+      this.buskingDialogOpen=true
+    },
+    onCloseBuskingDialog(){
+      this.buskingDialogOpen=false
+    },
+    // handleClose(done) {
+    //     this.$confirm('Are you sure you want to close this?')
+    //       .then(_ => {
+    //         done();
+    //       })
+    //       .catch(_ => {});
+    //   }
+  },
 
   setup(props, { emit }) {
     const store = useStore()
@@ -216,6 +400,14 @@ export default {
 }
 </script>
 <style>
+  .logo{
+    width: 70px;
+    height: 50px;
+    background-image: url('../../../assets/images/logo4.png');
+  }
+  .text-center{
+    margin-left: 50px;
+  }
   .main-header {
     padding: 10px 20px;
   }
@@ -231,12 +423,13 @@ export default {
     display: inline-block;
     margin: 0 calc(50% - 51px)
   }
+
   .main-header .hide-on-big .logo-wrapper .ic.ic-logo {
     width: 70px;
     height: 50px;
     background-size: contain;
     background-repeat: no-repeat;
-    background-image: url('../../../assets/images/GIL.png');
+    background-image: url('../../../assets/images/logo4.png');
   }
   .mobile-sidebar-wrapper {
     position: absolute;
@@ -275,7 +468,7 @@ export default {
     margin-top: 30px;
     background-size: contain;
     background-repeat: no-repeat;
-    background-image: url('../../../assets/images/GIL.png');
+    background-image: url('../../../assets/images/logo4.png');
   }
   .mobile-sidebar-wrapper .mobile-sidebar-backdrop {
     width: calc(100% - 260px); height: calc(100vh - 1px);
@@ -301,18 +494,18 @@ export default {
     display: inline-block;
   }
   .main-header .hide-on-small .logo-wrapper .ic.ic-logo {
-    width: 70px;
-    height: 50px;
+    width: 250px;
+    height: 80px;
     background-size: contain;
     background-repeat: no-repeat;
-    background-image: url('../../../assets/images/GIL.png');
+    background-image: url('../../../assets/images/logo4.png');
   }
   .main-header .hide-on-small .tool-wrapper {
     width: 60%;
     float: right;
   }
   .main-header .hide-on-small .tool-wrapper .button-wrapper {
-    width: 45%;
+    /* width: 45%; */
     float: right;
   }
   .main-header .hide-on-small .tool-wrapper .button-wrapper .el-button {

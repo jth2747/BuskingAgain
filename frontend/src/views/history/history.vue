@@ -1,7 +1,6 @@
 <template>
   <div class="block">
   <el-timeline v-for="(room, i) in state.form.roomList[0]" :key="i">
-    <el-timeline-item style="text-align:left">{{room.start_time}}
       <el-card>
         <h4 style="text-align:left">방 제목: {{ room.title }}</h4>
         <p>장르: {{room.busking_genre}}</p>
@@ -11,7 +10,6 @@
         <p>좋아요: {{room.likes}}</p>
         <p>시청자: {{room.viewers}}</p>
       </el-card>
-    </el-timeline-item>
   </el-timeline>
 </div>
 </template>

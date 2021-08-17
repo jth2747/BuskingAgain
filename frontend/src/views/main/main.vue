@@ -1,31 +1,33 @@
 <template>
-  <el-container class="main-wrapper">
-    <main-header
-      :height="`70px`"
-      :token="token"
-      @openPasswordCheckDialog="onOpenPasswordCheckDialog"
-      @openLoginDialog="onOpenLoginDialog"
-      @openSignupDialog="onOpenSignupDialog"
-      @openGenreDialog="onOpenGenreDialog"
-      @openIdPasswordDialog="onOpenIdPasswordDialog"
-      @click-logout="clickLogout"/>
-    <el-container class="main-container">
-      <el-aside class="hide-on-small" width="240px">
-        <main-sidebar
-          :width="`240px`"
-          :isLoding="isLoding"
-          :token="token"
-          :sidebar="sidebar"
-          />
-      </el-aside>
+  <div class="body2">
+    <el-container class="main-wrapper">
+      <main-header
+        :height="`70px`"
+        :token="token"
+        @openPasswordCheckDialog="onOpenPasswordCheckDialog"
+        @openLoginDialog="onOpenLoginDialog"
+        @openSignupDialog="onOpenSignupDialog"
+        @openGenreDialog="onOpenGenreDialog"
+        @openIdPasswordDialog="onOpenIdPasswordDialog"
+        @click-logout="clickLogout"/>
+      <el-container class="main-container">
+        <!-- <el-aside class="hide-on-small" width="240px">
+          <main-sidebar
+            :width="`240px`"
+            :isLoding="isLoding"
+            :token="token"
+            :sidebar="sidebar"
+            />
+        </el-aside> -->
 
-      <el-main>
-        <router-view></router-view>
-      </el-main>
+        <el-main>
+          <router-view></router-view>
+        </el-main>
 
+      </el-container>
+      <main-footer :height="`70px`"/>
     </el-container>
-    <main-footer :height="`110px`"/>
-  </el-container>
+  </div>
   <login-dialog
     :open="loginDialogOpen"
     :isLoding="isLoding"
@@ -208,3 +210,11 @@ export default {
   }
 }
 </script>
+<style>
+.body2{
+  height: 100vh;
+  background-image: url('../../assets/images/back.png');
+  background-repeat : no-repeat;
+  background-size : cover;
+}
+</style>

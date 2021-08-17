@@ -8,18 +8,18 @@ module.exports = {
     proxy: {
       '/api/v1': {
         // target: 'https://i5d107.p.ssafy.io/'
-        // target: 'http://localhost:8080/'
-        target: 'https://localhost:8443/'
-      },
-      '/webjars': {
-        target: 'https://localhost:8443/'
-      },
-      '/groupcall': {
-        target: 'https://localhost:8443/'
-      },
-      '/upload': {
-        target: 'https://localhost:8443/'
-      },
+        target: 'http://localhost:8080/'
+      //   target: 'https://localhost:8443/'
+      // },
+      // '/webjars': {
+      //   target: 'https://localhost:8443/'
+      // },
+      // '/groupcall': {
+      //   target: 'https://localhost:8443/'
+      // },
+      // '/upload': {
+      //   target: 'https://localhost:8443/'
+      // },
     },
     historyApiFallback: true,
     hot: true

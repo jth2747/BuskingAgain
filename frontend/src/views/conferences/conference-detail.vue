@@ -76,21 +76,21 @@
     margin-left: 10px;
   }
   .el-header, .el-footer {
-    background-color: #B3C0D1;
+    background-color: #F2EDD7;
     color: #333;
     text-align: center;
     line-height: 60px;
   }
 
   .el-aside {
-    background-color: #D3DCE6;
+    background-color: #755139;
     color: #333;
     text-align: center;
     line-height: 30px;
   }
 
   .el-main {
-    background-color: #E9EEF3;
+    background-color: #FFFFFF;
     color: #333;
     text-align: center;
     line-height: 100px;
@@ -288,8 +288,8 @@ export default {
     }
 
     const connect = function() {
-      // const serverURL = "https://localhost:8080/ws-stomp"
-      const serverURL = "https://i5d107.p.ssafy.io/ws-stomp"
+      const serverURL = "https://localhost:8080/ws-stomp"
+      // const serverURL = "https://i5d107.p.ssafy.io/ws-stomp"
       let socket = new SockJS(serverURL);
       state.form.stompClient = Stomp.over(socket);
       console.log(`소켓 연결을 시도합니다. 서버 주소: ${serverURL}`)

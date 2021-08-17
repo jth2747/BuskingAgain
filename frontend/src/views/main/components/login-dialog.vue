@@ -123,17 +123,16 @@ export default {
       // 로그인 클릭 시 validate 체크 후 그 결과 값에 따라, 로그인 API 호출 또는 경고창 표시
       loginForm.value.validate((valid) => {
         if (valid) {
-          console.log('submit')
+          // console.log('submit')
           store.dispatch('root/requestLogin', { id: state.form.id, password: state.form.password })
           .then(function (result) {
             alert('로그인 성공')
-            console.log(result.data)
+            // console.log(result.data)
             localStorage.setItem('jwt', result.data.accessToken)
             location.reload()
           })
           .catch(function (err) {
             alert('아이디와 비밀번호를 확인해 주세요.')
-            location.reload()
           })
         }
       });

@@ -44,8 +44,8 @@ export default {
 		})
 
 		const connect = function() {
-			// state.ws = new WebSocket('wss://' + 'i5d107.p.ssafy.io' + '/groupcall');
-      state.ws = new WebSocket('wss://' + location.host + '/groupcall');
+			state.ws = new WebSocket('wss://' + 'i5d107.p.ssafy.io' + '/groupcall');
+      // state.ws = new WebSocket('wss://' + location.host + '/groupcall');
 			state.ws.onopen = function(event) {
 				console.log(event)
 				console.log("Successfully connected to the echo websocket server...")
@@ -102,6 +102,7 @@ export default {
 			sendMessage(message);
 		}
 		const onNewParticipant = function(request) {
+      console.log('requset.name',request.name)
 			receiveVideo(request.name);
 		}
 		const receiveVideoResponse = function(result) {

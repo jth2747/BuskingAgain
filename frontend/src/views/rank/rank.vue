@@ -2,14 +2,34 @@
 <div v-if="state.form.flag" class="coin"/>
 <div style="visibility:hidden" v-else class="coin"/>
 <div style="cursor:pointer" @click="clickHat()" class="hat"/>
-<!-- <div class="hat2"/> -->
+
   <ul class="infinite-list" v-infinite-scroll="load" style="overflow:auto">
-    <div style="margin: 10px"><i class="el-icon-trophy"></i>좋아요 TOP 5</div>
-    <span> </span>
-    <span> </span>
-    <span> </span>
+
+    <el-container style="margin: 20px">
+      <el-col :span="10"><div class="grid-content bg-purple"></div></el-col>
+      <el-col :span="1"><div class="like"></div></el-col>
+      <el-col :span="5"><div class="ranktitle" style="margin: 20px">좋아요 TOP 5</div></el-col>
+      <el-col :span="8"><div class="grid-content bg-purple"></div></el-col>
+    </el-container>
+
       <el-carousel :interval="4000" type="card" height="330px">
         <el-carousel-item v-for="(room, i) in state.form.roomData_1[0]" @click="clickConference(state.form.roomData_1[0][i]['id'])" class="infinite-list-item medium" :key="i">
+             <div v-if="i===0">
+              <div class="rank-logo1"/>
+            </div>
+            <div v-else-if="i===1">
+              <div class="rank-logo2"/>
+            </div>
+            <div v-else-if="i===2">
+              <div class="rank-logo3"/>
+            </div>
+            <div v-else-if="i===3">
+              <div class="rank-logo4"/>
+            </div>
+            <div v-else-if="i===4">
+              <div class="rank-logo5"/>
+            </div>
+
             <conference
               :image="room['thumbnail_url']"
               :title="room['title']"
@@ -18,12 +38,40 @@
             />
         </el-carousel-item>
       </el-carousel>
-      <div style="margin: 10px"><i class="el-icon-trophy"></i>시청자 TOP 5</div>
-      <span> </span>
+    <div></div>
+    <!-- <el-container style="margin: 20px">
+      <el-col :span="10"><div class="grid-content bg-purple"></div></el-col>
+      <el-col :span="1"><div class="like"></div></el-col>
+      <el-col :span="5"><div class="ranktitle" style="margin: 20px">좋아요 TOP 5</div></el-col>
+      <el-col :span="8"><div class="grid-content bg-purple"></div></el-col>
+    </el-container> -->
+    <el-container style="margin: 20px">
+      <el-col :span="10"><div class="grid-content bg-purple"></div></el-col>
+      <el-col :span="1"><div class="viewer"></div></el-col>
+      <el-col :span="5"><div class="ranktitle" style="margin: 20px">시청자 TOP 5</div></el-col>
+      <el-col :span="8"><div class="grid-content bg-purple"></div></el-col>
+    </el-container>
+
       <span> </span>
       <span> </span>
       <el-carousel :interval="4000" type="card" height="330px">
         <el-carousel-item v-for="(room, i) in state.form.roomData_2[0]" @click="clickConference(state.form.roomData_2[0][i]['id'])" class="infinite-list-item medium" :key="i">
+             <div v-if="i===0">
+              <div class="rank-logo1"/>
+            </div>
+            <div v-else-if="i===1">
+              <div class="rank-logo2"/>
+            </div>
+            <div v-else-if="i===2">
+              <div class="rank-logo3"/>
+            </div>
+            <div v-else-if="i===3">
+              <div class="rank-logo4"/>
+            </div>
+            <div v-else-if="i===4">
+              <div class="rank-logo5"/>
+            </div>
+
             <conference
               :image="room['thumbnail_url']"
               :title="room['title']"
@@ -36,6 +84,23 @@
 
 </template>
 <style>
+.like {
+  background-size: contain;
+  background-image: url('../../assets/images/like.png');
+  width: 82px;
+  height: 82px;
+}
+.viewer {
+  background-size: contain;
+  background-image: url('../../assets/images/viewer.png');
+  width: 82px;
+  height: 82px;
+}
+.ranktitle{
+  text-align: left;
+  font-size: 30px;
+  color:white;
+}
 .button-wrapper {
     width: 30%;
     float: right;
@@ -61,9 +126,56 @@
 .infinite-list .infinite-list-item {
   min-width: 335px;
   max-width: 25%;
+  height: 360px;
   display: inline-block;
   cursor: pointer;
 }
+
+.rank-logo1 {
+  width: 70px;
+  height: 50px;
+  margin: auto;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-image: url('../../assets/images/1등.png');
+}
+
+.rank-logo2 {
+  width: 70px;
+  height: 50px;
+  margin:auto;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-image: url('../../assets/images/2등.png');
+}
+
+.rank-logo3 {
+  width: 70px;
+  height: 50px;
+  margin:auto;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-image: url('../../assets/images/3등.png');
+}
+
+.rank-logo4 {
+  width: 70px;
+  height: 50px;
+  margin:auto;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-image: url('../../assets/images/4등.png');
+}
+
+.rank-logo5 {
+  width: 70px;
+  height: 50px;
+  margin:auto;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-image: url('../../assets/images/5등.png');
+}
+
 
 /* ----------------------------------------------
  * Generated by Animista on 2021-8-11 15:6:52

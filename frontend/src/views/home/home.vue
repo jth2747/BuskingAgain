@@ -1,8 +1,8 @@
 <template>
 <div>
-  <div class="button-wrapper">
+  <!-- <div class="button-wrapper">
   <el-button @click="clickBusking" v-if="this.token">버스킹 생성</el-button>
-  </div>
+  </div> -->
   <div class="search-field">
     <el-input @keyup.enter="submit"
       placeholder="버스킹 제목 검색"
@@ -59,14 +59,17 @@
       </li>
     </div>
   </ul>
+<!--
   <busking-dialog
     :open="buskingDialogOpen"
     :token="token"
-    @closeBuskingDialog="onCloseBuskingDialog"/>
+    @closeBuskingDialog="onCloseBuskingDialog"/> -->
 </template>
 <style>
 .search-field {
-  width: 300px;
+  width: 400px;
+  margin: auto;
+  display: block;
 }
 .button-wrapper {
   width: 30%;

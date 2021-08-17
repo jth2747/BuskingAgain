@@ -1,8 +1,12 @@
 package com.ssafy.api.controller;
 
+import java.util.HashMap;
+
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,10 +25,12 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponses;
 import io.swagger.annotations.ApiResponse;
+import net.nurigo.java_sdk.api.Message;
+import net.nurigo.java_sdk.exceptions.CoolsmsException;
 
 /**
- * 인증 관련 API 요청 처리를 위한 컨트롤러 정의.
- */
+ * 인증 관련 API 요청 처리를 My Request위한 컨트롤러 정의.
+ My Request*/
 @Api(value = "인증 API", tags = {"Auth."})
 @RestController
 @RequestMapping("/api/v1/auth")
@@ -66,4 +72,37 @@ public class AuthController {
 		// 유효하지 않는 패스워드인 경우, 로그인 실패로 응답.
 		return ResponseEntity.status(401).body(UserLoginPostRes.of(401, "Invalid Password", null));
 	}
+	
+	@PostMapping("/{phonenumber}")
+  	public int smstest (@PathVariable("phonenumber") String phonenumber) {
+    String api_key = "NCSO8ZXESKFOPTOP";
+    String api_secret = "K0XDWIFD2DBPU0EL0IIRA6FSC1N3RXMZ";
+    Message coolsms = new Message(api_key, api_secret);
+    
+    HashMap<String, String> params = new HashMap<String, String>();
+    params.put("to", phonenumber);
+    params.put("from", "01040367669");
+
+    int min = 10;
+    int max = 1000;
+    int random = (int) ((Math.random() * (max - min)) + min);
+    System.out.println(random);
+
+    params.put("type", "SMS");
+    params.put("text", "인증번호는  "+ random +" 입니다. "); // 보낼 메세지를 입력하시오.
+    params.put("app_version", "test app 1.2"); // application name and version
+
+    try {
+    	JSONObject obj = (JSONObject) coolsms.send(params);
+    	System.out.println(obj.toString());
+    } catch (CoolsmsException e) {
+    	System.out.println(e.getMessage());
+    	System.out.println(e.getCode());
+    	
+    	// front 로 인증번호를 return 해주고, front 에서는 인증번호를 받아서 해당 사용자에게 받은 번호와
+    	// 같은지 비교 후 승인 or 거부
+    }
+    return random;
+	}
+
 }

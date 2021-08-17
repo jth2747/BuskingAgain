@@ -22,4 +22,6 @@ public class UserRegisterPostReq {
 //	String genre;
 	@ApiModelProperty(name="유저 Email", example="email")
 	String email;
+	@ApiModelProperty(name="유저 Phone", example="phone")
+	int phone;
 }

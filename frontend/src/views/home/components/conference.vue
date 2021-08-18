@@ -11,16 +11,16 @@
     <div style="text-align: left; padding: 14px;">
       <span class="title">제목 : {{ title }}</span>
       <div class="bottom">
-        <p style="margin: 1px;">장르 : {{ genre }}</p>
-        <p style="margin: 1px;">설명 : {{ desc }}</p>
+        <p style="margin: 1 0 0 1px;">장르 : {{ genre }}</p>
+        <p>설명 : {{ desc }}</p>
       </div>
     </div>
   </el-card>
 </template>
 <style>
 .el-card {
-  margin: 0 8px;
-  margin-bottom: 40px;
+  margin: 0 0px;
+  margin-bottom: 20px;
 }
 .el-card .image-wrapper {
   width: 100%;
@@ -40,7 +40,7 @@
 /* 테블릿, 모바일의 경우 두 줄 말줄임표시 */
 @media (max-width: 1269px) {
   .el-card .bottom {
-    -webkit-line-clamp: 2;
+    -webkit-line-clamp: 1;
     height:42px;
   }
 }
@@ -48,7 +48,7 @@
 @media (min-width: 1270px) {
   .el-card .bottom {
     -webkit-line-clamp: 3;
-    height:60px;
+    height:110px;
   }
 }
 

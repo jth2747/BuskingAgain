@@ -1,28 +1,15 @@
 <template>
 <div>
-  <!-- <div class="button-wrapper">
-  <el-button @click="clickBusking" v-if="this.token">버스킹 생성</el-button>
-  </div> -->
   <div class="search-field">
     <div class="search-container">
       <input class ="search-input" style="float:left"  @keyup.enter="submit" placeholder="버스킹 제목 검색" v-model="state.searchValue">
       <span class="icon"><i class="el-icon-search" style="color: #ffffff; font-size: 20px; font-weight: bold; margin-top:-28px; margin-left:5px; float:left"></i></span>
     </div>
   </div>
-
-  <!-- <div class="search-field">
-    <el-input @keyup.enter="submit"
-      placeholder="버스킹 제목 검색"
-      prefix-icon="el-icon-search"
-      v-model="state.searchValue">
-    </el-input>
-  </div> -->
 </div>
-
-<div class="reco">추천하는 버스킹</div>
   <ul class="infinite-list" v-infinite-scroll="load" style="overflow:auto">
     <div v-if="this.token">
-      <el-carousel :interval="4000" type="card" height="330px">
+      <el-carousel :interval="4000" type="card" height="400px" style="margin-top:10px">
         <el-carousel-item v-for="(room, i) in state.form.roomRandomData[0]" @click="clickConference(state.form.roomRandomData[0][i]['id'])" class="infinite-list-item medium" :key="i">
             <conference
               :image="room['thumbnail_url']"
@@ -34,7 +21,7 @@
       </el-carousel>
     </div>
     <div v-else>
-      <el-carousel :interval="4000" type="card" height="330px">
+      <el-carousel :interval="4000" height="400px" style="margin-top:10px">
         <el-carousel-item v-for="(room, i) in state.form.roomRandomData[0]" @click="loginDemended" class="infinite-list-item medium" :key="i" >
           <conference
             :image="room['thumbnail_url']"
@@ -92,12 +79,6 @@
   color: #ffffff;
   /* font-weight: bold; */
 }
-
-.reco {
-  margin: auto;
-  font-size: 20px;
-  color:white;
-}
 .search-field {
   width: 400px;
   margin: auto;
@@ -128,7 +109,7 @@
 .infinite-list .infinite-list-item {
   min-width: 335px;
   max-width: 25%;
-  display: inline-block;
+  height: 360px;
   cursor: pointer;
 }
 
@@ -142,11 +123,13 @@
 }
 
 .el-carousel__item:nth-child(2n) {
-  background-color: #99a9bf;
+  /* background-color: #99a9bf; */
+  background-color: rgba( 255, 255, 255, 0.0 );
 }
 
 .el-carousel__item:nth-child(2n+1) {
-  background-color: #d3dce6;
+  /* background-color: #d3dce6; */
+  background-color: rgba( 255, 255, 255, 0.0 );
 }
 
 

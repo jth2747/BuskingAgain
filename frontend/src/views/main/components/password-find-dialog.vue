@@ -124,11 +124,11 @@ export default {
       })
       .then(function (result) {
         console.log('result',result.data)
-        alert(`회원님의 임시 비밀번호는 ${result.data} 입니다. 로그인 후 비밀번호를 변경해 주세요`)
+        alert(`${result.data}`)
         location.reload()
       })
       .catch(function () {
-        alert('회원 정보를 다시 확인해 주세요')
+        alert(`${result.data}`)
       })
     }
 

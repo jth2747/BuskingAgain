@@ -7,10 +7,10 @@ module.exports = {
     open: true,
     proxy: {
       '/api/v1': {
-        // target: 'https://i5d107.p.ssafy.io/'
-        target: 'http://localhost:8080/'
+         target: 'https://i5d107.p.ssafy.io/'
+        // target: 'http://localhost:8080/'
       //   target: 'https://localhost:8443/'
-      // },
+      },
       // '/webjars': {
       //   target: 'https://localhost:8443/'
       // },
@@ -33,3 +33,4 @@ module.exports = {
   lintOnSave: false,
   outputDir: '../backend/src/main/resources/dist'
 }
+

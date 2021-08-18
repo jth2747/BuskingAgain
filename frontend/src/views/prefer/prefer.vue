@@ -4,12 +4,18 @@
   <el-button @click="clickBusking" v-if="this.token">버스킹 생성</el-button>
   </div> -->
   <div class="search-field">
+    <div class="search-container">
+      <input class ="search-input" style="float:left"  @keyup.enter="submit" placeholder="버스킹 제목 검색" v-model="state.searchValue">
+      <span class="icon"><i class="el-icon-search" style="color: #ffffff; font-size: 20px; font-weight: bold; margin-top:-28px; margin-left:5px; float:left"></i></span>
+    </div>
+  </div>
+  <!-- <div class="search-field">
     <el-input @keyup.enter="submit"
       placeholder="버스킹 제목 검색"
       prefix-icon="el-icon-search"
       v-model="state.searchValue">
     </el-input>
-  </div>
+  </div> -->
 </div>
   <ul class="infinite-list" v-infinite-scroll="load" style="overflow:auto">
       <el-carousel :interval="4000" type="card" height="330px">

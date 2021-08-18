@@ -1,4 +1,5 @@
 <template>
+<!-- 큰화면 로그인 -->
   <el-row
     v-if="token"
     class="main-header"
@@ -58,10 +59,11 @@
     </div>
 
 
+<!-- 작은 화면 로그인 -->
     <div class="hide-on-big">
       <!-- <div class="menu-icon-wrapper" @click="changeCollapse"><i class="el-icon-menu"></i></div> -->
       <span @click="drawer = true" type="primary" style="margin: 16px;  cursor : pointer;">
-        <i class="el-icon-menu" style="margin-top:10px; font-size: 20px"></i>
+        <i class="el-icon-menu" style="margin-top:10px; font-size: 20px; color: #FFFFFF"></i>
       </span>
       <el-drawer
         title="I am the title"
@@ -112,13 +114,13 @@
   </el-row>
 
 
+<!-- 큰화면 로그인 안했을때 -->
   <el-row
     v-else
     class="main-header"
     :gutter="10"
     :style="{ 'height': height }">
     <div class="hide-on-small">
-      <!-- <div class="logo-wrapper" @click="clickLogo"><div class="ic ic-logo"/></div> -->
       <span @click="drawer = true" type="primary" style="margin: 16px;  cursor : pointer;">
         <i class="el-icon-menu" style="margin-top:10px; font-size: 20px"></i>
       </span>
@@ -151,6 +153,7 @@
           </el-menu>
         </div>
       </el-drawer>
+      <!-- <div class="logo-wrapper" style="display: inline-block" @click="clickLogo"><div class="ic ic-logo" /></div> -->
       <div class="tool-wrapper">
         <div class="button-wrapper">
           <el-popover placement="bottom" title="회원가입" trigger="hover">
@@ -175,9 +178,10 @@
 
 
 
+<!-- 작은 화면 로그인 안했을때 -->
     <div class="hide-on-big">
       <span @click="drawer = true" type="primary" style="margin: 16px;  cursor : pointer;">
-        <i class="el-icon-menu" style="margin-top:10px; font-size: 20px"></i>
+        <i class="el-icon-menu" style="margin-top:10px; font-size: 20px; color: #FFFFFF"></i>
       </span>
       <el-drawer
         title="I am the title"
@@ -187,7 +191,7 @@
         :with-header="false"
         >
         <div></div>
-        <div class="logo-wrapper" @click="clickLogo"><div class="ic ic-logo"/></div>
+        <div class="logo-wrapper" style="margin-top:10px;" @click="clickLogo"><div class="ic ic-logo"/></div>
 
         <div class="mobile-sidebar">
           <div class ="text-center">
@@ -201,9 +205,9 @@
                 <span style="cursor:pointer; margin-right: 20px; font-size: 20px" @click="clickLogin" class="el-icon-lock"></span>
               </template>
             </el-popover>
-            <el-popover placement="bottom" title="Id/Password 찾기; font-size: 20px" trigger="hover">
+            <el-popover placement="bottom" title="Id/Password 찾기" trigger="hover">
               <template #reference>
-                <span style="cursor:pointer; margin-right: 20px" @click="findIdPassword" class="el-icon-key"></span>
+                <span style="cursor:pointer; margin-right: 20px; font-size: 20px" @click="findIdPassword" class="el-icon-key"></span>
               </template>
             </el-popover>
           </div>
@@ -418,7 +422,6 @@ export default {
     position: relative;
     top: 14px;
   }
-
   .main-header .hide-on-big .logo-wrapper {
     display: inline-block;
     margin: 0 calc(50% - 51px)

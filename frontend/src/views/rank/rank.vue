@@ -7,8 +7,8 @@
 
     <el-container style="margin: 20px">
       <el-col :span="10"><div class="grid-content bg-purple"></div></el-col>
-      <el-col :span="1"><div class="like"></div></el-col>
-      <el-col :span="5"><div class="ranktitle" style="margin: 20px">좋아요 TOP 5</div></el-col>
+      <el-col :span="2"><div class="like"></div></el-col>
+      <el-col :span="4"><div class="ranktitle" style="margin: 20px">좋아요 TOP 5</div></el-col>
       <el-col :span="8"><div class="grid-content bg-purple"></div></el-col>
     </el-container>
 
@@ -47,8 +47,8 @@
     </el-container> -->
     <el-container style="margin: 20px">
       <el-col :span="10"><div class="grid-content bg-purple"></div></el-col>
-      <el-col :span="1"><div class="viewer"></div></el-col>
-      <el-col :span="5"><div class="ranktitle" style="margin: 20px">시청자 TOP 5</div></el-col>
+      <el-col :span="2"><div class="viewer"></div></el-col>
+      <el-col :span="4"><div class="ranktitle" style="margin: 20px">시청자 TOP 5</div></el-col>
       <el-col :span="8"><div class="grid-content bg-purple"></div></el-col>
     </el-container>
 

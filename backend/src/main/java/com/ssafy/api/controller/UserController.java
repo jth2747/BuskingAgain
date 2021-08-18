@@ -1,7 +1,9 @@
 package com.ssafy.api.controller;
 
+import java.util.HashMap;
 import java.util.Random;
 
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -35,6 +37,8 @@ import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
+import net.nurigo.java_sdk.api.Message;
+import net.nurigo.java_sdk.exceptions.CoolsmsException;
 import springfox.documentation.annotations.ApiIgnore;
 
 /**
@@ -137,10 +141,37 @@ public class UserController {
 				userPassword += ran;
 			}
 			
+			String phonenumber = Integer.toString(user.getPhone());
+			System.out.println(phonenumber);
+			phonenumber+="0";
+			System.out.println("앞에 0붙은"+phonenumber);
+			
 			System.out.println("임시 비밀번호로 수정해버림"+userPassword);
 			userService.modifyPW(userPassword, user.getUserId(), id);
 
-			return ResponseEntity.status(200).body(userPassword);
+			String api_key = "NCSO8ZXESKFOPTOP";
+		    String api_secret = "K0XDWIFD2DBPU0EL0IIRA6FSC1N3RXMZ";
+		    Message coolsms = new Message(api_key, api_secret);
+		    
+		    HashMap<String, String> params = new HashMap<String, String>();
+		    params.put("to", phonenumber);
+		    params.put("from", "01040367669");
+
+		    params.put("type", "SMS");
+		    params.put("text", "임시 비밀번호는  "+ userPassword +" 입니다. "); 
+		    params.put("app_version", "test app 1.2");
+
+		    try {
+		    	JSONObject obj = (JSONObject) coolsms.send(params);
+		    	System.out.println(obj.toString());
+		    } catch (CoolsmsException e) {
+		    	System.out.println(e.getMessage());
+		    	System.out.println(e.getCode());
+		    	
+		    	// front 로 인증번호를 return 해주고, front 에서는 인증번호를 받아서 해당 사용자에게 받은 번호와
+		    	// 같은지 비교 후 승인 or 거부
+		    }
+			return ResponseEntity.status(200).body("저장된 휴대폰 번호로 임시비밀번호가 발송되었습니다.");
 		}
 		System.out.println("회원정보 못찾았다");
 		return ResponseEntity.status(400).body("가입된 회원이 확인되지 않습니다");

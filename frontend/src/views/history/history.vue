@@ -1,7 +1,7 @@
 <template>
   <div class="block">
   <el-timeline v-for="(room, i) in state.form.roomList[0]" :key="i">
-      <el-card>
+      <el-card class="history-card">
         <h4 style="text-align:left">방 제목: {{ room.title }}</h4>
         <p>장르: {{room.busking_genre}}</p>
         <p>시작 시간: {{room.start_time}}</p>
@@ -15,10 +15,11 @@
 </template>
 <style>
 @import url("//unpkg.com/element-plus/lib/theme-chalk/index.css");
-.block {
-  background-color: darkslateblue;
+.history-card{
+  color:rgba( 255, 255, 255);
+  background-color:black;
+  opacity: 0.95;
 }
-
 p {
   text-align: left;
 }

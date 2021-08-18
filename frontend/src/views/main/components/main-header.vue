@@ -122,7 +122,7 @@
     :style="{ 'height': height }">
     <div class="hide-on-small">
       <span @click="drawer = true" type="primary" style="margin: 16px;  cursor : pointer;">
-        <i class="el-icon-menu" style="margin-top:10px; font-size: 20px"></i>
+        <i class="el-icon-menu" style="margin-top:10px; font-size: 20px; color: #FFFFFF"></i>
       </span>
       <el-drawer
         title="I am the title"

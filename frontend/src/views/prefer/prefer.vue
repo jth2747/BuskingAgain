@@ -18,7 +18,7 @@
   </div> -->
 </div>
   <ul class="infinite-list" v-infinite-scroll="load" style="overflow:auto">
-      <el-carousel :interval="4000" type="card" height="330px">
+      <el-carousel :interval="4000" type="card" height="400px" style="margin-top:10px">
         <el-carousel-item v-for="(room, i) in state.form.roomData[0]" @click="clickConference(state.form.roomData[0][i]['id'])" class="infinite-list-item medium" :key="i">
             <conference
               :image="room['thumbnail_url']"

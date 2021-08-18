@@ -15,6 +15,9 @@
 </template>
 <style>
 @import url("//unpkg.com/element-plus/lib/theme-chalk/index.css");
+.block {
+  background-color: darkslateblue;
+}
 
 p {
   text-align: left;

@@ -183,8 +183,9 @@ export default {
         name: 'conference-detail',
         params: {
           conferenceId: result.data.id,
-        },
-      })
+          },
+        })
+        handleClose()
       })
       .catch(function (err) {
         alert(err)

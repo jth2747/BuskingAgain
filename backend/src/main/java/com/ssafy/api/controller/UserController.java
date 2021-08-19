@@ -75,7 +75,7 @@ public class UserController {
 	public ResponseEntity<? extends BaseResponseBody> checkId(@PathVariable String userid) {
 		
 		
-		System.out.println("아이디 중복 검사");
+//		System.out.println("아이디 중복 검사");
 		//임의로 리턴된 User 인스턴스. 현재 코드는 회원 가입 성공 여부만 판단하기 때문에 굳이 Insert 된 유저 정보를 응답하지 않음.
 		boolean check = userService.checkUserId(userid);
 		if(!check)
@@ -96,7 +96,7 @@ public class UserController {
 			@RequestBody @ApiParam(value="회원가입 정보", required = true) UserRegisterPostReq registerInfo) {
 		
 		
-		System.out.println("회원가입");
+//		System.out.println("회원가입");
 		//임의로 리턴된 User 인스턴스. 현재 코드는 회원 가입 성공 여부만 판단하기 때문에 굳이 Insert 된 유저 정보를 응답하지 않음.
 		User user = userService.createUser(registerInfo);
 		if(user == null)
@@ -123,11 +123,11 @@ public class UserController {
 		 * 액세스 토큰이 없이 요청하는 경우, 403 에러({"error": "Forbidden", "message": "Access Denied"}) 발생.
 		 */
 
-		System.out.println("비밀번호 찾기");
+//		System.out.println("비밀번호 찾기");
 		User user = userService.findUserPassword(findPassword.getName(), findPassword.getEmail());
 		
 		if(user!=null && user.getUserId().equals(findPassword.getUserId())) {
-			System.out.println("랜덤 비밀번호로 수정할거다");
+//			System.out.println("랜덤 비밀번호로 수정할거다");
 			
 			Long id = user.getId();
 			
@@ -142,12 +142,12 @@ public class UserController {
 			}
 			
 			String phonenumber = Integer.toString(user.getPhone());
-			System.out.println(phonenumber);
+//			System.out.println(phonenumber);
 			
 			String newPhonenumber = "0".concat(phonenumber);
-			System.out.println("앞에 0붙은"+newPhonenumber);
+//			System.out.println("앞에 0붙은"+newPhonenumber);
 			
-			System.out.println("임시 비밀번호로 수정해버림"+userPassword);
+//			System.out.println("임시 비밀번호로 수정해버림"+userPassword);
 			userService.modifyPW(userPassword, user.getUserId(), id);
 
 			String api_key = "NCSO8ZXESKFOPTOP";
@@ -164,17 +164,17 @@ public class UserController {
 
 		    try {
 		    	JSONObject obj = (JSONObject) coolsms.send(params);
-		    	System.out.println(obj.toString());
+//		    	System.out.println(obj.toString());
 		    } catch (CoolsmsException e) {
-		    	System.out.println(e.getMessage());
-		    	System.out.println(e.getCode());
+//		    	System.out.println(e.getMessage());
+//		    	System.out.println(e.getCode());
 		    	
 		    	// front 로 인증번호를 return 해주고, front 에서는 인증번호를 받아서 해당 사용자에게 받은 번호와
 		    	// 같은지 비교 후 승인 or 거부
 		    }
-		    return ResponseEntity.status(200).body(newPhonenumber);
+		    return ResponseEntity.status(200).body("저장된 휴대폰 번호로 임시비밀번호가 발송되었습니다.");
 		}
-		System.out.println("회원정보 못찾았다");
+//		System.out.println("회원정보 못찾았다");
 		return ResponseEntity.status(400).body("가입된 회원이 확인되지 않습니다");
 	}
 
@@ -193,18 +193,18 @@ public class UserController {
 		 * 액세스 토큰이 없이 요청하는 경우, 403 에러({"error": "Forbidden", "message": "Access Denied"}) 발생.
 		 */
 		
-		System.out.println("아이디 찾기");
+//		System.out.println("아이디 찾기");
 		User user = userService.findUserId(findUser.getName(), findUser.getEmail());
 
 		String userId = null;
 		
 		if(user!=null) {
-			System.out.println("아이디 찾았다");
+//			System.out.println("아이디 찾았다");
 			userId = user.getUserId();
 			return ResponseEntity.status(200).body(userId);
 		}
 
-		System.out.println("아이디 못찾았다");
+//		System.out.println("아이디 못찾았다");
 		return ResponseEntity.status(400).body(null);
 	}
 	
@@ -221,24 +221,24 @@ public class UserController {
 		 * 요청 헤더 액세스 토큰이 포함된 경우에만 실행되는 인증 처리이후, 리턴되는 인증 정보 객체(authentication) 통해서 요청한 유저 식별.
 		 * 액세스 토큰이 없이 요청하는 경우, 403 에러({"error": "Forbidden", "message": "Access Denied"}) 발생.
 		 */
-		System.out.println("회원정보 조회");
-		System.out.println(authentication);
+//		System.out.println("회원정보 조회");
+//		System.out.println(authentication);
 		SsafyUserDetails userDetails = (SsafyUserDetails)authentication.getDetails();
 		String userId = userDetails.getUsername();
 		
 		String password = inputpassword.getPassword();
 		
 		User user = userService.getUserByUserId(userId);
-		System.out.println("받은 password");
-		System.out.println(password);
-		System.out.println("DB에 저장된 password");
-		System.out.println(user.getPassword());
-		System.out.println("==============================");
-		System.out.println(passwordEncoder.matches(password, user.getPassword()));
+//		System.out.println("받은 password");
+//		System.out.println(password);
+//		System.out.println("DB에 저장된 password");
+//		System.out.println(user.getPassword());
+//		System.out.println("==============================");
+//		System.out.println(passwordEncoder.matches(password, user.getPassword()));
 		
 		if(passwordEncoder.matches(password, user.getPassword())) {
 			// 유효한 패스워드가 맞는 경우, 로그인 성공으로 응답.(액세스 토큰을 포함하여 응답값 전달)
-			System.out.println("비밀번호 맞음");
+//			System.out.println("비밀번호 맞음");
 			return ResponseEntity.ok(UserLoginPostRes.of(200, "Success", JwtTokenUtil.getToken(userId)));
 		}
 		// 유효하지 않는 패스워드인 경우, 로그인 실패로 응답.
@@ -259,12 +259,12 @@ public class UserController {
 		 * 요청 헤더 액세스 토큰이 포함된 경우에만 실행되는 인증 처리이후, 리턴되는 인증 정보 객체(authentication) 통해서 요청한 유저 식별.
 		 * 액세스 토큰이 없이 요청하는 경우, 403 에러({"error": "Forbidden", "message": "Access Denied"}) 발생.
 		 */
-		System.out.println("회원정보 조회");
-		System.out.println(authentication);
+//		System.out.println("회원정보 조회");
+//		System.out.println(authentication);
 		SsafyUserDetails userDetails = (SsafyUserDetails)authentication.getDetails();
 		String userId = userDetails.getUsername();
 		User user = userService.getUserByUserId(userId);
-		System.out.println(user.toString());
+//		System.out.println(user.toString());
 //		System.out.println(user.getPassword());
 		
 		return ResponseEntity.status(200).body(UserRes.of(user));
@@ -283,7 +283,7 @@ public class UserController {
 		 * 요청 헤더 액세스 토큰이 포함된 경우에만 실행되는 인증 처리이후, 리턴되는 인증 정보 객체(authentication) 통해서 요청한 유저 식별.
 		 * 액세스 토큰이 없이 요청하는 경우, 403 에러({"error": "Forbidden", "message": "Access Denied"}) 발생.
 		 */
-		System.out.println("회원 탈퇴");
+//		System.out.println("회원 탈퇴");
 		SsafyUserDetails userDetails = (SsafyUserDetails)authentication.getDetails();
 		String getUserId = userDetails.getUsername();
 		if(getUserId.equals(userId)) {
@@ -303,13 +303,13 @@ public class UserController {
 		 * 액세스 토큰이 없이 요청하는 경우, 403 에러({"error": "Forbidden", "message": "Access Denied"}) 발생.
 		 */
 		
-		System.out.println("회원정보수정");
+//		System.out.println("회원정보수정");
 		
 		SsafyUserDetails userDetails = (SsafyUserDetails)authentication.getDetails();
 		String getUserId = userDetails.getUsername();
 		
-		System.out.println(getUserId);
-		System.out.println(userId);
+//		System.out.println(getUserId);
+//		System.out.println(userId);
 		
 		if(getUserId.equals(userId)) {
 			User getUser = userService.getUserByUserId(userId);
@@ -327,13 +327,13 @@ public class UserController {
 	public ResponseEntity<? extends BaseResponseBody> modifyPW(@ApiIgnore Authentication authentication,@PathVariable("userId") String userId,
 			@RequestBody UserModifyPWPatchReq modifyPW) {
 		
-		System.out.println("비밀번호 수정");
+//		System.out.println("비밀번호 수정");
 		
 		SsafyUserDetails userDetails = (SsafyUserDetails)authentication.getDetails();
 		String getUserId = userDetails.getUsername();
 		
-		System.out.println(getUserId);
-		System.out.println(modifyPW.getPassword());
+//		System.out.println(getUserId);
+//		System.out.println(modifyPW.getPassword());
 		
 		if(getUserId.equals(userId)) {			
 			User getUser = userService.getUserByUserId(userId);
@@ -341,7 +341,7 @@ public class UserController {
 			
 			userService.modifyPW(modifyPW.getPassword(), userId, id);
 
-			System.out.println("비밀번호 수정 완료");
+//			System.out.println("비밀번호 수정 완료");
 			return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
 		}
 		

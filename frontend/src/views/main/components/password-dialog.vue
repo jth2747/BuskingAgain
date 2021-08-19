@@ -57,6 +57,7 @@
 import { mapGetters } from "vuex";
 import { reactive, computed, ref, onMounted } from 'vue'
 import { useStore } from 'vuex'
+import swal from 'sweetalert'
 
 export default {
   name: 'password-dialog',
@@ -100,14 +101,14 @@ export default {
         })
         .then(function () {
           emit('closePasswordDialog')
-          alert('비밀번호가 변경되었습니다.')
+          swal("Succes!", "비밀번호가 변경되었습니다.", "success")
         })
         .catch(function (err) {
-          alert(err)
+          swal("Fail!", "Error", "error")
         })
       }
       else {
-        alert('비밀번호를 다시 확인해주세요')
+        swal("Fail!", "비밀번호를 다시 확인해주세요.", "error")
       }
     }
 
@@ -119,19 +120,19 @@ export default {
       var spe = pw.search(/[`~!@@#$%^&*|₩₩₩'₩";:₩/?]/gi);
 
       if(pw.length < 9 || pw.length > 16){
-        alert("9자리 ~ 16자리 이내로 입력해주세요.");
+        swal("Fail!", "9자리 ~ 16자리 이내로 입력해주세요.", "error")
         return false;
         }
       if(pw.search(/₩s/) != -1){
-        alert("비밀번호는 공백없이 입력해주세요.");
+        swal("Fail!", "비밀전호는 공백없이 입력해주세요.", "error")
         return false;
         }
       if(num < 0 || eng < 0 || spe < 0 ){
-        alert("영문,숫자, 특수문자를 혼합하여 입력해주세요.");
+        swal("Fail!", "영문, 숫자, 특수문자를 혼합하여 입력해주세요.", "error")
         return false;
         }
       if(pw != pwck){
-        alert("비밀번호가 일치하지 않습니다.");
+        swal("Fail!", "비밀번호가 일치하기 않습니다.", "error")
         return false;
       }
       return true;

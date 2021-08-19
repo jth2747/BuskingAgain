@@ -73,6 +73,7 @@
 <script>
 import { reactive, computed, ref, onMounted } from 'vue'
 import { useStore } from 'vuex'
+import swal from 'sweetalert'
 
 export default {
   name: 'conference-update',
@@ -194,7 +195,7 @@ export default {
           id: props.id,
         })
         .then(function (result) {
-          alert('수정 완료')
+          swal("Succes!", "수정 완료", "success")
           handleClose()
         })
       } else{
@@ -209,7 +210,7 @@ export default {
           id: props.id,
         })
         .then(function (result) {
-          alert('수정 완료')
+          swal("Succes!", "수정 완료", "success")
           location.reload()
         })
       }

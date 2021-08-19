@@ -76,11 +76,9 @@
 }
 </style>
 <script>
-//import axios from "axios"
 import { reactive, computed, ref, onMounted} from 'vue'
 import { useStore } from 'vuex'
-
-//const SERVER_URL = "http://localhost:8080";
+import swal from 'sweetalert'
 
 export default {
   name: 'signup-dialog',
@@ -192,14 +190,14 @@ export default {
           })
           .then(function (
           ) {
-            alert('회원가입 성공')
+            swal("Succes!", "회원가입 성공", "success")
             location.reload()
           })
           .catch(function (err) {
-            alert(err)
+            swal("Fail!", `${err}`, "error")
           })
         } else {
-          alert('Validate error!')
+          swal("Fail!", "입력하신 정보가 유효한지 다시 확인해주세요.", "error")
         }
     }
 
@@ -211,19 +209,19 @@ export default {
       var spe = pw.search(/[`~!@@#$%^&*|₩₩₩'₩";:₩/?]/gi);
 
       if(pw.length < 9 || pw.length > 16){
-        alert("9자리 ~ 16자리 이내로 입력해주세요.");
+        swal("Fail!", "9자리 ~ 16자리 이내로 입력해주세요.", "error")
         return false;
         }
       if(pw.search(/₩s/) != -1){
-        alert("비밀번호는 공백없이 입력해주세요.");
+        swal("Fail!", "비밀번호는 공백없이 입력해주세요.", "error")
         return false;
         }
       if(num < 0 || eng < 0 || spe < 0 ){
-        alert("영문,숫자, 특수문자를 혼합하여 입력해주세요.");
+        swal("Fail!", "영문, 숫자, 특수문자를 혼합하여 입력해주세요.", "error")
         return false;
         }
       if(pw != pwck){
-        alert("비밀번호가 일치하지 않습니다.");
+        swal("Fail!", "비밀번호가 일치하지 않습니다.", "error")
         return false;
       }
       return true;
@@ -245,10 +243,10 @@ export default {
     const checkId = function(){
       store.dispatch('root/checkSignupId', { id: state.form.uid })
       .then(function () {
-        alert('사용 가능한 아이디 입니다.')
+        swal("Succes!", "사용가능한 아이디입니다.", "success")
       })
       .catch(function () {
-        alert('사용 중인 아이디 입니다.')
+        swal("Fail!", "사용중인 아이디입니다.", "info")
       })
     }
 
@@ -256,16 +254,17 @@ export default {
       store.dispatch('root/checkCNumber', {phone: state.form.phone})
       .then(function (result) {
         state.form.recvNum = result.data
-        alert('인증번호가 전송되었습니다')
+        swal('인증번호가 전송되었습니다')
       })
       .catch(function (err) {
+        swal("Fail!", `${err}`, "error")
       })
     }
 
     const validateCnumber = function(){
       var checkNum = state.form.CNumber
       if(checkNum != state.form.recvNum){
-        alert("인증번호가 일치하지 않습니다.")
+        swal("Fail!", "인증번호가 일치하지 않습니다.", "error")
         return false;
       } else {
         return true;

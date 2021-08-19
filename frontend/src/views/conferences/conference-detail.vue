@@ -47,7 +47,7 @@
             @closeKickOutDialog="onCloseKickOutDialog"
           />
         </el-button-group>
-        <el-button-group v-else>
+        <el-button-group v-else style="float: right">
           <span class="textbutton" style="margin:10px">
             <i class="el-icon-close" @click="goBackHome" style="cursor: pointer;  color:#ffffff">나가기</i>
           </span>
@@ -427,8 +427,8 @@ export default {
     }
 
     const connect = function() {
-      const serverURL = "https://localhost:8080/ws-stomp"
-      // const serverURL = "https://i5d107.p.ssafy.io/ws-stomp"
+      // const serverURL = "https://localhost:8080/ws-stomp"
+      const serverURL = "https://i5d107.p.ssafy.io/ws-stomp"
       let socket = new SockJS(serverURL);
       state.form.stompClient = Stomp.over(socket);
       console.log(`소켓 연결을 시도합니다. 서버 주소: ${serverURL}`)

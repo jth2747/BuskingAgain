@@ -163,7 +163,6 @@ export default {
 
   methods:{
     clickBusking(){
-      console.log("inin");
       this.buskingDialogOpen=true
     },
     onCloseBuskingDialog(){
@@ -192,12 +191,10 @@ export default {
     onMounted(() => {
       store.dispatch('root/roomRandomList')
       .then(function (result) {
-        console.log(result.data)
         state.form.roomRandomData.push(result.data)
       })
       store.dispatch('root/roomList')
       .then(function (result) {
-        console.log(result.data)
         state.form.roomData.push(result.data)
       })
     })
@@ -212,16 +209,12 @@ export default {
     }
 
      const submit = function() {
-      console.log("엔터입력")
-      console.log(state.searchValue)
       store.dispatch('root/findRoomList',{
         title: state.searchValue
       })
       .then(function(result){
-        console.log(result.data)
         state.form.roomData = []
         state.form.roomData.push(result.data)
-        // console.log(state.form.roomData[0][0].title)
       })
     }
 

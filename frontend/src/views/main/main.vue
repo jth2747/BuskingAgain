@@ -164,7 +164,6 @@ export default {
     },
     onOpenPasswordCheckDialog(){
       this.passwordCheckDialogOpen = true
-      console.log(this.passwordCheckDialogOpen)
     },
     onClosePasswordCheckDialog(){
       this.passwordCheckDialogOpen = false

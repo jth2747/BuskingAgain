@@ -286,7 +286,6 @@ export default {
 
   methods:{
     clickBusking(){
-      console.log("inin");
       this.buskingDialogOpen=true
     },
     onCloseBuskingDialog(){
@@ -357,29 +356,11 @@ export default {
     }
 
 
-
-    // const clickProfile = function() {
-    //   // const token = localStorage.getItem('jwt')
-    //   store.dispatch('root/getUser', { token: props.token })
-    //   .then(function (result) {
-    //     console.log(result.data)
-    //     emit('openProfileDialog', result)
-    //   })
-    //   .catch(function (err){
-    //     alert(err)
-    //   })
-    // }
-
     const submit = function() {
-      console.log("엔터입력")
-      console.log(state.searchValue)
       store.dispatch('root/findRoomList',{
         title: state.searchValue
       })
       .then(function(result){
-        console.log(result.data)
-        // .push(result.data)
-        // console.log(buskingList[0][0].title)
       })
     }
 

@@ -83,14 +83,12 @@ export default {
     })
 
     onMounted(() => {
-      console.log('buskingForm.value')
     })
 
     const clickDelete = function() {
       if(state.form.confirm === '회원 탈퇴') {
         store.dispatch('root/deleteUser', { token: props.token, userId: props.userInfo.data.userId })
         .then(function (result) {
-          console.log(result.date)
           emit('click-logout')
           localStorage.removeItem('jwt')
           location.reload()

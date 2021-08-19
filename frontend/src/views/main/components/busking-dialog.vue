@@ -164,7 +164,6 @@ export default {
     })
 
     onMounted(() => {
-      console.log('buskingForm.value')
     })
 
     const clickCreate = function () {
@@ -178,7 +177,6 @@ export default {
       })
       .then(function (result) {
         alert('버스킹 생성 성공')
-        console.log(result)
         router.push({
         name: 'conference-detail',
         params: {
@@ -195,9 +193,7 @@ export default {
 
     const imgUpload = function (event) {
       let file = event.target.files
-      console.log('파일', file[0])
       let imgUrl = URL.createObjectURL(file[0])
-      console.log(imgUrl)
       state.form.thumbnail_url = imgUrl
     }
 
@@ -212,7 +208,6 @@ export default {
     }
 
     const handleChange = function (value) {
-      console.log(value)
     }
 
     return { buskingForm, state, handleClose, clickCreate, imgUpload, handleChange }

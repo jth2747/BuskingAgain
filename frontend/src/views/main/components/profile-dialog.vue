@@ -123,7 +123,6 @@ export default {
       //var genre = state.form.genre;
 
       if(name == "" ){
-        console.log(name);
         return false;
       }
       return true;
@@ -131,19 +130,6 @@ export default {
     const passwordChange = function() {
       emit('openPasswordDialog')
     }
-
-    // const deleteUser = function() {
-    //   store.dispatch('root/deleteUser', { token: props.token, userId: props.userInfo.data.userId })
-    //   .then(function (result) {
-    //     console.log(result.date)
-    //     emit('click-logout')
-    //     location.reload()
-    //     alert('탈퇴가 완료되었습니다.')
-    //   })
-    //   .catch(function (err){
-    //     alert(err)
-    //   })
-    // }
 
     const deleteConfirm = function() {
       emit('openDeleteConfirmDialog')

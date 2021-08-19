@@ -92,7 +92,6 @@ export default {
     })
 
     onMounted(() => {
-      // console.log('buskingForm.value')
     })
 
 
@@ -109,7 +108,6 @@ export default {
         userId: state.form.id,
       })
       .then(function (result) {
-        console.log('result',result.data)
         alert(`${result.data}`)
         location.reload()
       })

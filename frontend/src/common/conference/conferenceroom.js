@@ -15,7 +15,7 @@
  *
  */
 
-console.log('시작con')
+// console.log('시작con')
 
 var ws = new WebSocket('wss://' + location.host + '/groupcall');
 var participants = {};
@@ -24,10 +24,10 @@ var name;
 window.onbeforeunload = function() {
 	ws.close();
 };
-// 4번 실행 
+// 4번 실행
 ws.onmessage = function(message) {
 	var parsedMessage = JSON.parse(message.data);
-	console.info('Received message: ' + message.data);
+	// console.info('Received message: ' + message.data);
 
 	switch (parsedMessage.id) {
 	// 5번 회의방을 만듬
@@ -56,7 +56,7 @@ ws.onmessage = function(message) {
 	}
 }
 
-// 1. 회의방 참가 
+// 1. 회의방 참가
 export function register() {
 	var message = {
 		id : 'joinRoom',
@@ -116,7 +116,7 @@ function onExistingParticipants(msg) {
 			}
 		}
 	};
-	console.log(name + " registered in room " + room);
+	// console.log(name + " registered in room " + room);
 	// 7번 participant.js에서 참가자 만들기
 	var participant = new Participant(name);
 	participants[name] = participant;
@@ -173,7 +173,7 @@ function receiveVideo(sender) {
 }
 
 function onParticipantLeft(request) {
-	console.log('Participant ' + request.name + ' left');
+	// console.log('Participant ' + request.name + ' left');
 	var participant = participants[request.name];
 	participant.dispose();
 	delete participants[request.name];
@@ -182,6 +182,6 @@ function onParticipantLeft(request) {
 // 3번  메세지를받음 -> onmessage로
 function sendMessage(message) {
 	var jsonMessage = JSON.stringify(message);
-	console.log('Sending message: ' + jsonMessage);
+	// console.log('Sending message: ' + jsonMessage);
 	ws.send(jsonMessage);
 }

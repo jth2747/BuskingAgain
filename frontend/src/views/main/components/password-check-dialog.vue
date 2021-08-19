@@ -77,7 +77,6 @@ export default {
     })
 
     const passwordCheck = function() {
-      console.log('비밀번호 확인', props.token)
       store.dispatch('root/checkPassword', {
         token: props.token,
         password: state.form.password
@@ -87,7 +86,6 @@ export default {
         alert('확인이 완료되었습니다.')
         store.dispatch('root/getUser', { token: props.token })
         .then(function (result) {
-          console.log(result.data)
           emit('openProfileDialog', result)
         })
         .catch(function (err){

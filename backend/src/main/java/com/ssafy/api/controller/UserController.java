@@ -172,7 +172,7 @@ public class UserController {
 		    	// front 로 인증번호를 return 해주고, front 에서는 인증번호를 받아서 해당 사용자에게 받은 번호와
 		    	// 같은지 비교 후 승인 or 거부
 		    }
-			return ResponseEntity.status(200).body("저장된 휴대폰 번호로 임시비밀번호가 발송되었습니다.");
+		    return ResponseEntity.status(200).body(newPhonenumber);
 		}
 		System.out.println("회원정보 못찾았다");
 		return ResponseEntity.status(400).body("가입된 회원이 확인되지 않습니다");

@@ -24,14 +24,11 @@ window.onbeforeunload = function() {
 };
 
 ws.onopen = function(event) {
-	console.log(event)
-	console.log("Successfully connected to the echo websocket server...")
 }
 
-// 4번 실행 
+// 4번 실행
 ws.onmessage = function(message) {
 	var parsedMessage = JSON.parse(message.data);
-	console.info('Received message: ' + message.data);
 
 	switch (parsedMessage.id) {
 	// 5번 회의방을 만듬
@@ -50,17 +47,15 @@ ws.onmessage = function(message) {
 	case 'iceCandidate':
 		participants[parsedMessage.name].rtcPeer.addIceCandidate(parsedMessage.candidate, function (error) {
 					if (error) {
-					console.error("Error adding candidate: " + error);
 					return;
 					}
 			});
 			break;
 	default:
-		console.error('Unrecognized message', parsedMessage);
 	}
 }
 
-// 1. 회의방 참가 
+// 1. 회의방 참가
 function register() {
 	name = document.getElementById('name').value;
 	var room = document.getElementById('roomName').value;
@@ -84,17 +79,16 @@ function onNewParticipant(request) {
 
 function receiveVideoResponse(result) {
 	participants[result.name].rtcPeer.processAnswer (result.sdpAnswer, function (error) {
-		if (error) return console.error (error);
+		// if (error) return console.error (error);
 	});
 }
 
 function callResponse(message) {
 	if (message.response != 'accepted') {
-		console.info('Call not accepted by peer. Closing call');
 		stop();
 	} else {
 		webRtcPeer.processAnswer(message.sdpAnswer, function (error) {
-			if (error) return console.error (error);
+			// if (error) return console.error (error);
 		});
 	}
 }
@@ -110,7 +104,7 @@ function onExistingParticipants(msg) {
 			}
 		}
 	};
-	console.log(name + " registered in room " + room);
+	// console.log(name + " registered in room " + room);
 	// 7번 participant.js에서 참가자 만들기
 	var participant = new Participant(name);
 	participants[name] = participant;
@@ -124,7 +118,7 @@ function onExistingParticipants(msg) {
 	participant.rtcPeer = new kurentoUtils.WebRtcPeer.WebRtcPeerSendonly(options,
 		function (error) {
 			if(error) {
-				return console.error(error);
+				// return console.error(error);
 			}
 			this.generateOffer (participant.offerToReceiveVideo.bind(participant));
 	});
@@ -160,14 +154,13 @@ function receiveVideo(sender) {
 	participant.rtcPeer = new kurentoUtils.WebRtcPeer.WebRtcPeerRecvonly(options,
 			function (error) {
 				if(error) {
-					return console.error(error);
+					// return console.error(error);
 				}
 				this.generateOffer (participant.offerToReceiveVideo.bind(participant));
 	});;
 }
 
 function onParticipantLeft(request) {
-	console.log('Participant ' + request.name + ' left');
 	var participant = participants[request.name];
 	participant.dispose();
 	delete participants[request.name];
@@ -176,6 +169,5 @@ function onParticipantLeft(request) {
 // 3번  메세지를받음 -> onmessage로
 function sendMessage(message) {
 	var jsonMessage = JSON.stringify(message);
-	console.log('Sending message: ' + jsonMessage);
 	ws.send(jsonMessage);
 }

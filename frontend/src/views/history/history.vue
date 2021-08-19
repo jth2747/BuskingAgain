@@ -66,8 +66,6 @@ export default {
         token: state.form.token,
       })
       .then(function (result) {
-        console.log('history in')
-        console.log(result.data)
         state.form.roomList.push(result.data)
       })
     })

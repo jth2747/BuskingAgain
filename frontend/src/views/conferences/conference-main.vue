@@ -47,8 +47,7 @@ export default {
 			// state.ws = new WebSocket('wss://' + 'i5d107.p.ssafy.io' + '/groupcall');
       state.ws = new WebSocket('wss://' + location.host + '/groupcall');
 			state.ws.onopen = function(event) {
-				console.log(event)
-				console.log("Successfully connected to the echo websocket server...")
+				// console.log("Successfully connected to the echo websocket server...")
 				register()
 			}
 			// 웹 rtc 종료시
@@ -58,7 +57,7 @@ export default {
 			// }
 			state.ws.onmessage = function(message) {
 				let parsedMessage = JSON.parse(message.data);
-				console.info('Received message: ' + message.data);
+				// console.info('Received message: ' + message.data);
 
 				switch (parsedMessage.id) {
 				case 'existingParticipants':
@@ -76,13 +75,13 @@ export default {
 				case 'iceCandidate':
 					participants[parsedMessage.name].rtcPeer.addIceCandidate(parsedMessage.candidate, function (error) {
 								if (error) {
-								console.error("Error adding candidate: " + error);
+								// console.error("Error adding candidate: " + error);
 								return;
 								}
 						});
 						break;
 				default:
-					console.error('Unrecognized message', parsedMessage);
+					// console.error('Unrecognized message', parsedMessage);
 				}
 			}
 		}
@@ -102,31 +101,31 @@ export default {
 			sendMessage(message);
 		}
 		const onNewParticipant = function(request) {
-      console.log('requset.name',request.name)
+      // console.log('requset.name',request.name)
 			receiveVideo(request.name);
 		}
 		const receiveVideoResponse = function(result) {
 			participants[result.name].rtcPeer.processAnswer(result.spdAnswer, function (error) {
-				if (error) return console.error (error);
+				// if (error) return console.error (error);
 			});
 		}
 		const callResponse = function(message) {
-			console.log('callResponse', message.response)
+			// console.log('callResponse', message.response)
 			if (message.response != 'accepted') {
-				console.info('Call not accepted by peer. Closing call');
+				// console.info('Call not accepted by peer. Closing call');
 				stop();
 			} else {
 				webRtcPeer.processAnswer(message.spdAnswer, function (error) {
-					if (error) return console.error (error);
+					// if (error) return console.error (error);
 				});
 			}
 		}
 		window.onbeforeunload = function() {
-			console.log('나감')
+			// console.log('나감')
 			ws.close();
 		};
 		const onExistingParticipants = function(msg) {
-			console.log(msg)
+			// console.log(msg)
 			let constraints = {
 				audio : true,
 				video : {
@@ -155,7 +154,7 @@ export default {
 			// 		this.generateOffer (participant.offerToReceiveVideo.bind(participant));
 			// });
 			participant.rtcPeer = new kurentoUtils.WebRtcPeer.WebRtcPeerSendonly(options, function (error) {
-					if(error) return console.error(error);
+					// if(error) return console.error(error);
 					this.generateOffer (participant.offerToReceiveVideo.bind(participant));
 			});
 
@@ -207,7 +206,7 @@ export default {
 			participant.rtcPeer = new kurentoUtils.WebRtcPeer.WebRtcPeerRecvonly(options,
 					function (error) {
 						if(error) {
-							return console.error(error);
+							// return console.error(error);
 						}
 						this.generateOffer (participant.offerToReceiveVideo.bind(participant));
 			});
@@ -215,7 +214,7 @@ export default {
 		}
 
 		const onParticipantLeft = function(request) {
-			console.log('Participant ' + request.name + ' left');
+			// console.log('Participant ' + request.name + ' left');
 
 			let participant = participants[request.name];
 			participant.dispose();
@@ -231,7 +230,7 @@ export default {
 		// 3번  메세지를받음 -> onmessage로
 		const sendMessage = function(message) {
 			let jsonMessage = JSON.stringify(message);
-			console.log('Sending message: ' + jsonMessage);
+			// console.log('Sending message: ' + jsonMessage);
 			state.ws.send(jsonMessage);
 		}
 
@@ -282,8 +281,8 @@ export default {
 			}
 			// 9번 실행 같이
 			this.offerToReceiveVideo = function(error, offerSdp, wp){
-				if (error) return console.error ("sdp offer error")
-				console.log('Invoking SDP offer callback function');
+				// if (error) return console.error ("sdp offer error")
+				// console.log('Invoking SDP offer callback function');
 				var msg =  { id : "receiveVideoFrom",
 						sender : name,
 						sdpOffer : offerSdp
@@ -292,7 +291,7 @@ export default {
 			}
 			// 9번 이거 실행
 			this.onIceCandidate = function (candidate, wp) {
-					console.log("Local candidate" + JSON.stringify(candidate));
+					// console.log("Local candidate" + JSON.stringify(candidate));
 
 					var message = {
 						id: 'onIceCandidate',

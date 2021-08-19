@@ -15,7 +15,7 @@
  *
  */
 
-console.log('시작par')
+// console.log('시작par')
 
 const PARTICIPANT_MAIN_CLASS = 'participant main';
 const PARTICIPANT_CLASS = 'participant';
@@ -86,7 +86,7 @@ export function Participant(name) {
 	}
 	// 9번 이거 실행
 	this.onIceCandidate = function (candidate, wp) {
-			console.log("Local candidate" + JSON.stringify(candidate));
+			// console.log("Local candidate" + JSON.stringify(candidate));
 
 			var message = {
 				id: 'onIceCandidate',
@@ -96,11 +96,11 @@ export function Participant(name) {
 			sendMessage(message);
 	}
 	// Object.defineProperty() 정적 메서드는 객체에 직접 새로운 속성을 정의하거나 이미 존재하는 속성을 수정한 후, 그 객체를 반환합니다.
-	
+
 	Object.defineProperty(this, 'rtcPeer', { writable: true});
 
 	this.dispose = function() {
-		console.log('Disposing participant ' + this.name);
+		// console.log('Disposing participant ' + this.name);
 		this.rtcPeer.dispose();
 		container.parentNode.removeChild(container);
 	};

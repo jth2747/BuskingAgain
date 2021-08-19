@@ -61,6 +61,7 @@
 import { reactive, computed, ref, onMounted } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
+import swal from 'sweetalert'
 
 export default {
   name: 'id-find-dialog',
@@ -108,11 +109,11 @@ export default {
         userId: state.form.id,
       })
       .then(function (result) {
-        alert(`${result.data}`)
+        swal("Succes!", `${result.data}`, "success")
         location.reload()
       })
-      .catch(function (result) {
-        alert('가입된 회원이 확인되지 않습니다.')
+      .catch(function () {
+        swal("Fail!", "가입된 회원이 확인되지 않습니다.", "error")
       })
     }
 

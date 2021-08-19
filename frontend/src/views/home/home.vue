@@ -140,7 +140,7 @@ import { onMounted, reactive } from 'vue'
 import { useRouter } from 'vue-router'
 import BuskingDialog from '../main/components/busking-dialog.vue'
 import { useStore } from 'vuex'
-
+import swal from 'sweetalert'
 
 
 export default {
@@ -219,7 +219,7 @@ export default {
     }
 
     const loginDemended = function () {
-      alert('버스킹에 입장하려면 로그인을 먼저 해주세요')
+      swal('버스킹에 입장하려면 로그인을 먼저 해주세요')
     }
 
     return { state, load, clickConference, loginDemended, submit}

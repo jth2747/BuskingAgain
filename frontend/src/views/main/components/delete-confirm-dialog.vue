@@ -49,6 +49,7 @@
 import { reactive, computed, ref, onMounted } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
+import swal from 'sweetalert'
 
 
 export default {
@@ -92,13 +93,13 @@ export default {
           emit('click-logout')
           localStorage.removeItem('jwt')
           location.reload()
-          alert('탈퇴가 완료되었습니다.')
+          swal("Succes!", "탈퇴가 완료되었습니다.", "success")
         })
         .catch(function (err){
-          alert(err)
+          swal("Fail!", "Error", "error")
         })
       } else {
-        alert('입력을 확인 해주세요')
+        swal("Fail!", "입력을 확인해주세요.", "error")
       }
     }
 

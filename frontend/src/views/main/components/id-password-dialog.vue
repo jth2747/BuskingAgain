@@ -57,6 +57,7 @@
 import { reactive, computed, ref, onMounted } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
+import swal from 'sweetalert'
 
 export default {
   name: 'id-find-dialog',
@@ -102,11 +103,11 @@ export default {
         email: state.form.email,
       })
       .then(function (result) {
-        alert(`회원님의 아이디는 ${result.data} 입니다.`)
+        swal("Succes!", `회원님의 아이디는 ${result.data} 입니다.`, "success")
         location.reload()
       })
       .catch(function () {
-        alert('회원 정보를 다시 확인해 주세요')
+        swal("Fail!", "회원정보를 다시 확인해주세요.", "error")
       })
     }
 

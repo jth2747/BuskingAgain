@@ -29,6 +29,7 @@ p {
 import { onMounted, reactive } from 'vue'
 import { useRouter } from 'vue-router'
 import { useStore } from 'vuex'
+import swal from 'sweetalert'
 
 export default {
   name: 'History',
@@ -71,7 +72,7 @@ export default {
     })
 
      const submit = function() {
-      alert('다른 메뉴에서 검색을 이용하세요.')
+      swal('다른 메뉴에서 검색을 이용하세요.')
     }
 
 

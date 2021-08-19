@@ -143,8 +143,9 @@ public class UserController {
 			
 			String phonenumber = Integer.toString(user.getPhone());
 			System.out.println(phonenumber);
-			phonenumber+="0";
-			System.out.println("앞에 0붙은"+phonenumber);
+			
+			String newPhonenumber = "0".concat(phonenumber);
+			System.out.println("앞에 0붙은"+newPhonenumber);
 			
 			System.out.println("임시 비밀번호로 수정해버림"+userPassword);
 			userService.modifyPW(userPassword, user.getUserId(), id);
@@ -154,7 +155,7 @@ public class UserController {
 		    Message coolsms = new Message(api_key, api_secret);
 		    
 		    HashMap<String, String> params = new HashMap<String, String>();
-		    params.put("to", phonenumber);
+		    params.put("to", newPhonenumber);
 		    params.put("from", "01040367669");
 
 		    params.put("type", "SMS");

@@ -11,6 +11,7 @@ import { onMounted, reactive, ref } from 'vue'
 import {useStore} from 'vuex'
 import {useRouter} from 'vue-router'
 import kurentoUtils from 'kurento-utils'
+import swal from 'sweetalert'
 
 export default {
   // name: 'ConferenceMain',
@@ -221,7 +222,7 @@ export default {
 			delete participants[request.name];
 
 			if (request.name === props.owner) {
-				alert('방장이 방삭제함')
+				swal('방장이 방삭제함')
 				router.replace({name: 'Main'})
 			}
 		}

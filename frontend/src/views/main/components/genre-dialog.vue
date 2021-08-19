@@ -53,6 +53,7 @@
 <script>
 import { reactive, computed, ref, onMounted} from 'vue'
 import { mapGetters, useStore } from 'vuex'
+import swal from 'sweetalert'
 
 const genreOptions = ['발라드', '어쿠스틱', '힙합', 'K-POP', '마술', '댄스','클래식','재즈','블루스',
 '컨트리','포크','레게','디스코','록','EDM','트로트'];
@@ -112,7 +113,7 @@ export default {
           state.form.genreList=result.data
         })
         .catch(function (err){
-          alert(err)
+          swal("Fail!", "Error", "error")
         })
     }
 
@@ -142,11 +143,11 @@ export default {
           })
           .then(function (
           ) {
-            alert('선호 장르 성공')
+            swal("Succes!", "선호 장르 성공", "success")
             location.reload()
           })
           .catch(function (err) {
-            alert(err)
+            swal("Fail!", "Error", "error")
           })
     }
 

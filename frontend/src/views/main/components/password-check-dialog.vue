@@ -48,6 +48,7 @@
 <script>
 import { reactive, computed, ref, onMounted } from 'vue'
 import { useStore } from 'vuex'
+import swal from 'sweetalert'
 // import func from 'vue-editor-bridge'
 
 export default {
@@ -83,17 +84,17 @@ export default {
       })
       .then(function () {
         emit('closePasswordCheckDialog')
-        alert('확인이 완료되었습니다.')
+        swal("Succes!", "확인이 완료되었습니다.", "success")
         store.dispatch('root/getUser', { token: props.token })
         .then(function (result) {
           emit('openProfileDialog', result)
         })
         .catch(function (err){
-          alert(err)
+          swal("Fail!", "Error", "error")
         })
       })
       .catch(function () {
-        alert('잘못된 비밀번호입니다.')
+        swal("Fail!", "잘못된 비밀번호 입니다.", "error")
       })
     }
 

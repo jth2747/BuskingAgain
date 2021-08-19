@@ -78,7 +78,7 @@
         <!-- {{ state.form.ownerId }}님의 버스킹 -->
         <div style="float: left">
         <div style="height: 25px; text-align:left;"> 장르 : {{state.form.genre}}</div>
-        <div style="height: 25px; text-align:left;"> 버스커 : {{state.form.userId}}</div>
+        <div style="height: 25px; text-align:left;"> 버스커 : {{state.form.ownerId}}</div>
         <div style="height: 25px; text-align:left;"> 버스킹 설명 : {{state.form.description}}</div>
         </div>
       </el-footer>
@@ -251,6 +251,7 @@ import Stomp from 'webstomp-client'
 import SockJS from 'sockjs-client'
 import conferenceMain from './conference-main.vue'
 import conferenceKickOutDialog from './conference-kickoutdialog.vue'
+import swal from 'sweetalert'
 
 export default {
   name: 'conference-detail',
@@ -307,7 +308,7 @@ export default {
         state.form.max_viewers = result.data["max_viewers"]
       })
       .catch(function (err) {
-        alert('입장가능 인원을 초과하였습니다.')
+        swal('입장가능 인원을 초과하였습니다.')
         store.commit('root/setMenuActive', 0)
         const MenuItems = store.getters['root/getMenus']
         let keys = Object.keys(MenuItems)
@@ -353,7 +354,7 @@ export default {
         id: route.params.conferenceId
       })
       .then(function () {
-        alert('버스킹이 종료되었습니다.')
+        swal('버스킹이 종료되었습니다.')
         store.commit('root/setMenuActive', 0)
         const MenuItems = store.getters['root/getMenus']
         let keys = Object.keys(MenuItems)

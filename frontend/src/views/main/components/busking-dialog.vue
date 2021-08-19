@@ -74,6 +74,7 @@
 import { reactive, computed, ref, onMounted } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
+import swal from 'sweetalert'
 
 
 export default {
@@ -176,7 +177,7 @@ export default {
         thumbnail_url: state.form.thumbnail_url,
       })
       .then(function (result) {
-        alert('버스킹 생성 성공')
+        swal("Succes!", "버스킹 생성 성공", "success")
         router.push({
         name: 'conference-detail',
         params: {
@@ -186,7 +187,7 @@ export default {
         handleClose()
       })
       .catch(function (err) {
-        alert(err)
+        swal("Fail!", "Error", "error")
       })
 
     }

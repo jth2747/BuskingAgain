@@ -71,6 +71,8 @@
 import { reactive, computed, ref, onMounted } from 'vue'
 import { useStore } from 'vuex'
 import RingLoader from 'vue-spinner/src/RingLoader.vue'
+import swal from 'sweetalert'
+
 
 export default {
   name: 'login-dialog',
@@ -124,12 +126,12 @@ export default {
         if (valid) {
           store.dispatch('root/requestLogin', { id: state.form.id, password: state.form.password })
           .then(function (result) {
-            alert('로그인 성공')
+            swal("Succes!", "로그인 성공", "success")
             localStorage.setItem('jwt', result.data.accessToken)
             location.reload()
           })
           .catch(function (err) {
-            alert('아이디와 비밀번호를 확인해 주세요.')
+            swal('Fail', '아이디와 비밀번호를 확인해주세요', 'error')
           })
         }
       });

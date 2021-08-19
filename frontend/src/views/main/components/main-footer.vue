@@ -2,9 +2,12 @@
   <el-row
     class="main-footer"
     :gutter="10">
-    <div class="contents" style="color: white">
-      Copyright © SAMSUNG All Rights Reserved.
-    </div>
+    <span class="contents" style="color: white">
+      Copyright © Busking Again
+    </span>
+        <!-- <span style="width:30px"><a href="http://www.facebook.com"><img src="../../../assets/images/facebook1.png"/></a></span>
+        <span><a href="http://www.twitter.com"><img src="../../../assets/images/twitter1.png"/></a></span>
+        <span><a href="http://www.instagram.com"><img src="../../../assets/images/instagram2.png"/></a></span> -->
   </el-row>
 </template>
 <style>

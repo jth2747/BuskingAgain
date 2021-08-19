@@ -94,7 +94,6 @@ export default {
     })
 
     onMounted(() => {
-      // console.log('buskingForm.value')
     })
 
     const clickFindId = function() {
@@ -103,7 +102,6 @@ export default {
         email: state.form.email,
       })
       .then(function (result) {
-        console.log('result',result.data)
         alert(`회원님의 아이디는 ${result.data} 입니다.`)
         location.reload()
       })

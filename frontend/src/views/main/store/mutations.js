@@ -6,7 +6,7 @@ export function setPlatform (state, isDesktop) {
 }
 
 export function setMenuActive (state, index) {
-	console.log('setMenuActive', state,index)
+	// console.log('setMenuActive', state,index)
 	const keys = Object.keys(state.menus)
 	state.activeMenu = keys[index]
 }
@@ -16,7 +16,7 @@ export function setMenuActiveMenuName (state, menuName) {
 }
 
 export function SET_ACCESS_TOKEN (state, user) {
-	console.log("SET_ACCESS_TOKEN: "+ user);
+	// console.log("SET_ACCESS_TOKEN: "+ user);
   state.accessToken = Cookies.get("accessToken");
   if(user){
     (state.user=user), (state.userId=user.userid),(state.userName=user.username);

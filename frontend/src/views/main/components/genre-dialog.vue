@@ -109,7 +109,6 @@ export default {
       state.form.showGenre=true;
       store.dispatch('root/getGenre', { token: props.token })
         .then(function (result) {
-          console.log(result.data)
           state.form.genreList=result.data
         })
         .catch(function (err){
@@ -120,15 +119,12 @@ export default {
     const handleCheckAllChange=function(val) {
         state.form.checkedGenre = val ? genreOptions : [];
         state.form.isIndeterminate = false;
-        console.log(state.form.checkedGenre);
       }
 
     const handleCheckedGenreChange =function(value) {
         let checkedCount = value.length;
         state.form.checkAll = checkedCount === state.form.genre.length;
         state.form.isIndeterminate = checkedCount > 0 && checkedCount < state.form.genre.length;
-        console.log(state.form.checkedGenre);
-        //console.log(genreList);
     }
 
 
@@ -139,7 +135,6 @@ export default {
     }
 
     const clickCheckbox = function(){
-      console.log(state.form.checkedGenre)
       store.dispatch('root/requestGenre',
           {
             token: props.token,

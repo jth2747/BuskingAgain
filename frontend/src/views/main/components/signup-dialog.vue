@@ -151,40 +151,37 @@ export default {
     const clickSignup = function () {
       // signupForm.value.validate((valid) => {
         if(validpwd() == false){
-          console.log("비밀번호 유효성 안맞음")
+          // console.log("비밀번호 유효성 안맞음")
           state.form.evalid = false;
         }else{
-          console.log("비밀번호 유효성 "+ validpwd());
+          // console.log("비밀번호 유효성 "+ validpwd());
         }
 
         if(validemail() == false){
-          console.log("이메일 유효성 안맞음")
+          // console.log("이메일 유효성 안맞음")
           state.form.evalid = false;
         }else{
-          console.log("이메일 유효성 "+validemail());
+          // console.log("이메일 유효성 "+validemail());
         };
 
         if(validid() == false){
-          console.log("아이디 유효성 안맞음")
+          // console.log("아이디 유효성 안맞음")
           state.form.evalid = false;
         }else{
-          console.log("아이디 유효성 "+validid());
+          // console.log("아이디 유효성 "+validid());
         }
 
         if (validateCnumber() == false){
-          console.log("인증번호 유효성 안맞음")
+          // console.log("인증번호 유효성 안맞음")
           state.form.evalid = false;
         }else{
-          console.log("인증번호 유효성"+validateCnumber())
+          // console.log("인증번호 유효성"+validateCnumber())
         }
 
         if(validpwd() && validemail() && validid() && validateCnumber())
           state.form.evalid = true;
 
         if (state.form.evalid==true) {
-          console.log(validpwd())
-          console.log(state.form.evalid)
-          console.log('submit')
           store.dispatch('root/requestSignup',
           {
             email: state.form.email,
@@ -204,7 +201,6 @@ export default {
         } else {
           alert('Validate error!')
         }
-      //  });
     }
 
     const validpwd = function (){
@@ -241,14 +237,12 @@ export default {
 
     const validid = function(){
       var id = state.form.uid;
-      console.log(id);
       if(id.length > 16 || id == "")
         return false;
       return true;
     }
 
     const checkId = function(){
-      console.log('check')
       store.dispatch('root/checkSignupId', { id: state.form.uid })
       .then(function () {
         alert('사용 가능한 아이디 입니다.')
@@ -261,20 +255,15 @@ export default {
     const checkCnumber = function () {
       store.dispatch('root/checkCNumber', {phone: state.form.phone})
       .then(function (result) {
-        // state.checkCNumber = state.form.CNumber
-        console.log('result.data', result.data)
         state.form.recvNum = result.data
         alert('인증번호가 전송되었습니다')
       })
       .catch(function (err) {
-        console.log(err.response)
       })
     }
 
     const validateCnumber = function(){
       var checkNum = state.form.CNumber
-      console.log('checkNum', checkNum)
-      console.log('CNumber', state.form.CNumber)
       if(checkNum != state.form.recvNum){
         alert("인증번호가 일치하지 않습니다.")
         return false;

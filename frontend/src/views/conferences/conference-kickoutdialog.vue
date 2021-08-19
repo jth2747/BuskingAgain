@@ -136,7 +136,6 @@ export default {
         })
         .then(function (result) {
           alert('수정 완료')
-          console.log(result)
           handleClose()
         })
       } else{
@@ -152,7 +151,6 @@ export default {
         })
         .then(function (result) {
           alert('수정 완료')
-          console.log(result)
           location.reload()
         })
       }
@@ -170,9 +168,7 @@ export default {
 
     const imgUpload = function (event) {
       let file = event.target.files
-      console.log('파일', file[0])
       let imgUrl = URL.createObjectURL(file[0])
-      console.log(imgUrl)
       state.form.thumbnail_url = imgUrl
     }
 

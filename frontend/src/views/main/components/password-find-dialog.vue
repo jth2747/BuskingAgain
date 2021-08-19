@@ -95,20 +95,6 @@ export default {
       // console.log('buskingForm.value')
     })
 
-    const clickFindId = function() {
-      store.dispatch('root/findId', {
-        name: state.form.name,
-        email: state.form.email,
-      })
-      .then(function (result) {
-        console.log('result',result.data)
-        alert(`회원님의 아이디는 ${result.data} 입니다.`)
-        location.reload()
-      })
-      .catch(function () {
-        alert('회원 정보를 다시 확인해 주세요')
-      })
-    }
 
 
     const onOpenPasswordDialog = function() {
@@ -127,8 +113,8 @@ export default {
         alert(`${result.data}`)
         location.reload()
       })
-      .catch(function () {
-        alert(`${result.data}`)
+      .catch(function (result) {
+        alert('가입된 회원이 확인되지 않습니다.')
       })
     }
 
@@ -139,7 +125,7 @@ export default {
       emit('closePasswordDialog')
     }
 
-    return { buskingForm, state, handleClose, clickFindId, onOpenPasswordDialog, clickFindPassword }
+    return { buskingForm, state, handleClose, onOpenPasswordDialog, clickFindPassword }
   }
 }
 </script>

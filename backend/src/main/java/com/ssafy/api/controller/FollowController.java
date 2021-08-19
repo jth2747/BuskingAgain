@@ -56,13 +56,13 @@ public class FollowController {
     })
 	public ResponseEntity<? extends BaseResponseBody> addFollow(@ApiIgnore Authentication authentication,
 			@RequestBody GenreListPostReq genre){
-		System.out.println("장르 팔로우 컨트롤러 들어옴");
+//		System.out.println("장르 팔로우 컨트롤러 들어옴");
 		
 //		userid를 확인하기 위해서 회원정보 조회
 		SsafyUserDetails userDetails = (SsafyUserDetails)authentication.getDetails();
 		String userId = userDetails.getUsername();
 		User user = userService.getUserByUserId(userId);
-		System.out.println("userid :" + user.getId());
+//		System.out.println("userid :" + user.getId());
 		
 		followService.addGenre(genre, user.getId());
 		
@@ -105,13 +105,13 @@ public class FollowController {
         @ApiResponse(code = 500, message = "서버 오류")
     })
 	public ResponseEntity<GenreListRes> getFollowList(@ApiIgnore Authentication authentication){
-		System.out.println("장르 팔로우 리스트 컨트롤러 들어옴");
+//		System.out.println("장르 팔로우 리스트 컨트롤러 들어옴");
 		
 //		userid를 확인하기 위해서 회원정보 조회
 		SsafyUserDetails userDetails = (SsafyUserDetails)authentication.getDetails();
 		String userId = userDetails.getUsername();
 		User user = userService.getUserByUserId(userId);
-		System.out.println("userid :" + user.getId());
+//		System.out.println("userid :" + user.getId());
 		
 		GenreListRes list = followService.getList(user.getId());
 		

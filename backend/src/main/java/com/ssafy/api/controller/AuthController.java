@@ -54,15 +54,15 @@ public class AuthController {
 		String userId = loginInfo.getId();
 		String password = loginInfo.getPassword();
 		
-		System.out.println("로그인 시작합니다아아아아");
+//		System.out.println("로그인 시작합니다아아아아");
 		User user = userService.getUserByUserId(userId);
 		// 로그인 요청한 유저로부터 입력된 패스워드 와 디비에 저장된 유저의 암호화된 패스워드가 같은지 확인.(유효한 패스워드인지 여부 확인)
-		System.out.println("받은 password");
-		System.out.println(password);
-		System.out.println("DB에 저장된 password");
-		System.out.println(user.getPassword());
-		System.out.println("==============================");
-		System.out.println(passwordEncoder.matches(password, user.getPassword()));
+//		System.out.println("받은 password");
+//		System.out.println(password);
+//		System.out.println("DB에 저장된 password");
+//		System.out.println(user.getPassword());
+//		System.out.println("==============================");
+//		System.out.println(passwordEncoder.matches(password, user.getPassword()));
 
 		if(passwordEncoder.matches(password, user.getPassword())) {
 			// 유효한 패스워드가 맞는 경우, 로그인 성공으로 응답.(액세스 토큰을 포함하여 응답값 전달)
@@ -86,7 +86,7 @@ public class AuthController {
     int min = 10;
     int max = 1000;
     int random = (int) ((Math.random() * (max - min)) + min);
-    System.out.println(random);
+//    System.out.println(random);
 
     params.put("type", "SMS");
     params.put("text", "인증번호는  "+ random +" 입니다. "); // 보낼 메세지를 입력하시오.
@@ -94,10 +94,10 @@ public class AuthController {
 
     try {
     	JSONObject obj = (JSONObject) coolsms.send(params);
-    	System.out.println(obj.toString());
+//    	System.out.println(obj.toString());
     } catch (CoolsmsException e) {
-    	System.out.println(e.getMessage());
-    	System.out.println(e.getCode());
+//    	System.out.println(e.getMessage());
+//    	System.out.println(e.getCode());
     	
     	// front 로 인증번호를 return 해주고, front 에서는 인증번호를 받아서 해당 사용자에게 받은 번호와
     	// 같은지 비교 후 승인 or 거부

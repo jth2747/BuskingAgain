@@ -2,26 +2,50 @@
   <!-- <h2>{{ $route.params.conferenceId }}</h2> -->
   <el-container>
     <el-aside width="250px">
+      <div style="height: 60px; background-color: rgb(0,0,0,0.9); color: #ffffff; font-size: 25px; font-weight: bold; text-align:center">채팅
+      </div>
       <div id="socket">
         <el-scrollbar height="50pc">
           <div v-for="(item, idx) in state.form.recvList" :key="idx">
             <span> {{ item.userId }}</span>
             <span> : {{ item.message }}</span>
           </div>
-          채팅: <input
+          <div style="color:#ffffff">
+          <textarea class="chattingInput"
             v-model="state.form.message"
             type="text"
             @keyup="sendMessage"
-          >
+            placeholder=" 채팅을 입력해주세요"
+          />
+          </div>
         </el-scrollbar>
       </div>
     </el-aside>
     <el-container>
-      <el-header>
-        <!-- {{ state.form.ownerId }}님의 버스킹 -->
-        {{ state.form.description }}
-        <span>  접속자 수 : {{ state.form.viewers}} / </span>
-        <span>좋아요 : 0</span>
+      <el-header >
+        <span style="color:#ffffff; font-size:50px; font-weight:bold;">{{ state.form.title }}</span>
+        <el-button-group v-if="state.form.owner" style="float: right">
+          <span style="margin:10px">
+            <i class="el-icon-edit" @click="clickRoomEdit" style="cursor: pointer; font-weight:bold; color:#ffffff">수정</i>
+          </span>
+          <span style="margin:10px">
+            <i class="el-icon-delete" @click="roomDelete" style="cursor: pointer; font-weight:bold; color:#ffffff">종료</i>
+          </span>
+          <span style="margin:10px">
+            <i class="el-icon-warning"  @click="onOpenKickOutDialog" style="cursor: pointer; font-weight:bold; color:#ffffff">강퇴</i>
+          </span>
+          <!-- <el-button type="warning" icon="el-icon-edit" @click="clickRoomEdit">수정</el-button>
+          <el-button type="danger" icon="el-icon-delete" @click="roomDelete">방 종료</el-button>
+          <el-button type="success" @click="onOpenKickOutDialog">강퇴</el-button> -->
+          <conference-kickoutdialog
+            :open="state.form.kickOutDialogOpen"
+            :token="state.form.token"
+            @closeKickOutDialog="onCloseKickOutDialog"
+          />
+        </el-button-group>
+        <el-button-group v-else>
+          <el-button type="danger" @click="goBackHome">나가기</el-button>
+        </el-button-group>
         </el-header>
       <el-row>
         <el-col :span="24">
@@ -34,20 +58,19 @@
           </el-main>
         </el-col>
       </el-row>
-      <el-footer>
-        <el-button-group v-if="state.form.owner">
-          <el-button type="warning" icon="el-icon-edit" @click="clickRoomEdit">수정</el-button>
-          <el-button type="danger" icon="el-icon-delete" @click="roomDelete">방 종료</el-button>
-          <el-button type="success" @click="onOpenKickOutDialog">강퇴</el-button>
-          <conference-kickoutdialog
-            :open="state.form.kickOutDialogOpen"
-            :token="state.form.token"
-            @closeKickOutDialog="onCloseKickOutDialog"
-          />
-        </el-button-group>
-        <el-button-group v-else>
-          <el-button type="danger" @click="goBackHome">나가기</el-button>
-        </el-button-group>
+      <el-footer style="height: 200px;">
+      <div style="float:left; margin-right: 10px">
+        <div v-if="state.form.flag" class="coin"/>
+        <div style="visibility:hidden" v-else class="coin"/>
+        <div style="cursor:pointer" @click="clickHat()" class="hat"/>
+      </div>
+        <!-- {{ state.form.ownerId }}님의 버스킹 -->
+        <div style="float: left">
+        <span style="color:#ffffff">  접속자 수 : {{ state.form.viewers}} / </span>
+        <span style="color:#ffffff"> 좋아요 : 0</span>
+        <div style="height: 25px; text-align:left; color:#ffffff"> 장르 : {{state.form.genre}}</div>
+        <div style="height: 25px; text-align:left; color:#ffffff"> 방 설명 : {{state.form.description}}</div>
+        </div>
       </el-footer>
     </el-container>
   </el-container>
@@ -75,16 +98,35 @@
     margin-top: 60px;
     margin-left: 10px;
   }
-  .el-header, .el-footer {
-    background-color: #F2EDD7;
+.chattingInput{
+  /* margin-left: 10px; */
+  width: 170pt;
+  height: 50pt;
+  border-radius: 10px;
+  border: 1px solid;
+  font-size: 15px;
+  background-color: rgba(255, 255, 255, 0.85);
+}
+.chattingInput::placeholder{
+  color: #000000;
+}
+
+  .el-header{
+    background-color: rgb(0,0,0,0.9);
+    color: #333;
+    text-align: center;
+    line-height: 60px;
+  }
+  .el-footer {
+    background-color: rgb(204,236,255,0.7);
     color: #333;
     text-align: center;
     line-height: 60px;
   }
 
   .el-aside {
-    background-color: #755139;
-    color: #333;
+    /* background-color: rgb(0,0,102,0.7); */
+    color: #ffffff;
     text-align: center;
     line-height: 30px;
   }
@@ -107,6 +149,84 @@
   .el-container:nth-child(7) .el-aside {
     line-height: 320px;
   }
+
+
+  @keyframes bounce-in-top {
+  0% {
+    -webkit-transform: translateY(-500px);
+            transform: translateY(-500px);
+    -webkit-animation-timing-function: ease-in;
+            animation-timing-function: ease-in;
+    opacity: 0;
+  }
+  38% {
+    -webkit-transform: translateY(0);
+            transform: translateY(0);
+    -webkit-animation-timing-function: ease-out;
+            animation-timing-function: ease-out;
+    opacity: 1;
+  }
+  55% {
+    -webkit-transform: translateY(-65px);
+            transform: translateY(-65px);
+    -webkit-animation-timing-function: ease-in;
+            animation-timing-function: ease-in;
+  }
+  72% {
+    -webkit-transform: translateY(0);
+            transform: translateY(0);
+    -webkit-animation-timing-function: ease-out;
+            animation-timing-function: ease-out;
+  }
+  81% {
+    -webkit-transform: translateY(-28px);
+            transform: translateY(-28px);
+    -webkit-animation-timing-function: ease-in;
+            animation-timing-function: ease-in;
+  }
+  90% {
+    -webkit-transform: translateY(0);
+            transform: translateY(0);
+    -webkit-animation-timing-function: ease-out;
+            animation-timing-function: ease-out;
+  }
+  95% {
+    -webkit-transform: translateY(-8px);
+            transform: translateY(-8px);
+    -webkit-animation-timing-function: ease-in;
+            animation-timing-function: ease-in;
+  }
+  100% {
+    -webkit-transform: translateY(0);
+            transform: translateY(0);
+    -webkit-animation-timing-function: ease-out;
+            animation-timing-function: ease-out;
+  }
+}
+.coin {
+  left: 10px;
+  position: relative;
+  z-index: 1;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-image: url('../../assets/images/coin.png');
+  border-radius: 50%;
+  animation: bounce-in-top 1.1s ease 1;
+  width: 70px;
+  height: 70px;
+}
+.hat {
+  top:-70px;
+  z-index: 2;
+  position: relative;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-image: url('../../assets/images/hat.png');
+  border-radius: 50%;
+  width: 90px;
+  height: 90px;
+}
+
 </style>
 <script>
 import { reactive, onMounted, onUnmounted } from 'vue'
@@ -254,6 +374,12 @@ export default {
       state.form.kickOutDialogOpen = false
     }
 
+    //모자 애니메이션
+    const clickHat = function(){
+      console.log("click hat");
+      state.form.flag=true;
+    }
+
     ///////////////////////// 채팅 관련 ////////////////////////////
 
     const sendMessage = function (e) {
@@ -317,7 +443,7 @@ export default {
       );
     }
 
-    return { state, clickRoomEdit, closeRoomEdit, roomDelete, goBackHome, sendMessage, send, connect, onOpenKickOutDialog, onCloseKickOutDialog }
+    return { state, clickRoomEdit, closeRoomEdit, roomDelete, goBackHome, sendMessage, send, connect, onOpenKickOutDialog, onCloseKickOutDialog, clickHat }
   }
 }
 </script>

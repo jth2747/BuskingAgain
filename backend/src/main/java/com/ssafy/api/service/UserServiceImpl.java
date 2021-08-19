@@ -64,7 +64,7 @@ public class UserServiceImpl implements UserService {
 		user.setUserId(userRegisterInfo.getId());
 		// 보안을 위해서 유저 패스워드 암호화 하여 디비에 저장.
 		if(userRepositorySupport.findUserByUserId(user.getUserId()).isPresent()) {
-			System.out.print("중복임!!!!!!!");
+//			System.out.print("중복임!!!!!!!");
 			return null;
 		}else {			
 			user.setPassword(passwordEncoder.encode(userRegisterInfo.getPassword()));
@@ -80,7 +80,7 @@ public class UserServiceImpl implements UserService {
 	public boolean checkUserId(String userid) {
 		// TODO Auto-generated method stub
 		if(userRepositorySupport.findUserByUserId(userid).isPresent()) {
-			System.out.println("중복임!!!");
+//			System.out.println("중복임!!!");
 			return false;
 		}
 		return true;
@@ -91,7 +91,7 @@ public class UserServiceImpl implements UserService {
 		//이름이랑 이메일로 아이디 찾기
 		if(userRepositorySupport.findUserByUserNamePassword(name, email).isPresent()) {
 			User user = userRepositorySupport.findUserByUserNamePassword(name, email).get();
-			System.out.println(user.toString());
+//			System.out.println(user.toString());
 			return user;
 		}
 		else {
@@ -105,7 +105,7 @@ public class UserServiceImpl implements UserService {
 		//이름이랑 이메일로 비밀번호 찾기
 		if(userRepositorySupport.findUserPasswordByUserNamePassword(name, email).isPresent()) {
 			User user = userRepositorySupport.findUserPasswordByUserNamePassword(name, email).get();
-			System.out.println(user.toString());
+//			System.out.println(user.toString());
 			return user;
 		}
 		else {
@@ -184,7 +184,7 @@ public class UserServiceImpl implements UserService {
 	public User modifyUser(UserModifyPutReq userModifyInfo, String userId, Long id) {
 		User user = new User();
 		User getUser = getUserByUserId(userId);
-		System.out.println("회원정보 수정");
+//		System.out.println("회원정보 수정");
 		user.setId(id);
 		user.setUserId(userId);
 		user.setPassword(getUser.getPassword());
@@ -198,7 +198,7 @@ public class UserServiceImpl implements UserService {
 	public User modifyPW(String PW, String userId, Long id) {
 		User user = new User();
 		User getUser = getUserByUserId(userId);
-		System.out.println("비밀번호 수정");
+//		System.out.println("비밀번호 수정");
 		user.setId(id);
 		user.setUserId(userId);
 		user.setPassword(passwordEncoder.encode(PW));

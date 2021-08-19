@@ -159,17 +159,17 @@
         <div class="button-wrapper">
           <el-popover placement="bottom" title="회원가입" trigger="hover">
             <template #reference>
-              <span style="cursor:pointer; margin-right: 20px; font-size: 20px; color: #FFFFFF" @click="clickSignup" class="el-icon-circle-plus-outline"></span>
+              <span style="cursor:pointer; margin-right: 20px; font-size: 20px;" @click="clickSignup" class="el-icon-circle-plus-outline"></span>
             </template>
           </el-popover>
           <el-popover placement="bottom" title="로그인" trigger="hover">
             <template #reference>
-              <span style="cursor:pointer; margin-right: 20px; font-size: 20px; color: #FFFFFF" @click="clickLogin" class="el-icon-lock"></span>
+              <span style="cursor:pointer; margin-right: 20px; font-size: 20px;" @click="clickLogin" class="el-icon-lock"></span>
             </template>
           </el-popover>
           <el-popover placement="bottom" title="Id/Password 찾기" trigger="hover">
             <template #reference>
-              <span style="cursor:pointer; margin-right: 20px; font-size: 20px; color: #FFFFFF" @click="findIdPassword" class="el-icon-key"></span>
+              <span style="cursor:pointer; margin-right: 20px; font-size: 20px;" @click="findIdPassword" class="el-icon-key"></span>
             </template>
           </el-popover>
         </div>

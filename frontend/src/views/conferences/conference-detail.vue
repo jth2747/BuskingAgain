@@ -278,13 +278,11 @@ export default {
     onMounted(() => {
       // 페이지에 들어오면 connect 실행
       connect()
-      // console.log('가나다라', Stomp.over(socket) )
       state.conferenceId = route.params.conferenceId
       store.commit('root/setMenuActiveMenuName', 'home')
       store.dispatch('root/roomDetail', { token: state.form.token, id: route.params.conferenceId }
       )
       .then(function (result) {
-        console.log('result' ,result.data)
         state.form.title = result.data["title"]
         state.form.ownerId = result.data["ownerId"]
         state.form.description = result.data["description"]
@@ -296,7 +294,6 @@ export default {
         state.form.max_viewers = result.data["max_viewers"]
       })
       .catch(function (err) {
-        console.log('err', err)
         alert('입장가능 인원을 초과하였습니다.')
         store.commit('root/setMenuActive', 0)
         const MenuItems = store.getters['root/getMenus']
@@ -322,14 +319,12 @@ export default {
         id: state.conferenceId
       })
       .then(function (result) {
-        console.log(result)
       })
       state.conferenceId = ''
     })
 
     // 버스킹 수정 모달창 생성
     const clickRoomEdit = function () {
-      console.log(state.form.roomEditDialogOpen)
       state.form.roomEditDialogOpen = true
     }
 
@@ -376,14 +371,12 @@ export default {
 
     //모자 애니메이션
     const clickHat = function(){
-      console.log("click hat");
       state.form.flag=true;
     }
 
     ///////////////////////// 채팅 관련 ////////////////////////////
 
     const sendMessage = function (e) {
-      console.log('eeeeee', e.keyCode, 'username', state.form.userId, 'msg', state.form.message, 'recvList', state.form.recvList )
       if(e.keyCode === 13 && state.form.userId !== '' && state.form.message !== ''){
         send()
         state.form.message = ''
@@ -391,7 +384,6 @@ export default {
     }
 
     const send = function() {
-      console.log("Send message:" + state.form.message);
       // if (state.form.stompClient && state.form.stompClient.connected) {
       //   const msg = {
       //     type: "CHAT",
@@ -409,7 +401,7 @@ export default {
         userId: state.form.userId
         // recvList: state.form.recvList,
       }
-        console.log('메세지확인', msg)
+        // console.log('메세지확인', msg)
         state.form.stompClient.send("/pub/chat/message", JSON.stringify(msg), {});
     }
 
@@ -418,18 +410,18 @@ export default {
       // const serverURL = "https://i5d107.p.ssafy.io/ws-stomp"
       let socket = new SockJS(serverURL);
       state.form.stompClient = Stomp.over(socket);
-      console.log(`소켓 연결을 시도합니다. 서버 주소: ${serverURL}`)
+      // console.log(`소켓 연결을 시도합니다. 서버 주소: ${serverURL}`)
       state.form.stompClient.connect(
         {},
         frame => {
           // 소켓 연결 성공
           state.form.stompClient.connected = true;
-          console.log('소켓 연결 성공', frame, 'id', route.params.conferenceId);
+          // console.log('소켓 연결 성공', frame, 'id', route.params.conferenceId);
           // 서버의 메시지 전송 endpoint를 구독합니다.
           // 이런형태를 pub sub 구조라고 합니다.
           state.form.stompClient.subscribe('/sub/chat/room/' + route.params.conferenceId,
           res => {
-            console.log('구독으로 받은 메시지 입니다.', res.body);
+            // console.log('구독으로 받은 메시지 입니다.', res.body);
 
             // 받은 데이터를 json으로 파싱하고 리스트에 넣어줍니다.
             state.form.recvList.push(JSON.parse(res.body))
@@ -437,7 +429,7 @@ export default {
         },
         error => {
           // 소켓 연결 실패
-          console.log('소켓 연결 실패', error);
+          // console.log('소켓 연결 실패', error);
           state.form.stompClient.connected = false;
         }
       );

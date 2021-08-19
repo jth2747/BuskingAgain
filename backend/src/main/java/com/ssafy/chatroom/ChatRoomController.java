@@ -19,7 +19,7 @@ public class ChatRoomController {
         if (ChatMessage.MessageType.JOIN.equals(message.getType())) {
             message.setMessage(message.getUserId() + "님이 입장하셨습니다.");
         }
-        System.out.println(message.toString());
+//        System.out.println(message.toString());
         messagingTemplate.convertAndSend("/sub/chat/room/" + message.getRoomId(), message);
     }
 }

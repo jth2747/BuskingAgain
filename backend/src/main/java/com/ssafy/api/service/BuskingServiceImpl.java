@@ -79,7 +79,7 @@ public class BuskingServiceImpl implements BuskingService {
 	@Override
 	public Busking createBusking(BuskingCreatePostReq buskingCreatInfo, Long owner_id) {
 		// TODO Auto-generated method stub
-		System.out.println("버스킹생성 서비스 입장");
+//		System.out.println("버스킹생성 서비스 입장");
 		
 		if(buskingRespositorySupport.findBuskingByOwnerId(owner_id) != null) {
 			List<Busking> busking = buskingRespositorySupport.findBuskingByOwnerId(owner_id);
@@ -87,7 +87,7 @@ public class BuskingServiceImpl implements BuskingService {
 				if(b.getIs_active() == 1)
 					return null;
 				
-				System.out.println("확인용");
+//				System.out.println("확인용");
 			}
 				
 		}
@@ -107,7 +107,7 @@ public class BuskingServiceImpl implements BuskingService {
 		
 		if(buskingCreatInfo.getGenre() != null) {
 			Long genreId = buskingGenreRepositorySupport.findGenreByGenreName(buskingCreatInfo.getGenre()).getId();
-			System.out.println(genreId);
+//			System.out.println(genreId);
 			busking.setBusking_genre(genreId);
 			return buskingRespository.save(busking);
 		}else
@@ -173,7 +173,7 @@ public class BuskingServiceImpl implements BuskingService {
 		busking.setLikes(originbusking.getLikes());
 		busking.setStart_time(originbusking.getStart_time());
 		Long genreId = buskingGenreRepositorySupport.findGenreByGenreName(buskingModifyInfo.getGenre()).getId();
-		System.out.println(genreId);
+//		System.out.println(genreId);
 		busking.setBusking_genre(genreId);
 		
 		return buskingRespository.save(busking);
@@ -235,14 +235,14 @@ public class BuskingServiceImpl implements BuskingService {
 	public Busking outBusking(Long userId, Long buskingId) {
 		// TODO Auto-generated method stub
 		
-		System.out.println("유저 찾기");
+//		System.out.println("유저 찾기");
 		User_busking user_busking = userBuskingRepositorySupport.findUser_buskingByUid(userId, buskingId);
-		System.out.println(user_busking.getB_id());
+//		System.out.println(user_busking.getB_id());
 		userBuskingRepository.deleteById(user_busking.getId());
 		
 		Busking busking = buskingRespository.getOne(buskingId);
 		int viewers = busking.getViewers()-1;
-		System.out.println(viewers+" "+busking.getViewers());
+//		System.out.println(viewers+" "+busking.getViewers());
 		busking.setViewers(viewers);
 	
 		return buskingRespository.save(busking);
@@ -263,13 +263,13 @@ public class BuskingServiceImpl implements BuskingService {
 		}
 		
 		if(busking.getMax_viewers()<=busking.getViewers()) {
-			System.out.println("인원 초과");
+//			System.out.println("인원 초과");
 			return null;
 		}
 		
 //		강퇴로 입장 불가
 		if(kickoutRepositorySupport.findUserByUid(userid, buskingId) != null) {
-			System.out.println("입장 불가");
+//			System.out.println("입장 불가");
 			return null;
 		}
 		
@@ -378,7 +378,7 @@ public class BuskingServiceImpl implements BuskingService {
 		//일단 현재 리스트에 있는 사람을 방에서 강퇴
 		for(String userid : kickoutIdList) {
 			User user = userRepository.findByUserId(userid).get();
-			System.out.println(user.getUserId());
+//			System.out.println(user.getUserId());
 			User_busking ub = userBuskingRepositorySupport.findUser_buskingByUid(user.getId(), buskingId);
 			if(ub != null) {
 				userBuskingRepository.delete(ub);
@@ -405,9 +405,9 @@ public class BuskingServiceImpl implements BuskingService {
 	public List<BuskingListRes> sortByViewers() {
 		// TODO Auto-generated method stub
 		
-		System.out.println("서비스");
+//		System.out.println("서비스");
 		List<Busking> list = buskingRespository.findAll(Sort.by(Sort.Direction.DESC, "viewers"));
-		System.out.println(list.size());
+//		System.out.println(list.size());
 		List<BuskingListRes> ret = new ArrayList<BuskingListRes>();
 		int cnt = 0;
 		for(Busking b : list) {
@@ -439,9 +439,9 @@ public class BuskingServiceImpl implements BuskingService {
 	public List<BuskingListRes> sortByLikes() {
 		// TODO Auto-generated method stub
 		
-		System.out.println("서비스");
+//		System.out.println("서비스");
 		List<Busking> list = buskingRespository.findAll(Sort.by(Sort.Direction.DESC, "likes"));
-		System.out.println(list.size());
+//		System.out.println(list.size());
 		List<BuskingListRes> ret = new ArrayList<BuskingListRes>();
 		int cnt = 0;
 		for(Busking b : list) {
@@ -547,7 +547,7 @@ public class BuskingServiceImpl implements BuskingService {
 		
 		
 		for(int i=0; i<numbers.length; i++) {
-			System.out.println(numbers[i]);
+//			System.out.println(numbers[i]);
 			ret.add(now.get(numbers[i]));
 		}
 		

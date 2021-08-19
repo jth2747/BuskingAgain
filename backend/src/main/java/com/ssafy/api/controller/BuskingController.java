@@ -66,17 +66,17 @@ public class BuskingController {
     })
 	public ResponseEntity<BuskingCreateRes> create(@ApiIgnore Authentication authentication,
 			@RequestBody BuskingCreatePostReq buskingCreatInfo){
-		System.out.println("버스킹 생성 컨트롤러 들어옴");
+//		System.out.println("버스킹 생성 컨트롤러 들어옴");
 		
 //		Ownerid를 확인하기 위해서 회원정보 조회
 		SsafyUserDetails userDetails = (SsafyUserDetails)authentication.getDetails();
 		String userId = userDetails.getUsername();
 		User user = userService.getUserByUserId(userId);
-		System.out.println("Ownerid :" + user.getId());
+//		System.out.println("Ownerid :" + user.getId());
 		
 		
 //		busking 방 정보
-		System.out.println(buskingCreatInfo.toString());
+//		System.out.println(buskingCreatInfo.toString());
 		Busking busking = buskingService.createBusking(buskingCreatInfo, user.getId());
 		
 		if(busking == null)
@@ -103,14 +103,14 @@ public class BuskingController {
 		 * 요청 헤더 액세스 토큰이 포함된 경우에만 실행되는 인증 처리이후, 리턴되는 인증 정보 객체(authentication) 통해서 요청한 유저 식별.
 		 * 액세스 토큰이 없이 요청하는 경우, 403 에러({"error": "Forbidden", "message": "Access Denied"}) 발생.
 		 */
-		System.out.println("방정보 수정");
-		System.out.println(authentication);
+//		System.out.println("방정보 수정");
+//		System.out.println(authentication);
 		SsafyUserDetails userDetails = (SsafyUserDetails)authentication.getDetails();
 		String userId = userDetails.getUsername();
 		User user = userService.getUserByUserId(userId);
-		System.out.println("Ownerid :" + user.getId());
+//		System.out.println("Ownerid :" + user.getId());
 		
-		System.out.println(buskingModifyInfo.toString());
+//		System.out.println(buskingModifyInfo.toString());
 		Busking originbusking = buskingService.getBuskingByBuskingId(buskingId);
 		Busking busking = buskingService.ModifyBusking(buskingModifyInfo, user.getId(), buskingId, originbusking);
 		
@@ -133,7 +133,7 @@ public class BuskingController {
 		 * 요청 헤더 액세스 토큰이 포함된 경우에만 실행되는 인증 처리이후, 리턴되는 인증 정보 객체(authentication) 통해서 요청한 유저 식별.
 		 * 액세스 토큰이 없이 요청하는 경우, 403 에러({"error": "Forbidden", "message": "Access Denied"}) 발생.
 		 */
-		System.out.println("진행중인 버스킹 목록 조회");
+//		System.out.println("진행중인 버스킹 목록 조회");
 		List<BuskingListRes> list = buskingService.list();
 	
 		
@@ -153,7 +153,7 @@ public class BuskingController {
 		 * 요청 헤더 액세스 토큰이 포함된 경우에만 실행되는 인증 처리이후, 리턴되는 인증 정보 객체(authentication) 통해서 요청한 유저 식별.
 		 * 액세스 토큰이 없이 요청하는 경우, 403 에러({"error": "Forbidden", "message": "Access Denied"}) 발생.
 		 */
-		System.out.println("진행중인 버스킹 장르별 목록 조회");
+//		System.out.println("진행중인 버스킹 장르별 목록 조회");
 		
 		SsafyUserDetails userDetails = (SsafyUserDetails)authentication.getDetails();
 		String userId = userDetails.getUsername();
@@ -177,7 +177,7 @@ public class BuskingController {
 		 * 요청 헤더 액세스 토큰이 포함된 경우에만 실행되는 인증 처리이후, 리턴되는 인증 정보 객체(authentication) 통해서 요청한 유저 식별.
 		 * 액세스 토큰이 없이 요청하는 경우, 403 에러({"error": "Forbidden", "message": "Access Denied"}) 발생.
 		 */
-		System.out.println("버스킹 종료 or 퇴장");
+//		System.out.println("버스킹 종료 or 퇴장");
 		
 		SsafyUserDetails userDetails = (SsafyUserDetails)authentication.getDetails();
 		String user_id = userDetails.getUsername();
@@ -188,11 +188,11 @@ public class BuskingController {
 		Long ownerId = busking.getOwner_id();
 		
 		if(userId == ownerId) {
-			System.out.println("버스킹 종료");
+//			System.out.println("버스킹 종료");
 			busking = buskingService.deleteBusking(buskingId, busking);
 			return ResponseEntity.status(200).body(BaseResponseBody.of(200, "버스킹 종료 Success"));
 		}else {
-			System.out.println("버스킹 퇴장");
+//			System.out.println("버스킹 퇴장");
 			busking = buskingService.outBusking(userId, buskingId);
 			return ResponseEntity.status(200).body(BaseResponseBody.of(200, "버스킹 퇴장 Success"));
 
@@ -213,9 +213,9 @@ public class BuskingController {
 		 * 요청 헤더 액세스 토큰이 포함된 경우에만 실행되는 인증 처리이후, 리턴되는 인증 정보 객체(authentication) 통해서 요청한 유저 식별.
 		 * 액세스 토큰이 없이 요청하는 경우, 403 에러({"error": "Forbidden", "message": "Access Denied"}) 발생.
 		 */
-		System.out.println("방 입장");
+//		System.out.println("방 입장");
 		Busking busking = buskingService.getBuskingByBuskingId(buskingId);
-		System.out.println(busking.getId());
+//		System.out.println(busking.getId());
 		
 //		return ResponseEntity.status(200).body(BuskingRes.of(busking, userid, genre));
 		
@@ -226,7 +226,7 @@ public class BuskingController {
 		Long userId = user.getId();
 		
 		String userid = userService.getUserIdById(busking.getOwner_id());
-		System.out.println(userid);
+//		System.out.println(userid);
 		String genre = buskingService.getGenreById(busking.getBusking_genre());
 		
 		UserBuskingRes userBuskingRes = UserBuskingRes.of(busking, userid, genre);
@@ -266,9 +266,9 @@ public class BuskingController {
 		 * 요청 헤더 액세스 토큰이 포함된 경우에만 실행되는 인증 처리이후, 리턴되는 인증 정보 객체(authentication) 통해서 요청한 유저 식별.
 		 * 액세스 토큰이 없이 요청하는 경우, 403 에러({"error": "Forbidden", "message": "Access Denied"}) 발생.
 		 */
-		System.out.println("좋아요 입장");
+//		System.out.println("좋아요 입장");
 		Busking busking = buskingService.getBuskingByBuskingId(buskingId);
-		System.out.println(busking.getId());
+//		System.out.println(busking.getId());
 		
 		SsafyUserDetails userDetails = (SsafyUserDetails)authentication.getDetails();
 		String user_id = userDetails.getUsername();
@@ -294,7 +294,7 @@ public class BuskingController {
 		 * 요청 헤더 액세스 토큰이 포함된 경우에만 실행되는 인증 처리이후, 리턴되는 인증 정보 객체(authentication) 통해서 요청한 유저 식별.
 		 * 액세스 토큰이 없이 요청하는 경우, 403 에러({"error": "Forbidden", "message": "Access Denied"}) 발생.
 		 */
-		System.out.println("진행중인 버스킹 검색");
+//		System.out.println("진행중인 버스킹 검색");
 		
 		List<BuskingListRes> list = buskingService.searchList(title);
 	
@@ -315,7 +315,7 @@ public class BuskingController {
 		 * 요청 헤더 액세스 토큰이 포함된 경우에만 실행되는 인증 처리이후, 리턴되는 인증 정보 객체(authentication) 통해서 요청한 유저 식별.
 		 * 액세스 토큰이 없이 요청하는 경우, 403 에러({"error": "Forbidden", "message": "Access Denied"}) 발생.
 		 */
-		System.out.println("버스킹 viewers목록 불러오기");
+//		System.out.println("버스킹 viewers목록 불러오기");
 		
 		SsafyUserDetails userDetails = (SsafyUserDetails)authentication.getDetails();
 		String user_id = userDetails.getUsername();
@@ -328,7 +328,7 @@ public class BuskingController {
 			ViewerListRes viewersList = buskingService.viewersList(buskingId);
 			return new ResponseEntity<ViewerListRes>(viewersList, HttpStatus.OK);
 		}else {
-			System.out.println("방장 아님...못봄");
+//			System.out.println("방장 아님...못봄");
 			return new ResponseEntity<ViewerListRes>(HttpStatus.BAD_REQUEST);
 		}
 		
@@ -347,7 +347,7 @@ public class BuskingController {
 		 * 요청 헤더 액세스 토큰이 포함된 경우에만 실행되는 인증 처리이후, 리턴되는 인증 정보 객체(authentication) 통해서 요청한 유저 식별.
 		 * 액세스 토큰이 없이 요청하는 경우, 403 에러({"error": "Forbidden", "message": "Access Denied"}) 발생.
 		 */
-		System.out.println("버스킹 강퇴 시키기");
+//		System.out.println("버스킹 강퇴 시키기");
 		
 		SsafyUserDetails userDetails = (SsafyUserDetails)authentication.getDetails();
 		String user_id = userDetails.getUsername();
@@ -356,13 +356,13 @@ public class BuskingController {
 		
 		Busking busking = buskingService.getBuskingByBuskingId(buskingId);
 		
-		System.out.println(user_id);
+//		System.out.println(user_id);
 		
 		if(busking.getOwner_id() == userId) {			
 			buskingService.kickout(buskingId, kickoutList.getKickoutIdList());
 			return ResponseEntity.status(200).body(BaseResponseBody.of(200, "강퇴 Success"));	
 		}else {
-			System.out.println("방장 아님...못봄");
+//			System.out.println("방장 아님...못봄");
 			return ResponseEntity.status(500).body(BaseResponseBody.of(500, "방장아님 강퇴 권한x"));
 		}
 		
@@ -380,7 +380,7 @@ public class BuskingController {
 		 * 요청 헤더 액세스 토큰이 포함된 경우에만 실행되는 인증 처리이후, 리턴되는 인증 정보 객체(authentication) 통해서 요청한 유저 식별.
 		 * 액세스 토큰이 없이 요청하는 경우, 403 에러({"error": "Forbidden", "message": "Access Denied"}) 발생.
 		 */
-		System.out.println("버스킹 목록 접속자순 정렬 불러오기");
+//		System.out.println("버스킹 목록 접속자순 정렬 불러오기");
 		
 		List<BuskingListRes> list = buskingService.sortByViewers();
 	
@@ -400,7 +400,7 @@ public class BuskingController {
 		 * 요청 헤더 액세스 토큰이 포함된 경우에만 실행되는 인증 처리이후, 리턴되는 인증 정보 객체(authentication) 통해서 요청한 유저 식별.
 		 * 액세스 토큰이 없이 요청하는 경우, 403 에러({"error": "Forbidden", "message": "Access Denied"}) 발생.
 		 */
-		System.out.println("버스킹 목록 접속자순 정렬 불러오기");
+//		System.out.println("버스킹 목록 접속자순 정렬 불러오기");
 		
 		List<BuskingListRes> list = buskingService.sortByLikes();
 		
@@ -420,7 +420,7 @@ public class BuskingController {
 		 * 요청 헤더 액세스 토큰이 포함된 경우에만 실행되는 인증 처리이후, 리턴되는 인증 정보 객체(authentication) 통해서 요청한 유저 식별.
 		 * 액세스 토큰이 없이 요청하는 경우, 403 에러({"error": "Forbidden", "message": "Access Denied"}) 발생.
 		 */
-		System.out.println("버스킹 과거 목록 불러오기");
+//		System.out.println("버스킹 과거 목록 불러오기");
 		SsafyUserDetails userDetails = (SsafyUserDetails)authentication.getDetails();
 		String user_id = userDetails.getUsername();
 		User user = userService.getUserByUserId(user_id);
@@ -445,7 +445,7 @@ public class BuskingController {
 		 * 요청 헤더 액세스 토큰이 포함된 경우에만 실행되는 인증 처리이후, 리턴되는 인증 정보 객체(authentication) 통해서 요청한 유저 식별.
 		 * 액세스 토큰이 없이 요청하는 경우, 403 에러({"error": "Forbidden", "message": "Access Denied"}) 발생.
 		 */
-		System.out.println("버스킹 과거 목록 불러오기");
+//		System.out.println("버스킹 과거 목록 불러오기");
 	
 		List<BuskingListRes> list = buskingService.random();
 		

@@ -33,20 +33,20 @@ public class FollowServiecImpl implements FollowService {
 	public void addGenre(GenreListPostReq genre, Long u_id) {
 		// TODO Auto-generated method stub
 		
-		System.out.println("장르 추가 서비스");
+//		System.out.println("장르 추가 서비스");
 		
 		List<Fav_genre> fav_genreList= new ArrayList<Fav_genre>();
 		fav_genreList =	followRepository.findAll();
 
-		System.out.println("장르 삭제 서비스");
+//		System.out.println("장르 삭제 서비스");
 	
-		System.out.println("test");
+//		System.out.println("test");
 		for(Fav_genre fg : fav_genreList) {
 			if(fg.getU_id() == u_id) {
 				followRepository.delete(fg);
 			}
 		}
-		System.out.println("원래 있던 애들 지우기 완료");			
+//		System.out.println("원래 있던 애들 지우기 완료");			
 		
 		
 		

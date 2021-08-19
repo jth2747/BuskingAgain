@@ -9,6 +9,7 @@
       <span @click="drawer = true" type="primary" style="margin: 16px;  cursor : pointer;">
         <i class="el-icon-menu" style="margin-top:10px; font-size: 20px; color: #FFFFFF"></i>
       </span>
+        <!-- <div class="logo-wrapper" @click="clickLogo" ><div class="ic ic-logo"/></div> -->
       <el-drawer
         title="I am the title"
         v-model="drawer"
@@ -17,16 +18,16 @@
         :with-header="false"
         >
         <div></div>
-        <div class="logo-wrapper" @click="clickLogo"><div class="ic ic-logo"/></div>
+        <div class="logo-wrapper" @click="clickLogo" style="margin-top:20px; margin-left:25%;"><div class="ic ic-logo"/></div>
         <div class="mobile-sidebar">
           <el-menu
             :default-active="String(state.activeIndex)"
-            active-text-color="#ffd04b"
+            active-text-color="#6699ff"
             class="el-menu-vertical-demo"
             @select="menuSelect">
             <el-menu-item v-for="(item, index) in state.menuItems" :key="index" :index="index.toString()">
               <i v-if="item.icon" :class="['ic', item.icon]"/>
-              <span>{{ item.title }}</span>
+              <span> &nbsp;{{ item.title }}</span>
             </el-menu-item>
           </el-menu>
         </div>
@@ -36,22 +37,22 @@
         <div class="button-wrapper">
           <el-popover placement="bottom" title="버스킹 생성" trigger="hover">
             <template #reference>
-              <span type="medium" style="cursor:pointer; margin-right: 20px; font-size: 20px; color: #FFFFFF"  @click="clickBusking" v-if="this.token" class="el-icon-plus"></span>
+              <span type="medium" style="cursor:pointer; margin-right: 20px; font-size: 20px;"  @click="clickBusking" v-if="this.token" class="el-icon-plus"></span>
             </template>
           </el-popover>
           <el-popover placement="bottom" title="선호 장르 선택" trigger="hover">
             <template #reference>
-              <span type="medium" style="cursor:pointer; margin-right: 20px; font-size: 20px; color: #FFFFFF"  @click="clickGenre" v-if="this.token" class="el-icon-star-on"></span>
+              <span type="medium" style="cursor:pointer; margin-right: 20px; font-size: 20px;"  @click="clickGenre" v-if="this.token" class="el-icon-star-on"></span>
             </template>
           </el-popover>
           <el-popover placement="bottom" title="회원 정보" trigger="hover">
             <template #reference>
-              <span type="medium" style="cursor:pointer; margin-right: 20px; font-size: 20px; color: #FFFFFF"  @click="clickProfile" v-if="this.token" class="el-icon-user"></span>
+              <span type="medium" style="cursor:pointer; margin-right: 20px; font-size: 20px;"  @click="clickProfile" v-if="this.token" class="el-icon-user"></span>
             </template>
           </el-popover>
           <el-popover placement="bottom" title="로그아웃" trigger="hover">
             <template #reference>
-              <span type="medium" style="cursor:pointer; margin-right: 20px; font-size: 20px; color: #FFFFFF"  @click="clickLogout" v-if="this.token" class="el-icon-unlock"></span>
+              <span type="medium" style="cursor:pointer; margin-right: 20px; font-size: 20px;"  @click="clickLogout" v-if="this.token" class="el-icon-unlock"></span>
             </template>
           </el-popover>
         </div>
@@ -73,33 +74,33 @@
         :with-header="false"
         >
         <div></div>
-        <div class="logo-wrapper" @click="clickLogo"><div class="ic ic-logo"/></div>
+        <div class="logo-wrapper" @click="clickLogo" style="margin-top:20px;" ><div class="ic ic-logo"/></div>
         <div class="mobile-sidebar">
-          <div class="text-center">
+          <div class="text-center" style="margin-left:25%; margin-right:25%;">
             <el-popover placement="bottom" title="버스킹 생성" trigger="hover">
               <template #reference>
-                <span type="medium" style="cursor:pointer; margin-right: 20px; font-size: 20px;"  @click="clickBusking" v-if="this.token" class="el-icon-plus"></span>
+                <span type="medium" style="cursor:pointer; margin-right: 20px; font-size: 20px; color: #000"  @click="clickBusking" v-if="this.token" class="el-icon-plus"></span>
               </template>
             </el-popover>
             <el-popover placement="bottom" title="선호 장르 선택" trigger="hover">
               <template #reference>
-                <span type="medium" style="cursor:pointer; margin-right: 20px; font-size: 20px"  @click="clickGenre" v-if="this.token" class="el-icon-star-on"></span>
+                <span type="medium" style="cursor:pointer; margin-right: 20px; font-size: 20px; color: #000"  @click="clickGenre" v-if="this.token" class="el-icon-star-on"></span>
               </template>
             </el-popover>
             <el-popover placement="bottom" title="회원 정보" trigger="hover">
               <template #reference>
-                <span type="medium" style="cursor:pointer; margin-right: 20px; font-size: 20px"  @click="clickProfile" v-if="this.token" class="el-icon-user"></span>
+                <span type="medium" style="cursor:pointer; margin-right: 20px; font-size: 20px; color: #000"  @click="clickProfile" v-if="this.token" class="el-icon-user"></span>
               </template>
             </el-popover>
             <el-popover placement="bottom" title="로그아웃" trigger="hover">
               <template #reference>
-                <span type="medium" style="cursor:pointer; margin-right: 20px; font-size: 20px"  @click="clickLogout" v-if="this.token" class="el-icon-unlock"></span>
+                <span type="medium" style="cursor:pointer; margin-right: 20px; font-size: 20px; color: #000"  @click="clickLogout" v-if="this.token" class="el-icon-unlock"></span>
               </template>
             </el-popover>
           </div>
           <el-menu
             :default-active="String(state.activeIndex)"
-            active-text-color="#ffd04b"
+            active-text-color="#6699ff"
             class="el-menu-vertical-demo"
             @select="menuSelect">
             <el-menu-item v-for="(item, index) in state.menuItems" :key="index" :index="index.toString()">
@@ -131,11 +132,11 @@
         :before-close="handleClose"
         :with-header="false"
         >
-        <div class="logo-wrapper" @click="clickLogo"><div class="ic ic-logo"/></div>
+        <div class="logo-wrapper" @click="clickLogo" style="margin-top:20px; margin-left:25%;"><div class="ic ic-logo"/></div>
         <div class="mobile-sidebar">
           <el-menu
             :default-active="String(state.activeIndex)"
-            active-text-color="#ffd04b"
+            active-text-color="#6699ff"
             class="el-menu-vertical-demo"
             @select="menuSelect">
             <div v-if="token">
@@ -191,29 +192,29 @@
         :with-header="false"
         >
         <div></div>
-        <div class="logo-wrapper" style="margin-top:10px;" @click="clickLogo"><div class="ic ic-logo"/></div>
+        <div class="logo-wrapper" style="margin-top:20px;" @click="clickLogo"><div class="ic ic-logo"/></div>
 
         <div class="mobile-sidebar">
-          <div class ="text-center">
+          <div class ="text-center" style="margin-left:30%; margin-right:30%;">
             <el-popover placement="bottom" title="회원가입" trigger="hover">
               <template #reference>
-                <span style="cursor:pointer; margin-right: 20px; font-size: 20px" @click="clickSignup" class="el-icon-circle-plus-outline"></span>
+                <span style="cursor:pointer; margin-right: 20px; font-size: 20px; color: #000" @click="clickSignup" class="el-icon-circle-plus-outline"></span>
               </template>
             </el-popover>
             <el-popover placement="bottom" title="로그인" trigger="hover">
               <template #reference>
-                <span style="cursor:pointer; margin-right: 20px; font-size: 20px" @click="clickLogin" class="el-icon-lock"></span>
+                <span style="cursor:pointer; margin-right: 20px; font-size: 20px; color: #000" @click="clickLogin" class="el-icon-lock"></span>
               </template>
             </el-popover>
             <el-popover placement="bottom" title="Id/Password 찾기" trigger="hover">
               <template #reference>
-                <span style="cursor:pointer; margin-right: 20px; font-size: 20px" @click="findIdPassword" class="el-icon-key"></span>
+                <span style="cursor:pointer; margin-right: 20px; font-size: 20px; color: #000" @click="findIdPassword" class="el-icon-key"></span>
               </template>
             </el-popover>
           </div>
           <el-menu
               :default-active="String(state.activeIndex)"
-              active-text-color="#ffd04b"
+              active-text-color="#6699ff"
               class="el-menu-vertical-demo"
               @select="menuSelect">
               <div v-if="token">
@@ -404,9 +405,20 @@ export default {
 }
 </script>
 <style>
+  .el-icon-plus, .el-icon-star-on, .el-icon-user, .el-icon-unlock, .el-icon-circle-plus-outline, .el-icon-lock, .el-icon-key {
+    color: #FFFFFF;
+  }
+  .el-icon-plus:hover, .el-icon-star-on:hover, .el-icon-user:hover, .el-icon-unlock:hover, .el-icon-circle-plus-outline:hover, .el-icon-lock:hover, .el-icon-key:hover{
+    font-weight: bold;
+     color: #6699ff;
+  }
+  .el-icon-menu:hover{
+    font-weight: bold;
+  }
+
   .logo{
-    width: 70px;
-    height: 50px;
+    width: 100px;
+    height: 70px;
     background-image: url('../../../assets/images/logo4.png');
   }
   .text-center{
@@ -428,8 +440,8 @@ export default {
   }
 
   .main-header .hide-on-big .logo-wrapper .ic.ic-logo {
-    width: 70px;
-    height: 50px;
+    width: 100px;
+    height: 70px;;
     background-size: contain;
     background-repeat: no-repeat;
     background-image: url('../../../assets/images/logo4.png');
@@ -465,8 +477,8 @@ export default {
     display: block
   }
   .mobile-sidebar-wrapper .mobile-sidebar .logo-wrapper .ic.ic-logo {
-    width: 70px;
-    height: 50px;
+    width: 100px;
+    height: 70px;
     margin: 0 auto;
     margin-top: 30px;
     background-size: contain;

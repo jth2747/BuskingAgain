@@ -2,7 +2,9 @@
   <!-- <h2>{{ $route.params.conferenceId }}</h2> -->
   <el-container>
     <el-aside width="250px">
-      <div style="height: 60px; background-color: rgb(0,0,0,0.9); color: #ffffff; font-size: 25px; font-weight: bold; text-align:center">채팅
+      <div style="height: 60px; background-color: rgb(0,0,0,0.9); color: #ffffff; font-size: 20px; font-weight: bold; text-align:center">
+        <div style="height: 12px;"></div>
+        채팅
       </div>
       <div id="socket">
         <el-scrollbar height="50pc">
@@ -23,16 +25,18 @@
     </el-aside>
     <el-container>
       <el-header >
-        <span style="color:#ffffff; font-size:50px; font-weight:bold;">{{ state.form.title }}</span>
+        <span style="margin-left:20px; float:left; color:#ffffff; font-size:50px; font-weight:bold;">{{ state.form.title }}</span>
+        <span style="margin-left:20px; margin-top:15px; float:left; color:#ffffff">  접속자 수 : {{ state.form.viewers}}</span>
+        <span style="margin-left:5px; margin-top:15px; float:left; color:#ffffff">/  좋아요 : 0</span>
         <el-button-group v-if="state.form.owner" style="float: right">
-          <span style="margin:10px">
-            <i class="el-icon-edit" @click="clickRoomEdit" style="cursor: pointer; font-weight:bold; color:#ffffff">수정</i>
+          <span class="textbutton" style="margin:10px">
+            <i class="el-icon-edit" @click="clickRoomEdit" style="cursor: pointer;  color:#ffffff">수정</i>
           </span>
-          <span style="margin:10px">
-            <i class="el-icon-delete" @click="roomDelete" style="cursor: pointer; font-weight:bold; color:#ffffff">종료</i>
+          <span class="textbutton" style="margin:10px">
+            <i class="el-icon-delete" @click="roomDelete" style="cursor: pointer;  color:#ffffff">종료</i>
           </span>
-          <span style="margin:10px">
-            <i class="el-icon-warning"  @click="onOpenKickOutDialog" style="cursor: pointer; font-weight:bold; color:#ffffff">강퇴</i>
+          <span class="textbutton" style="margin:10px">
+            <i class="el-icon-warning"  @click="onOpenKickOutDialog" style="cursor: pointer;  color:#ffffff">강퇴</i>
           </span>
           <!-- <el-button type="warning" icon="el-icon-edit" @click="clickRoomEdit">수정</el-button>
           <el-button type="danger" icon="el-icon-delete" @click="roomDelete">방 종료</el-button>
@@ -44,11 +48,14 @@
           />
         </el-button-group>
         <el-button-group v-else>
-          <el-button type="danger" @click="goBackHome">나가기</el-button>
+          <span class="textbutton" style="margin:10px">
+            <i class="el-icon-close" @click="goBackHome" style="cursor: pointer;  color:#ffffff">나가기</i>
+          </span>
+          <!-- <el-button type="danger" @click="goBackHome">나가기</el-button> -->
         </el-button-group>
         </el-header>
       <el-row>
-        <el-col :span="24">
+        <!-- <el-col :span="24"> -->
           <el-main class="grid-content">
             <conference-main
              :conferenceId="$route.params.conferenceId"
@@ -56,20 +63,23 @@
              :userId="state.form.userId"
             />
           </el-main>
-        </el-col>
+        <!-- </el-col> -->
       </el-row>
-      <el-footer style="height: 200px;">
-      <div style="float:left; margin-right: 10px">
-        <div v-if="state.form.flag" class="coin"/>
-        <div style="visibility:hidden" v-else class="coin"/>
-        <div style="cursor:pointer" @click="clickHat()" class="hat"/>
-      </div>
+      <el-footer style="height: 120px;">
+        <el-popover placement="bottom" title="좋아요" trigger="hover" auto-close=700	>
+              <template #reference>
+                <div style="float:left; margin-right: 10px; height:100px">
+                  <div v-if="state.form.flag" class="coin"/>
+                  <div style="visibility:hidden" v-else class="coin"/>
+                  <div style="cursor:pointer" @click="clickHat()" class="hat"/>
+                </div>
+              </template>
+        </el-popover>
         <!-- {{ state.form.ownerId }}님의 버스킹 -->
         <div style="float: left">
-        <span style="color:#ffffff">  접속자 수 : {{ state.form.viewers}} / </span>
-        <span style="color:#ffffff"> 좋아요 : 0</span>
-        <div style="height: 25px; text-align:left; color:#ffffff"> 장르 : {{state.form.genre}}</div>
-        <div style="height: 25px; text-align:left; color:#ffffff"> 방 설명 : {{state.form.description}}</div>
+        <div style="height: 25px; text-align:left;"> 장르 : {{state.form.genre}}</div>
+        <div style="height: 25px; text-align:left;"> 버스커 : {{state.form.userId}}</div>
+        <div style="height: 25px; text-align:left;"> 버스킹 설명 : {{state.form.description}}</div>
         </div>
       </el-footer>
     </el-container>
@@ -98,6 +108,9 @@
     margin-top: 60px;
     margin-left: 10px;
   }
+  .textbutton:hover{
+    font-weight: bold;
+  }
 .chattingInput{
   /* margin-left: 10px; */
   width: 170pt;
@@ -118,14 +131,14 @@
     line-height: 60px;
   }
   .el-footer {
-    background-color: rgb(204,236,255,0.7);
+    background-color: rgb(204,236,255,0.8);
     color: #333;
     text-align: center;
     line-height: 60px;
   }
 
   .el-aside {
-    /* background-color: rgb(0,0,102,0.7); */
+    background-color: rgb(0,0,0,0.8);
     color: #ffffff;
     text-align: center;
     line-height: 30px;
